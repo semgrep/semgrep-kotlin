@@ -957,6 +957,11 @@ and map_expression (env : env) (x : CST.expression) =
       | `Prim_exp x -> map_primary_expression env x
       )
   | `Ellips tok -> token env tok (* "..." *)
+  | `Deep_ellips (v1, v2, v3) ->
+      let v1 = token env v1 (* "<..." *) in
+      let v2 = map_expression env v2 in
+      let v3 = token env v3 (* "...>" *) in
+      todo env (v1, v2, v3)
   )
 
 and map_finally_block (env : env) ((v1, v2) : CST.finally_block) =

@@ -568,6 +568,9 @@ and expression = [
       | `Prim_exp of primary_expression
     ]
   | `Ellips of Token.t (* "..." *)
+  | `Deep_ellips of (
+        Token.t (* "<..." *) * expression * Token.t (* "...>" *)
+    )
 ]
 
 and finally_block = (Token.t (* "finally" *) * block)
@@ -1187,6 +1190,11 @@ type comparison_expression (* inlined *) = (
 
 type conjunction_expression (* inlined *) = (
     expression * Token.t (* "&&" *) * expression
+)
+[@@deriving sexp_of]
+
+type deep_ellipsis (* inlined *) = (
+    Token.t (* "<..." *) * expression * Token.t (* "...>" *)
 )
 [@@deriving sexp_of]
 

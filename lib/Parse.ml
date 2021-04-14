@@ -810,6 +810,14 @@ let children_regexps : (string * Run.exp option) list = [
       Token (Name "type_alias");
     |];
   );
+  "deep_ellipsis",
+  Some (
+    Seq [
+      Token (Literal "<...");
+      Token (Name "expression");
+      Token (Literal "...>");
+    ];
+  );
   "delegation_specifier",
   Some (
     Alt [|
@@ -936,6 +944,7 @@ let children_regexps : (string * Run.exp option) list = [
         Token (Name "primary_expression");
       |];
       Token (Name "ellipsis");
+      Token (Name "deep_ellipsis");
     |];
   );
   "finally_block",
@@ -3760,6 +3769,20 @@ and trans_declaration ((kind, body) : mt) : CST.declaration =
       )
   | Leaf _ -> assert false
 
+and trans_deep_ellipsis ((kind, body) : mt) : CST.deep_ellipsis =
+  match body with
+  | Children v ->
+      (match v with
+      | Seq [v0; v1; v2] ->
+          (
+            Run.trans_token (Run.matcher_token v0),
+            trans_expression (Run.matcher_token v1),
+            Run.trans_token (Run.matcher_token v2)
+          )
+      | _ -> assert false
+      )
+  | Leaf _ -> assert false
+
 and trans_delegation_specifier ((kind, body) : mt) : CST.delegation_specifier =
   match body with
   | Children v ->
@@ -4007,6 +4030,10 @@ and trans_expression ((kind, body) : mt) : CST.expression =
       | Alt (1, v) ->
           `Ellips (
             trans_ellipsis (Run.matcher_token v)
+          )
+      | Alt (2, v) ->
+          `Deep_ellips (
+            trans_deep_ellipsis (Run.matcher_token v)
           )
       | _ -> assert false
       )
