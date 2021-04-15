@@ -1,33 +1,30 @@
 File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
-Git repo name: ocaml-tree-sitter
-Last git commit:
-  commit d98e20079a59d8f112c8b4d161b6cc84b4b4f59b
-  Merge: 6f7991c 3dc1c10
-  Author: FW <30873659+fwcd@users.noreply.github.com>
-  Date:   Tue Oct 6 14:28:46 2020 +0200
+Git repo name: tree-sitter-kotlin
+Latest commit in repo: d98e20079a59d8f112c8b4d161b6cc84b4b4f59b
+Last change in file:
+  commit 677f3ae356d7a31fabbd860fcb30bfefeadaaeec
+  Author: fwcd <fwcdmail@gmail.com>
+  Date:   Mon Jul 29 19:00:48 2019 +0300
   
-      Merge pull request #9 from fwcd/annotated-class-parameter
-      
-      Improve support for annotations
+      Update repository to focus solely on the Tree-Sitter grammar
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
-Git repo name: ocaml-tree-sitter
-Last git commit:
-  commit d98e20079a59d8f112c8b4d161b6cc84b4b4f59b
-  Merge: 6f7991c 3dc1c10
-  Author: FW <30873659+fwcd@users.noreply.github.com>
-  Date:   Tue Oct 6 14:28:46 2020 +0200
+Git repo name: tree-sitter-kotlin
+Latest commit in repo: d98e20079a59d8f112c8b4d161b6cc84b4b4f59b
+Last change in file:
+  commit 7fd9e353934410c1b6c97f97f314345a13a70a23
+  Author: fwcd <fwcdmail@gmail.com>
+  Date:   Tue Oct 6 14:18:02 2020 +0200
   
-      Merge pull request #9 from fwcd/annotated-class-parameter
-      
-      Improve support for annotations
+      Add support for multi annotations
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter
-Last git commit:
-  commit b1b6d3e7595b5368f61588db168fea32774b3f81
-  Author: Martin Jambon <martin@returntocorp.com>
-  Date:   Wed Apr 14 16:59:53 2021 -0700
+Latest commit in repo: f0469e1b59ee4df9d8cdded2a7d5cb124f3ea264
+Last change in file:
+  commit 0baa926c7aa8ae92e522814fe08a24907984a511
+  Author: Colleen Dai <colleen@returntocorp.com>
+  Date:   Thu Mar 4 12:54:48 2021 -0800
   
-      Add release file containing the tree-sitter version
+      adding to expressions
 ---
