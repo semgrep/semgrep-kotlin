@@ -22,241 +22,241 @@ let todo (env : env) _ =
 
 let map_equality_operator (env : env) (x : CST.equality_operator) =
   (match x with
-  | `BANGEQ tok -> token env tok (* "!=" *)
-  | `BANGEQEQ tok -> token env tok (* "!==" *)
-  | `EQEQ tok -> token env tok (* "==" *)
-  | `EQEQEQ tok -> token env tok (* "===" *)
+  | `BANGEQ tok -> (* "!=" *) token env tok
+  | `BANGEQEQ tok -> (* "!==" *) token env tok
+  | `EQEQ tok -> (* "==" *) token env tok
+  | `EQEQEQ tok -> (* "===" *) token env tok
   )
 
 let map_pat_831065d (env : env) (tok : CST.pat_831065d) =
-  token env tok (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *)
+  (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *) token env tok
 
 let map_pat_b294348 (env : env) (tok : CST.pat_b294348) =
-  token env tok (* pattern "[^\\n\\r'\\\\]" *)
+  (* pattern "[^\\n\\r'\\\\]" *) token env tok
 
 let map_semi (env : env) (tok : CST.semi) =
-  token env tok (* pattern [\r\n]+ *)
+  (* pattern [\r\n]+ *) token env tok
 
 let map_anon_choice_val_2833752 (env : env) (x : CST.anon_choice_val_2833752) =
   (match x with
-  | `Val tok -> token env tok (* "val" *)
-  | `Var tok -> token env tok (* "var" *)
+  | `Val tok -> (* "val" *) token env tok
+  | `Var tok -> (* "var" *) token env tok
   )
 
 let map_pat_ddcb2a5 (env : env) (tok : CST.pat_ddcb2a5) =
-  token env tok (* pattern [a-zA-Z_][a-zA-Z_0-9]* *)
+  (* pattern [a-zA-Z_][a-zA-Z_0-9]* *) token env tok
 
 let map_real_literal (env : env) (tok : CST.real_literal) =
-  token env tok (* real_literal *)
+  (* real_literal *) token env tok
 
 let map_comparison_operator (env : env) (x : CST.comparison_operator) =
   (match x with
-  | `LT tok -> token env tok (* "<" *)
-  | `GT tok -> token env tok (* ">" *)
-  | `LTEQ tok -> token env tok (* "<=" *)
-  | `GTEQ tok -> token env tok (* ">=" *)
+  | `LT tok -> (* "<" *) token env tok
+  | `GT tok -> (* ">" *) token env tok
+  | `LTEQ tok -> (* "<=" *) token env tok
+  | `GTEQ tok -> (* ">=" *) token env tok
   )
 
 let map_prefix_unary_operator (env : env) (x : CST.prefix_unary_operator) =
   (match x with
-  | `PLUSPLUS tok -> token env tok (* "++" *)
-  | `DASHDASH tok -> token env tok (* "--" *)
-  | `DASH tok -> token env tok (* "-" *)
-  | `PLUS tok -> token env tok (* "+" *)
-  | `BANG tok -> token env tok (* "!" *)
+  | `PLUSPLUS tok -> (* "++" *) token env tok
+  | `DASHDASH tok -> (* "--" *) token env tok
+  | `DASH tok -> (* "-" *) token env tok
+  | `PLUS tok -> (* "+" *) token env tok
+  | `BANG tok -> (* "!" *) token env tok
   )
 
 let map_assignment_and_operator (env : env) (x : CST.assignment_and_operator) =
   (match x with
-  | `PLUSEQ tok -> token env tok (* "+=" *)
-  | `DASHEQ tok -> token env tok (* "-=" *)
-  | `STAREQ tok -> token env tok (* "*=" *)
-  | `SLASHEQ tok -> token env tok (* "/=" *)
-  | `PERCEQ tok -> token env tok (* "%=" *)
+  | `PLUSEQ tok -> (* "+=" *) token env tok
+  | `DASHEQ tok -> (* "-=" *) token env tok
+  | `STAREQ tok -> (* "*=" *) token env tok
+  | `SLASHEQ tok -> (* "/=" *) token env tok
+  | `PERCEQ tok -> (* "%=" *) token env tok
   )
 
 let map_variance_modifier (env : env) (x : CST.variance_modifier) =
   (match x with
-  | `In tok -> token env tok (* "in" *)
-  | `Out tok -> token env tok (* "out" *)
+  | `In tok -> (* "in" *) token env tok
+  | `Out tok -> (* "out" *) token env tok
   )
 
 let map_in_operator (env : env) (x : CST.in_operator) =
   (match x with
-  | `In tok -> token env tok (* "in" *)
-  | `BANGin tok -> token env tok (* "!in" *)
+  | `In tok -> (* "in" *) token env tok
+  | `BANGin tok -> (* "!in" *) token env tok
   )
 
 let map_pat_f630af3 (env : env) (tok : CST.pat_f630af3) =
-  token env tok (* pattern [^\r\n]* *)
+  (* pattern [^\r\n]* *) token env tok
 
 let map_label (env : env) (tok : CST.label) =
-  token env tok (* label *)
+  (* label *) token env tok
 
 let map_class_modifier (env : env) (x : CST.class_modifier) =
   (match x with
-  | `Sealed tok -> token env tok (* "sealed" *)
-  | `Anno tok -> token env tok (* "annotation" *)
-  | `Data tok -> token env tok (* "data" *)
-  | `Inner tok -> token env tok (* "inner" *)
+  | `Sealed tok -> (* "sealed" *) token env tok
+  | `Anno tok -> (* "annotation" *) token env tok
+  | `Data tok -> (* "data" *) token env tok
+  | `Inner tok -> (* "inner" *) token env tok
   )
 
 let map_postfix_unary_operator (env : env) (x : CST.postfix_unary_operator) =
   (match x with
-  | `PLUSPLUS tok -> token env tok (* "++" *)
-  | `DASHDASH tok -> token env tok (* "--" *)
-  | `BANGBANG tok -> token env tok (* "!!" *)
+  | `PLUSPLUS tok -> (* "++" *) token env tok
+  | `DASHDASH tok -> (* "--" *) token env tok
+  | `BANGBANG tok -> (* "!!" *) token env tok
   )
 
 let map_line_str_text (env : env) (tok : CST.line_str_text) =
-  token env tok (* pattern "[^\\\\\"$]+" *)
+  (* pattern "[^\\\\\"$]+" *) token env tok
 
 let map_boolean_literal (env : env) (x : CST.boolean_literal) =
   (match x with
-  | `True tok -> token env tok (* "true" *)
-  | `False tok -> token env tok (* "false" *)
+  | `True tok -> (* "true" *) token env tok
+  | `False tok -> (* "false" *) token env tok
   )
 
 let map_function_modifier (env : env) (x : CST.function_modifier) =
   (match x with
-  | `Tail tok -> token env tok (* "tailrec" *)
-  | `Op tok -> token env tok (* "operator" *)
-  | `Infix tok -> token env tok (* "infix" *)
-  | `Inline tok -> token env tok (* "inline" *)
-  | `Exte tok -> token env tok (* "external" *)
-  | `Susp tok -> token env tok (* "suspend" *)
+  | `Tail tok -> (* "tailrec" *) token env tok
+  | `Op tok -> (* "operator" *) token env tok
+  | `Infix tok -> (* "infix" *) token env tok
+  | `Inline tok -> (* "inline" *) token env tok
+  | `Exte tok -> (* "external" *) token env tok
+  | `Susp tok -> (* "suspend" *) token env tok
   )
 
 let map_pat_c793459 (env : env) (tok : CST.pat_c793459) =
-  token env tok (* pattern [uU] *)
+  (* pattern [uU] *) token env tok
 
 let map_additive_operator (env : env) (x : CST.additive_operator) =
   (match x with
-  | `PLUS tok -> token env tok (* "+" *)
-  | `DASH tok -> token env tok (* "-" *)
+  | `PLUS tok -> (* "+" *) token env tok
+  | `DASH tok -> (* "-" *) token env tok
   )
 
 let map_use_site_target (env : env) ((v1, v2) : CST.use_site_target) =
   let v1 =
     (match v1 with
-    | `Field tok -> token env tok (* "field" *)
-    | `Prop tok -> token env tok (* "property" *)
-    | `Get tok -> token env tok (* "get" *)
-    | `Set tok -> token env tok (* "set" *)
-    | `Rece tok -> token env tok (* "receiver" *)
-    | `Param tok -> token env tok (* "param" *)
-    | `Setp tok -> token env tok (* "setparam" *)
-    | `Dele tok -> token env tok (* "delegate" *)
+    | `Field tok -> (* "field" *) token env tok
+    | `Prop tok -> (* "property" *) token env tok
+    | `Get tok -> (* "get" *) token env tok
+    | `Set tok -> (* "set" *) token env tok
+    | `Rece tok -> (* "receiver" *) token env tok
+    | `Param tok -> (* "param" *) token env tok
+    | `Setp tok -> (* "setparam" *) token env tok
+    | `Dele tok -> (* "delegate" *) token env tok
     )
   in
-  let v2 = token env v2 (* ":" *) in
+  let v2 = (* ":" *) token env v2 in
   todo env (v1, v2)
 
 let map_inheritance_modifier (env : env) (x : CST.inheritance_modifier) =
   (match x with
-  | `Abst tok -> token env tok (* "abstract" *)
-  | `Final tok -> token env tok (* "final" *)
-  | `Open tok -> token env tok (* "open" *)
+  | `Abst tok -> (* "abstract" *) token env tok
+  | `Final tok -> (* "final" *) token env tok
+  | `Open tok -> (* "open" *) token env tok
   )
 
 let map_pat_b9a3713 (env : env) (tok : CST.pat_b9a3713) =
-  token env tok (* pattern `[^\r\n`]+` *)
+  (* pattern `[^\r\n`]+` *) token env tok
 
 let map_hex_literal (env : env) (tok : CST.hex_literal) =
-  token env tok (* hex_literal *)
+  (* hex_literal *) token env tok
 
 let map_parameter_modifier (env : env) (x : CST.parameter_modifier) =
   (match x with
-  | `Vararg tok -> token env tok (* "vararg" *)
-  | `Noin tok -> token env tok (* "noinline" *)
-  | `Cros tok -> token env tok (* "crossinline" *)
+  | `Vararg tok -> (* "vararg" *) token env tok
+  | `Noin tok -> (* "noinline" *) token env tok
+  | `Cros tok -> (* "crossinline" *) token env tok
   )
 
 let map_as_operator (env : env) (x : CST.as_operator) =
   (match x with
-  | `As tok -> token env tok (* "as" *)
-  | `AsQM tok -> token env tok (* "as?" *)
+  | `As tok -> (* "as" *) token env tok
+  | `AsQM tok -> (* "as?" *) token env tok
   )
 
 let map_platform_modifier (env : env) (x : CST.platform_modifier) =
   (match x with
-  | `Expect tok -> token env tok (* "expect" *)
-  | `Actual tok -> token env tok (* "actual" *)
+  | `Expect tok -> (* "expect" *) token env tok
+  | `Actual tok -> (* "actual" *) token env tok
   )
 
 let map_semis (env : env) (tok : CST.semis) =
-  token env tok (* pattern [\r\n]+ *)
+  (* pattern [\r\n]+ *) token env tok
 
 let map_multi_line_str_text (env : env) (tok : CST.multi_line_str_text) =
-  token env tok (* pattern "[^\"$]+" *)
+  (* pattern "[^\"$]+" *) token env tok
 
 let map_member_modifier (env : env) (x : CST.member_modifier) =
   (match x with
-  | `Over tok -> token env tok (* "override" *)
-  | `Late tok -> token env tok (* "lateinit" *)
+  | `Over tok -> (* "override" *) token env tok
+  | `Late tok -> (* "lateinit" *) token env tok
   )
 
 let map_visibility_modifier (env : env) (x : CST.visibility_modifier) =
   (match x with
-  | `Public tok -> token env tok (* "public" *)
-  | `Priv tok -> token env tok (* "private" *)
-  | `Inte tok -> token env tok (* "internal" *)
-  | `Prot tok -> token env tok (* "protected" *)
+  | `Public tok -> (* "public" *) token env tok
+  | `Priv tok -> (* "private" *) token env tok
+  | `Inte tok -> (* "internal" *) token env tok
+  | `Prot tok -> (* "protected" *) token env tok
   )
 
 let map_bin_literal (env : env) (tok : CST.bin_literal) =
-  token env tok (* bin_literal *)
+  (* bin_literal *) token env tok
 
 let map_pat_a2e2132 (env : env) (tok : CST.pat_a2e2132) =
-  token env tok (* pattern [0-9a-fA-F]{4} *)
+  (* pattern [0-9a-fA-F]{4} *) token env tok
 
 let map_integer_literal (env : env) (tok : CST.integer_literal) =
-  token env tok (* integer_literal *)
+  (* integer_literal *) token env tok
 
 let map_multiplicative_operator (env : env) (x : CST.multiplicative_operator) =
   (match x with
-  | `STAR tok -> token env tok (* "*" *)
-  | `SLASH tok -> token env tok (* "/" *)
-  | `PERC tok -> token env tok (* "%" *)
+  | `STAR tok -> (* "*" *) token env tok
+  | `SLASH tok -> (* "/" *) token env tok
+  | `PERC tok -> (* "%" *) token env tok
   )
 
 let map_escaped_identifier (env : env) (tok : CST.escaped_identifier) =
-  token env tok (* pattern "\\\\[tbrn'\"\\\\$]" *)
+  (* pattern "\\\\[tbrn'\"\\\\$]" *) token env tok
 
 let map_type_projection_modifier (env : env) (x : CST.type_projection_modifier) =
   map_variance_modifier env x
 
 let map_shebang_line (env : env) ((v1, v2) : CST.shebang_line) =
-  let v1 = token env v1 (* "#!" *) in
-  let v2 = token env v2 (* pattern [^\r\n]* *) in
+  let v1 = (* "#!" *) token env v1 in
+  let v2 = (* pattern [^\r\n]* *) token env v2 in
   todo env (v1, v2)
 
 let map_is_operator (env : env) (x : CST.is_operator) =
   (match x with
-  | `Is tok -> token env tok (* "is" *)
-  | `Not_is tok -> token env tok (* "!is" *)
+  | `Is tok -> (* "is" *) token env tok
+  | `Not_is tok -> (* "!is" *) token env tok
   )
 
 let map_lexical_identifier (env : env) (x : CST.lexical_identifier) =
   (match x with
   | `Pat_ddcb2a5 tok ->
-      token env tok (* pattern [a-zA-Z_][a-zA-Z_0-9]* *)
+      (* pattern [a-zA-Z_][a-zA-Z_0-9]* *) token env tok
   | `Pat_b9a3713 tok ->
-      token env tok (* pattern `[^\r\n`]+` *)
+      (* pattern `[^\r\n`]+` *) token env tok
   )
 
 let map_member_access_operator (env : env) (x : CST.member_access_operator) =
   (match x with
-  | `DOT tok -> token env tok (* "." *)
-  | `Safe_nav tok -> token env tok (* "?." *)
-  | `COLONCOLON tok -> token env tok (* "::" *)
+  | `DOT tok -> (* "." *) token env tok
+  | `Safe_nav tok -> (* "?." *) token env tok
+  | `COLONCOLON tok -> (* "::" *) token env tok
   )
 
 let map_multi_line_string_content (env : env) (x : CST.multi_line_string_content) =
   (match x with
   | `Multi_line_str_text tok ->
-      token env tok (* pattern "[^\"$]+" *)
-  | `DQUOT tok -> token env tok (* "\"" *)
+      (* pattern "[^\"$]+" *) token env tok
+  | `DQUOT tok -> (* "\"" *) token env tok
   )
 
 let map_modifier (env : env) (x : CST.modifier) =
@@ -265,23 +265,23 @@ let map_modifier (env : env) (x : CST.modifier) =
   | `Member_modi x -> map_member_modifier env x
   | `Visi_modi x -> map_visibility_modifier env x
   | `Func_modi x -> map_function_modifier env x
-  | `Prop_modi tok -> token env tok (* "const" *)
+  | `Prop_modi tok -> (* "const" *) token env tok
   | `Inhe_modi x -> map_inheritance_modifier env x
   | `Param_modi x -> map_parameter_modifier env x
   | `Plat_modi x -> map_platform_modifier env x
   )
 
 let map_uni_character_literal (env : env) ((v1, v2, v3) : CST.uni_character_literal) =
-  let v1 = token env v1 (* "\\" *) in
-  let v2 = token env v2 (* "u" *) in
-  let v3 = token env v3 (* pattern [0-9a-fA-F]{4} *) in
+  let v1 = (* "\\" *) token env v1 in
+  let v2 = (* "u" *) token env v2 in
+  let v3 = (* pattern [0-9a-fA-F]{4} *) token env v3 in
   todo env (v1, v2, v3)
 
 let map_anon_choice_int_lit_9015f32 (env : env) (x : CST.anon_choice_int_lit_9015f32) =
   (match x with
-  | `Int_lit tok -> token env tok (* integer_literal *)
-  | `Hex_lit tok -> token env tok (* hex_literal *)
-  | `Bin_lit tok -> token env tok (* bin_literal *)
+  | `Int_lit tok -> (* integer_literal *) token env tok
+  | `Hex_lit tok -> (* hex_literal *) token env tok
+  | `Bin_lit tok -> (* bin_literal *) token env tok
   )
 
 let map_type_projection_modifiers (env : env) (xs : CST.type_projection_modifiers) =
@@ -291,11 +291,11 @@ let map_simple_identifier (env : env) (x : CST.simple_identifier) =
   (match x with
   | `Lexi_id x -> map_lexical_identifier env x
   | `Pat_831065d tok ->
-      token env tok (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *)
+      (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *) token env tok
   )
 
 let map_return_at (env : env) ((v1, v2) : CST.return_at) =
-  let v1 = token env v1 (* "return@" *) in
+  let v1 = (* "return@" *) token env v1 in
   let v2 = map_lexical_identifier env v2 in
   todo env (v1, v2)
 
@@ -303,18 +303,18 @@ let map_escape_seq (env : env) (x : CST.escape_seq) =
   (match x with
   | `Uni_char_lit x -> map_uni_character_literal env x
   | `Esca_id tok ->
-      token env tok (* pattern "\\\\[tbrn'\"\\\\$]" *)
+      (* pattern "\\\\[tbrn'\"\\\\$]" *) token env tok
   )
 
 let map_line_str_escaped_char (env : env) (x : CST.line_str_escaped_char) =
   (match x with
   | `Esca_id tok ->
-      token env tok (* pattern "\\\\[tbrn'\"\\\\$]" *)
+      (* pattern "\\\\[tbrn'\"\\\\$]" *) token env tok
   | `Uni_char_lit x -> map_uni_character_literal env x
   )
 
 let map_import_alias (env : env) ((v1, v2) : CST.import_alias) =
-  let v1 = token env v1 (* "as" *) in
+  let v1 = (* "as" *) token env v1 in
   let v2 = map_simple_identifier env v2 in
   todo env (v1, v2)
 
@@ -327,7 +327,7 @@ let map_identifier (env : env) ((v1, v2) : CST.identifier) =
   let v1 = map_simple_identifier env v1 in
   let v2 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "." *) in
+      let v1 = (* "." *) token env v1 in
       let v2 = map_simple_identifier env v2 in
       todo env (v1, v2)
     ) v2
@@ -337,60 +337,60 @@ let map_identifier (env : env) ((v1, v2) : CST.identifier) =
 let map_line_string_content (env : env) (x : CST.line_string_content) =
   (match x with
   | `Line_str_text tok ->
-      token env tok (* pattern "[^\\\\\"$]+" *)
+      (* pattern "[^\\\\\"$]+" *) token env tok
   | `Line_str_esca_char x -> map_line_str_escaped_char env x
   )
 
 let map_import_header (env : env) ((v1, v2, v3, v4) : CST.import_header) =
-  let v1 = token env v1 (* "import" *) in
+  let v1 = (* "import" *) token env v1 in
   let v2 = map_identifier env v2 in
   let v3 =
     (match v3 with
     | Some x ->
         (match x with
-        | `DOTSTAR v1 -> token env v1 (* ".*" *)
+        | `DOTSTAR v1 -> (* ".*" *) token env v1
         | `Import_alias x -> map_import_alias env x
         )
     | None -> todo env ())
   in
-  let v4 = token env v4 (* pattern [\r\n]+ *) in
+  let v4 = (* pattern [\r\n]+ *) token env v4 in
   todo env (v1, v2, v3, v4)
 
 let map_package_header (env : env) ((v1, v2, v3) : CST.package_header) =
-  let v1 = token env v1 (* "package" *) in
+  let v1 = (* "package" *) token env v1 in
   let v2 = map_identifier env v2 in
-  let v3 = token env v3 (* pattern [\r\n]+ *) in
+  let v3 = (* pattern [\r\n]+ *) token env v3 in
   todo env (v1, v2, v3)
 
 let map_literal_constant (env : env) (x : CST.literal_constant) =
   (match x with
   | `Bool_lit x -> map_boolean_literal env x
-  | `Int_lit tok -> token env tok (* integer_literal *)
-  | `Hex_lit tok -> token env tok (* hex_literal *)
-  | `Bin_lit tok -> token env tok (* bin_literal *)
+  | `Int_lit tok -> (* integer_literal *) token env tok
+  | `Hex_lit tok -> (* hex_literal *) token env tok
+  | `Bin_lit tok -> (* bin_literal *) token env tok
   | `Char_lit (v1, v2, v3) ->
-      let v1 = token env v1 (* "'" *) in
+      let v1 = (* "'" *) token env v1 in
       let v2 =
         (match v2 with
         | `Esc_seq x -> map_escape_seq env x
         | `Pat_b294348 tok ->
-            token env tok (* pattern "[^\\n\\r'\\\\]" *)
+            (* pattern "[^\\n\\r'\\\\]" *) token env tok
         )
       in
-      let v3 = token env v3 (* "'" *) in
+      let v3 = (* "'" *) token env v3 in
       todo env (v1, v2, v3)
-  | `Real_lit tok -> token env tok (* real_literal *)
-  | `Null tok -> token env tok (* "null" *)
+  | `Real_lit tok -> (* real_literal *) token env tok
+  | `Null tok -> (* "null" *) token env tok
   | `Long_lit (v1, v2) ->
       let v1 = map_anon_choice_int_lit_9015f32 env v1 in
-      let v2 = token env v2 (* "L" *) in
+      let v2 = (* "L" *) token env v2 in
       todo env (v1, v2)
   | `Unsi_lit (v1, v2, v3) ->
       let v1 = map_anon_choice_int_lit_9015f32 env v1 in
-      let v2 = token env v2 (* pattern [uU] *) in
+      let v2 = (* pattern [uU] *) token env v2 in
       let v3 =
         (match v3 with
-        | Some tok -> token env tok (* "L" *)
+        | Some tok -> (* "L" *) token env tok
         | None -> todo env ())
       in
       todo env (v1, v2, v3)
@@ -402,7 +402,7 @@ let rec map_annotated_lambda (env : env) (v1 : CST.annotated_lambda) =
 and map_annotation (env : env) (x : CST.annotation) =
   (match x with
   | `Single_anno (v1, v2, v3) ->
-      let v1 = token env v1 (* "@" *) in
+      let v1 = (* "@" *) token env v1 in
       let v2 =
         (match v2 with
         | Some x -> map_use_site_target env x
@@ -411,15 +411,15 @@ and map_annotation (env : env) (x : CST.annotation) =
       let v3 = map_unescaped_annotation env v3 in
       todo env (v1, v2, v3)
   | `Multi_anno (v1, v2, v3, v4, v5) ->
-      let v1 = token env v1 (* "@" *) in
+      let v1 = (* "@" *) token env v1 in
       let v2 =
         (match v2 with
         | Some x -> map_use_site_target env x
         | None -> todo env ())
       in
-      let v3 = token env v3 (* "[" *) in
+      let v3 = (* "[" *) token env v3 in
       let v4 = List.map (map_unescaped_annotation env) v4 in
-      let v5 = token env v5 (* "]" *) in
+      let v5 = (* "]" *) token env v5 in
       todo env (v1, v2, v3, v4, v5)
   )
 
@@ -452,7 +452,7 @@ and map_binary_expression (env : env) (x : CST.binary_expression) =
       todo env (v1, v2, v3)
   | `Range_exp (v1, v2, v3) ->
       let v1 = map_expression env v1 in
-      let v2 = token env v2 (* ".." *) in
+      let v2 = (* ".." *) token env v2 in
       let v3 = map_expression env v3 in
       todo env (v1, v2, v3)
   | `Infix_exp (v1, v2, v3) ->
@@ -462,7 +462,7 @@ and map_binary_expression (env : env) (x : CST.binary_expression) =
       todo env (v1, v2, v3)
   | `Elvis_exp (v1, v2, v3) ->
       let v1 = map_expression env v1 in
-      let v2 = token env v2 (* "?:" *) in
+      let v2 = (* "?:" *) token env v2 in
       let v3 = map_expression env v3 in
       todo env (v1, v2, v3)
   | `Check_exp (v1, v2, v3) ->
@@ -487,24 +487,24 @@ and map_binary_expression (env : env) (x : CST.binary_expression) =
       todo env (v1, v2, v3)
   | `Conj_exp (v1, v2, v3) ->
       let v1 = map_expression env v1 in
-      let v2 = token env v2 (* "&&" *) in
+      let v2 = (* "&&" *) token env v2 in
       let v3 = map_expression env v3 in
       todo env (v1, v2, v3)
   | `Disj_exp (v1, v2, v3) ->
       let v1 = map_expression env v1 in
-      let v2 = token env v2 (* "||" *) in
+      let v2 = (* "||" *) token env v2 in
       let v3 = map_expression env v3 in
       todo env (v1, v2, v3)
   )
 
 and map_block (env : env) ((v1, v2, v3) : CST.block) =
-  let v1 = token env v1 (* "{" *) in
+  let v1 = (* "{" *) token env v1 in
   let v2 =
     (match v2 with
     | Some x -> map_statements env x
     | None -> todo env ())
   in
-  let v3 = token env v3 (* "}" *) in
+  let v3 = (* "}" *) token env v3 in
   todo env (v1, v2, v3)
 
 and map_call_suffix (env : env) (v1 : CST.call_suffix) =
@@ -521,24 +521,24 @@ and map_call_suffix (env : env) (v1 : CST.call_suffix) =
   )
 
 and map_catch_block (env : env) ((v1, v2, v3, v4, v5, v6, v7, v8) : CST.catch_block) =
-  let v1 = token env v1 (* "catch" *) in
-  let v2 = token env v2 (* "(" *) in
+  let v1 = (* "catch" *) token env v1 in
+  let v2 = (* "(" *) token env v2 in
   let v3 = List.map (map_annotation env) v3 in
   let v4 = map_simple_identifier env v4 in
-  let v5 = token env v5 (* ":" *) in
+  let v5 = (* ":" *) token env v5 in
   let v6 = map_type_ env v6 in
-  let v7 = token env v7 (* ")" *) in
+  let v7 = (* ")" *) token env v7 in
   let v8 = map_block env v8 in
   todo env (v1, v2, v3, v4, v5, v6, v7, v8)
 
 and map_class_body (env : env) ((v1, v2, v3) : CST.class_body) =
-  let v1 = token env v1 (* "{" *) in
+  let v1 = (* "{" *) token env v1 in
   let v2 =
     (match v2 with
     | Some x -> map_class_member_declarations env x
     | None -> todo env ())
   in
-  let v3 = token env v3 (* "}" *) in
+  let v3 = (* "}" *) token env v3 in
   todo env (v1, v2, v3)
 
 and map_class_declaration (env : env) (x : CST.class_declaration) =
@@ -551,8 +551,8 @@ and map_class_declaration (env : env) (x : CST.class_declaration) =
       in
       let v2 =
         (match v2 with
-        | `Class tok -> token env tok (* "class" *)
-        | `Inte tok -> token env tok (* "interface" *)
+        | `Class tok -> (* "class" *) token env tok
+        | `Inte tok -> (* "interface" *) token env tok
         )
       in
       let v3 = map_simple_identifier env v3 in
@@ -569,7 +569,7 @@ and map_class_declaration (env : env) (x : CST.class_declaration) =
       let v6 =
         (match v6 with
         | Some (v1, v2) ->
-            let v1 = token env v1 (* ":" *) in
+            let v1 = (* ":" *) token env v1 in
             let v2 = map_delegation_specifiers env v2 in
             todo env (v1, v2)
         | None -> todo env ())
@@ -591,8 +591,8 @@ and map_class_declaration (env : env) (x : CST.class_declaration) =
         | Some x -> map_modifiers env x
         | None -> todo env ())
       in
-      let v2 = token env v2 (* "enum" *) in
-      let v3 = token env v3 (* "class" *) in
+      let v2 = (* "enum" *) token env v2 in
+      let v3 = (* "class" *) token env v3 in
       let v4 = map_simple_identifier env v4 in
       let v5 =
         (match v5 with
@@ -607,7 +607,7 @@ and map_class_declaration (env : env) (x : CST.class_declaration) =
       let v7 =
         (match v7 with
         | Some (v1, v2) ->
-            let v1 = token env v1 (* ":" *) in
+            let v1 = (* ":" *) token env v1 in
             let v2 = map_delegation_specifiers env v2 in
             todo env (v1, v2)
         | None -> todo env ())
@@ -634,8 +634,8 @@ and map_class_member_declaration (env : env) (x : CST.class_member_declaration) 
         | Some x -> map_modifiers env x
         | None -> todo env ())
       in
-      let v2 = token env v2 (* "companion" *) in
-      let v3 = token env v3 (* "object" *) in
+      let v2 = (* "companion" *) token env v2 in
+      let v3 = (* "object" *) token env v3 in
       let v4 =
         (match v4 with
         | Some x -> map_simple_identifier env x
@@ -644,7 +644,7 @@ and map_class_member_declaration (env : env) (x : CST.class_member_declaration) 
       let v5 =
         (match v5 with
         | Some (v1, v2) ->
-            let v1 = token env v1 (* ":" *) in
+            let v1 = (* ":" *) token env v1 in
             let v2 = map_delegation_specifiers env v2 in
             todo env (v1, v2)
         | None -> todo env ())
@@ -656,7 +656,7 @@ and map_class_member_declaration (env : env) (x : CST.class_member_declaration) 
       in
       todo env (v1, v2, v3, v4, v5, v6)
   | `Anon_init (v1, v2) ->
-      let v1 = token env v1 (* "init" *) in
+      let v1 = (* "init" *) token env v1 in
       let v2 = map_block env v2 in
       todo env (v1, v2)
   | `Seco_cons (v1, v2, v3, v4, v5) ->
@@ -665,12 +665,12 @@ and map_class_member_declaration (env : env) (x : CST.class_member_declaration) 
         | Some x -> map_modifiers env x
         | None -> todo env ())
       in
-      let v2 = token env v2 (* "constructor" *) in
+      let v2 = (* "constructor" *) token env v2 in
       let v3 = map_function_value_parameters env v3 in
       let v4 =
         (match v4 with
         | Some (v1, v2) ->
-            let v1 = token env v1 (* ":" *) in
+            let v1 = (* ":" *) token env v1 in
             let v2 = map_constructor_delegation_call env v2 in
             todo env (v1, v2)
         | None -> todo env ())
@@ -686,7 +686,7 @@ and map_class_member_declaration (env : env) (x : CST.class_member_declaration) 
 and map_class_member_declarations (env : env) (xs : CST.class_member_declarations) =
   List.map (fun (v1, v2) ->
     let v1 = map_class_member_declaration env v1 in
-    let v2 = token env v2 (* pattern [\r\n]+ *) in
+    let v2 = (* pattern [\r\n]+ *) token env v2 in
     todo env (v1, v2)
   ) xs
 
@@ -702,12 +702,12 @@ and map_class_parameter (env : env) ((v1, v2, v3, v4, v5, v6) : CST.class_parame
     | None -> todo env ())
   in
   let v3 = map_simple_identifier env v3 in
-  let v4 = token env v4 (* ":" *) in
+  let v4 = (* ":" *) token env v4 in
   let v5 = map_type_ env v5 in
   let v6 =
     (match v6 with
     | Some (v1, v2) ->
-        let v1 = token env v1 (* "=" *) in
+        let v1 = (* "=" *) token env v1 in
         let v2 = map_expression env v2 in
         todo env (v1, v2)
     | None -> todo env ())
@@ -715,14 +715,14 @@ and map_class_parameter (env : env) ((v1, v2, v3, v4, v5, v6) : CST.class_parame
   todo env (v1, v2, v3, v4, v5, v6)
 
 and map_class_parameters (env : env) ((v1, v2, v3) : CST.class_parameters) =
-  let v1 = token env v1 (* "(" *) in
+  let v1 = (* "(" *) token env v1 in
   let v2 =
     (match v2 with
     | Some (v1, v2) ->
         let v1 = map_class_parameter env v1 in
         let v2 =
           List.map (fun (v1, v2) ->
-            let v1 = token env v1 (* "," *) in
+            let v1 = (* "," *) token env v1 in
             let v2 = map_class_parameter env v2 in
             todo env (v1, v2)
           ) v2
@@ -730,14 +730,14 @@ and map_class_parameters (env : env) ((v1, v2, v3) : CST.class_parameters) =
         todo env (v1, v2)
     | None -> todo env ())
   in
-  let v3 = token env v3 (* ")" *) in
+  let v3 = (* ")" *) token env v3 in
   todo env (v1, v2, v3)
 
 and map_constructor_delegation_call (env : env) ((v1, v2) : CST.constructor_delegation_call) =
   let v1 =
     (match v1 with
-    | `This tok -> token env tok (* "this" *)
-    | `Super tok -> token env tok (* "super" *)
+    | `This tok -> (* "this" *) token env tok
+    | `Super tok -> (* "super" *) token env tok
     )
   in
   let v2 = map_value_arguments env v2 in
@@ -763,12 +763,12 @@ and map_declaration (env : env) (x : CST.declaration) =
         | Some x -> map_modifiers env x
         | None -> todo env ())
       in
-      let v2 = token env v2 (* "object" *) in
+      let v2 = (* "object" *) token env v2 in
       let v3 = map_simple_identifier env v3 in
       let v4 =
         (match v4 with
         | Some (v1, v2) ->
-            let v1 = token env v1 (* ":" *) in
+            let v1 = (* ":" *) token env v1 in
             let v2 = map_delegation_specifiers env v2 in
             todo env (v1, v2)
         | None -> todo env ())
@@ -790,13 +790,13 @@ and map_declaration (env : env) (x : CST.declaration) =
         | Some x -> map_type_parameters env x
         | None -> todo env ())
       in
-      let v3 = token env v3 (* "fun" *) in
+      let v3 = (* "fun" *) token env v3 in
       let v4 = map_simple_identifier env v4 in
       let v5 = map_function_value_parameters env v5 in
       let v6 =
         (match v6 with
         | Some (v1, v2) ->
-            let v1 = token env v1 (* ":" *) in
+            let v1 = (* ":" *) token env v1 in
             let v2 = map_type_ env v2 in
             todo env (v1, v2)
         | None -> todo env ())
@@ -835,7 +835,7 @@ and map_declaration (env : env) (x : CST.declaration) =
         | Some x ->
             (match x with
             | `EQ_exp (v1, v2) ->
-                let v1 = token env v1 (* "=" *) in
+                let v1 = (* "=" *) token env v1 in
                 let v2 = map_expression env v2 in
                 todo env (v1, v2)
             | `Prop_dele x -> map_property_delegate env x
@@ -856,9 +856,9 @@ and map_declaration (env : env) (x : CST.declaration) =
       in
       todo env (v1, v2, v3, v4, v5, v6, v7)
   | `Type_alias (v1, v2, v3, v4) ->
-      let v1 = token env v1 (* "typealias" *) in
+      let v1 = (* "typealias" *) token env v1 in
       let v2 = map_simple_identifier env v2 in
-      let v3 = token env v3 (* "=" *) in
+      let v3 = (* "=" *) token env v3 in
       let v4 = map_type_ env v4 in
       todo env (v1, v2, v3, v4)
   )
@@ -873,7 +873,7 @@ and map_delegation_specifier (env : env) (x : CST.delegation_specifier) =
         | `Func_type x -> map_function_type env x
         )
       in
-      let v2 = token env v2 (* "by" *) in
+      let v2 = (* "by" *) token env v2 in
       let v3 = map_expression env v3 in
       todo env (v1, v2, v3)
   | `User_type x -> map_user_type env x
@@ -884,7 +884,7 @@ and map_delegation_specifiers (env : env) ((v1, v2) : CST.delegation_specifiers)
   let v1 = map_delegation_specifier env v1 in
   let v2 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "," *) in
+      let v1 = (* "," *) token env v1 in
       let v2 = map_delegation_specifier env v2 in
       todo env (v1, v2)
     ) v2
@@ -892,7 +892,7 @@ and map_delegation_specifiers (env : env) ((v1, v2) : CST.delegation_specifiers)
   todo env (v1, v2)
 
 and map_enum_class_body (env : env) ((v1, v2, v3, v4) : CST.enum_class_body) =
-  let v1 = token env v1 (* "{" *) in
+  let v1 = (* "{" *) token env v1 in
   let v2 =
     (match v2 with
     | Some x -> map_enum_entries env x
@@ -901,7 +901,7 @@ and map_enum_class_body (env : env) ((v1, v2, v3, v4) : CST.enum_class_body) =
   let v3 =
     (match v3 with
     | Some (v1, v2) ->
-        let v1 = token env v1 (* ";" *) in
+        let v1 = (* ";" *) token env v1 in
         let v2 =
           (match v2 with
           | Some x -> map_class_member_declarations env x
@@ -910,21 +910,21 @@ and map_enum_class_body (env : env) ((v1, v2, v3, v4) : CST.enum_class_body) =
         todo env (v1, v2)
     | None -> todo env ())
   in
-  let v4 = token env v4 (* "}" *) in
+  let v4 = (* "}" *) token env v4 in
   todo env (v1, v2, v3, v4)
 
 and map_enum_entries (env : env) ((v1, v2, v3) : CST.enum_entries) =
   let v1 = map_enum_entry env v1 in
   let v2 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "," *) in
+      let v1 = (* "," *) token env v1 in
       let v2 = map_enum_entry env v2 in
       todo env (v1, v2)
     ) v2
   in
   let v3 =
     (match v3 with
-    | Some tok -> token env tok (* "," *)
+    | Some tok -> (* "," *) token env tok
     | None -> todo env ())
   in
   todo env (v1, v2, v3)
@@ -956,16 +956,16 @@ and map_expression (env : env) (x : CST.expression) =
       | `Bin_exp x -> map_binary_expression env x
       | `Prim_exp x -> map_primary_expression env x
       )
-  | `Ellips tok -> token env tok (* "..." *)
+  | `Ellips tok -> (* "..." *) token env tok
   | `Deep_ellips (v1, v2, v3) ->
-      let v1 = token env v1 (* "<..." *) in
+      let v1 = (* "<..." *) token env v1 in
       let v2 = map_expression env v2 in
-      let v3 = token env v3 (* "...>" *) in
+      let v3 = (* "...>" *) token env v3 in
       todo env (v1, v2, v3)
   )
 
 and map_finally_block (env : env) ((v1, v2) : CST.finally_block) =
-  let v1 = token env v1 (* "finally" *) in
+  let v1 = (* "finally" *) token env v1 in
   let v2 = map_block env v2 in
   todo env (v1, v2)
 
@@ -973,7 +973,7 @@ and map_function_body (env : env) (x : CST.function_body) =
   (match x with
   | `Blk x -> map_block env x
   | `EQ_exp (v1, v2) ->
-      let v1 = token env v1 (* "=" *) in
+      let v1 = (* "=" *) token env v1 in
       let v2 = map_expression env v2 in
       todo env (v1, v2)
   )
@@ -982,24 +982,24 @@ and map_function_literal (env : env) (x : CST.function_literal) =
   (match x with
   | `Lambda_lit x -> map_lambda_literal env x
   | `Anon_func (v1, v2, v3, v4, v5) ->
-      let v1 = token env v1 (* "fun" *) in
+      let v1 = (* "fun" *) token env v1 in
       let v2 =
         (match v2 with
         | Some (v1, v2, v3) ->
             let v1 = map_simple_user_type env v1 in
             let v2 =
               List.map (fun (v1, v2) ->
-                let v1 = token env v1 (* "." *) in
+                let v1 = (* "." *) token env v1 in
                 let v2 = map_simple_user_type env v2 in
                 todo env (v1, v2)
               ) v2
             in
-            let v3 = token env v3 (* "." *) in
+            let v3 = (* "." *) token env v3 in
             todo env (v1, v2, v3)
         | None -> todo env ())
       in
-      let v3 = token env v3 (* "(" *) in
-      let v4 = token env v4 (* ")" *) in
+      let v3 = (* "(" *) token env v3 in
+      let v4 = (* ")" *) token env v4 in
       let v5 =
         (match v5 with
         | Some x -> map_function_body env x
@@ -1013,24 +1013,24 @@ and map_function_type (env : env) ((v1, v2, v3, v4) : CST.function_type) =
     (match v1 with
     | Some (v1, v2) ->
         let v1 = map_simple_user_type env v1 in
-        let v2 = token env v2 (* "." *) in
+        let v2 = (* "." *) token env v2 in
         todo env (v1, v2)
     | None -> todo env ())
   in
   let v2 = map_function_type_parameters env v2 in
-  let v3 = token env v3 (* "->" *) in
+  let v3 = (* "->" *) token env v3 in
   let v4 = map_type_ env v4 in
   todo env (v1, v2, v3, v4)
 
 and map_function_type_parameters (env : env) ((v1, v2, v3) : CST.function_type_parameters) =
-  let v1 = token env v1 (* "(" *) in
+  let v1 = (* "(" *) token env v1 in
   let v2 =
     (match v2 with
     | Some (v1, v2) ->
         let v1 = map_anon_choice_param_b77c1d8 env v1 in
         let v2 =
           List.map (fun (v1, v2) ->
-            let v1 = token env v1 (* "," *) in
+            let v1 = (* "," *) token env v1 in
             let v2 = map_anon_choice_param_b77c1d8 env v2 in
             todo env (v1, v2)
           ) v2
@@ -1038,7 +1038,7 @@ and map_function_type_parameters (env : env) ((v1, v2, v3) : CST.function_type_p
         todo env (v1, v2)
     | None -> todo env ())
   in
-  let v3 = token env v3 (* ")" *) in
+  let v3 = (* ")" *) token env v3 in
   todo env (v1, v2, v3)
 
 and map_function_value_parameter (env : env) ((v1, v2, v3) : CST.function_value_parameter) =
@@ -1051,7 +1051,7 @@ and map_function_value_parameter (env : env) ((v1, v2, v3) : CST.function_value_
   let v3 =
     (match v3 with
     | Some (v1, v2) ->
-        let v1 = token env v1 (* "=" *) in
+        let v1 = (* "=" *) token env v1 in
         let v2 = map_expression env v2 in
         todo env (v1, v2)
     | None -> todo env ())
@@ -1059,14 +1059,14 @@ and map_function_value_parameter (env : env) ((v1, v2, v3) : CST.function_value_
   todo env (v1, v2, v3)
 
 and map_function_value_parameters (env : env) ((v1, v2, v3) : CST.function_value_parameters) =
-  let v1 = token env v1 (* "(" *) in
+  let v1 = (* "(" *) token env v1 in
   let v2 =
     (match v2 with
     | Some (v1, v2) ->
         let v1 = map_function_value_parameter env v1 in
         let v2 =
           List.map (fun (v1, v2) ->
-            let v1 = token env v1 (* "," *) in
+            let v1 = (* "," *) token env v1 in
             let v2 = map_function_value_parameter env v2 in
             todo env (v1, v2)
           ) v2
@@ -1074,20 +1074,20 @@ and map_function_value_parameters (env : env) ((v1, v2, v3) : CST.function_value
         todo env (v1, v2)
     | None -> todo env ())
   in
-  let v3 = token env v3 (* ")" *) in
+  let v3 = (* ")" *) token env v3 in
   todo env (v1, v2, v3)
 
 and map_getter (env : env) ((v1, v2) : CST.getter) =
-  let v1 = token env v1 (* "get" *) in
+  let v1 = (* "get" *) token env v1 in
   let v2 =
     (match v2 with
     | Some (v1, v2, v3, v4) ->
-        let v1 = token env v1 (* "(" *) in
-        let v2 = token env v2 (* ")" *) in
+        let v1 = (* "(" *) token env v1 in
+        let v2 = (* ")" *) token env v2 in
         let v3 =
           (match v3 with
           | Some (v1, v2) ->
-              let v1 = token env v1 (* ":" *) in
+              let v1 = (* ":" *) token env v1 in
               let v2 = map_type_ env v2 in
               todo env (v1, v2)
           | None -> todo env ())
@@ -1099,27 +1099,27 @@ and map_getter (env : env) ((v1, v2) : CST.getter) =
   todo env (v1, v2)
 
 and map_indexing_suffix (env : env) ((v1, v2, v3, v4) : CST.indexing_suffix) =
-  let v1 = token env v1 (* "[" *) in
+  let v1 = (* "[" *) token env v1 in
   let v2 = map_expression env v2 in
   let v3 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "," *) in
+      let v1 = (* "," *) token env v1 in
       let v2 = map_expression env v2 in
       todo env (v1, v2)
     ) v3
   in
-  let v4 = token env v4 (* "]" *) in
+  let v4 = (* "]" *) token env v4 in
   todo env (v1, v2, v3, v4)
 
 and map_interpolation (env : env) (x : CST.interpolation) =
   (match x with
   | `DOLLARLCURL_exp_RCURL (v1, v2, v3) ->
-      let v1 = token env v1 (* "${" *) in
+      let v1 = (* "${" *) token env v1 in
       let v2 = map_expression env v2 in
-      let v3 = token env v3 (* "}" *) in
+      let v3 = (* "}" *) token env v3 in
       todo env (v1, v2, v3)
   | `DOLLAR_simple_id (v1, v2) ->
-      let v1 = token env v1 (* "$" *) in
+      let v1 = (* "$" *) token env v1 in
       let v2 = map_simple_identifier env v2 in
       todo env (v1, v2)
   )
@@ -1127,13 +1127,13 @@ and map_interpolation (env : env) (x : CST.interpolation) =
 and map_jump_expression (env : env) (x : CST.jump_expression) =
   (match x with
   | `Throw_exp (v1, v2) ->
-      let v1 = token env v1 (* "throw" *) in
+      let v1 = (* "throw" *) token env v1 in
       let v2 = map_expression env v2 in
       todo env (v1, v2)
   | `Choice_ret_opt_exp (v1, v2) ->
       let v1 =
         (match v1 with
-        | `Ret tok -> token env tok (* "return" *)
+        | `Ret tok -> (* "return" *) token env tok
         | `Ret_at x -> map_return_at env x
         )
       in
@@ -1143,20 +1143,20 @@ and map_jump_expression (env : env) (x : CST.jump_expression) =
         | None -> todo env ())
       in
       todo env (v1, v2)
-  | `Cont tok -> token env tok (* "continue" *)
+  | `Cont tok -> (* "continue" *) token env tok
   | `Cont_at (v1, v2) ->
-      let v1 = token env v1 (* "continue@" *) in
+      let v1 = (* "continue@" *) token env v1 in
       let v2 = map_lexical_identifier env v2 in
       todo env (v1, v2)
-  | `Brk tok -> token env tok (* "break" *)
+  | `Brk tok -> (* "break" *) token env tok
   | `Brk_at (v1, v2) ->
-      let v1 = token env v1 (* "break@" *) in
+      let v1 = (* "break@" *) token env v1 in
       let v2 = map_lexical_identifier env v2 in
       todo env (v1, v2)
   )
 
 and map_lambda_literal (env : env) ((v1, v2, v3, v4) : CST.lambda_literal) =
-  let v1 = token env v1 (* "{" *) in
+  let v1 = (* "{" *) token env v1 in
   let v2 =
     (match v2 with
     | Some (v1, v2) ->
@@ -1165,7 +1165,7 @@ and map_lambda_literal (env : env) ((v1, v2, v3, v4) : CST.lambda_literal) =
           | Some x -> map_lambda_parameters env x
           | None -> todo env ())
         in
-        let v2 = token env v2 (* "->" *) in
+        let v2 = (* "->" *) token env v2 in
         todo env (v1, v2)
     | None -> todo env ())
   in
@@ -1174,7 +1174,7 @@ and map_lambda_literal (env : env) ((v1, v2, v3, v4) : CST.lambda_literal) =
     | Some x -> map_statements env x
     | None -> todo env ())
   in
-  let v4 = token env v4 (* "}" *) in
+  let v4 = (* "}" *) token env v4 in
   todo env (v1, v2, v3, v4)
 
 and map_lambda_parameter (env : env) (x : CST.lambda_parameter) =
@@ -1186,7 +1186,7 @@ and map_lambda_parameters (env : env) ((v1, v2) : CST.lambda_parameters) =
   let v1 = map_lambda_parameter env v1 in
   let v2 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "," *) in
+      let v1 = (* "," *) token env v1 in
       let v2 = map_lambda_parameter env v2 in
       todo env (v1, v2)
     ) v2
@@ -1196,13 +1196,13 @@ and map_lambda_parameters (env : env) ((v1, v2) : CST.lambda_parameters) =
 and map_loop_statement (env : env) (x : CST.loop_statement) =
   (match x with
   | `For_stmt (v1, v2, v3, v4, v5, v6, v7, v8) ->
-      let v1 = token env v1 (* "for" *) in
-      let v2 = token env v2 (* "(" *) in
+      let v1 = (* "for" *) token env v1 in
+      let v2 = (* "(" *) token env v2 in
       let v3 = List.map (map_annotation env) v3 in
       let v4 = map_lambda_parameter env v4 in
-      let v5 = token env v5 (* "in" *) in
+      let v5 = (* "in" *) token env v5 in
       let v6 = map_expression env v6 in
-      let v7 = token env v7 (* ")" *) in
+      let v7 = (* ")" *) token env v7 in
       let v8 =
         (match v8 with
         | Some x -> map_control_structure_body env x
@@ -1210,36 +1210,38 @@ and map_loop_statement (env : env) (x : CST.loop_statement) =
       in
       todo env (v1, v2, v3, v4, v5, v6, v7, v8)
   | `While_stmt (v1, v2, v3, v4, v5) ->
-      let v1 = token env v1 (* "while" *) in
-      let v2 = token env v2 (* "(" *) in
+      let v1 = (* "while" *) token env v1 in
+      let v2 = (* "(" *) token env v2 in
       let v3 = map_expression env v3 in
-      let v4 = token env v4 (* ")" *) in
+      let v4 = (* ")" *) token env v4 in
       let v5 =
         (match v5 with
-        | `SEMI tok -> token env tok (* ";" *)
+        | `SEMI tok -> (* ";" *) token env tok
         | `Cont_stru_body x -> map_control_structure_body env x
         )
       in
       todo env (v1, v2, v3, v4, v5)
   | `Do_while_stmt (v1, v2, v3, v4, v5, v6) ->
-      let v1 = token env v1 (* "do" *) in
+      let v1 = (* "do" *) token env v1 in
       let v2 =
         (match v2 with
         | Some x -> map_control_structure_body env x
         | None -> todo env ())
       in
-      let v3 = token env v3 (* "while" *) in
-      let v4 = token env v4 (* "(" *) in
+      let v3 = (* "while" *) token env v3 in
+      let v4 = (* "(" *) token env v4 in
       let v5 = map_expression env v5 in
-      let v6 = token env v6 (* ")" *) in
+      let v6 = (* ")" *) token env v6 in
       todo env (v1, v2, v3, v4, v5, v6)
   )
 
-and map_modifiers (env : env) (x : CST.modifiers) =
-  (match x with
-  | `Anno x -> map_annotation env x
-  | `Rep1_modi xs -> List.map (map_modifier env) xs
-  )
+and map_modifiers (env : env) (xs : CST.modifiers) =
+  List.map (fun x ->
+    (match x with
+    | `Anno x -> map_annotation env x
+    | `Modi x -> map_modifier env x
+    )
+  ) xs
 
 and map_navigation_suffix (env : env) ((v1, v2) : CST.navigation_suffix) =
   let v1 = map_member_access_operator env v1 in
@@ -1247,7 +1249,7 @@ and map_navigation_suffix (env : env) ((v1, v2) : CST.navigation_suffix) =
     (match v2 with
     | `Simple_id x -> map_simple_identifier env x
     | `Paren_exp x -> map_parenthesized_expression env x
-    | `Class tok -> token env tok (* "class" *)
+    | `Class tok -> (* "class" *) token env tok
     )
   in
   todo env (v1, v2)
@@ -1259,21 +1261,22 @@ and map_nullable_type (env : env) ((v1, v2) : CST.nullable_type) =
     | `Paren_type x -> map_parenthesized_type env x
     )
   in
-  let v2 = List.map (token env) (* "?" *) v2 in
+  let v2 = List.map (token env (* "?" *)) v2 in
   todo env (v1, v2)
 
 and map_parameter (env : env) ((v1, v2, v3) : CST.parameter) =
   let v1 = map_simple_identifier env v1 in
-  let v2 = token env v2 (* ":" *) in
+  let v2 = (* ":" *) token env v2 in
   let v3 = map_type_ env v3 in
   todo env (v1, v2, v3)
 
-and map_parameter_modifiers (env : env) (x : CST.parameter_modifiers) =
-  (match x with
-  | `Anno x -> map_annotation env x
-  | `Rep1_param_modi xs ->
-      List.map (map_parameter_modifier env) xs
-  )
+and map_parameter_modifiers (env : env) (xs : CST.parameter_modifiers) =
+  List.map (fun x ->
+    (match x with
+    | `Anno x -> map_annotation env x
+    | `Param_modi x -> map_parameter_modifier env x
+    )
+  ) xs
 
 and map_parameter_with_optional_type (env : env) ((v1, v2, v3) : CST.parameter_with_optional_type) =
   let v1 =
@@ -1285,7 +1288,7 @@ and map_parameter_with_optional_type (env : env) ((v1, v2, v3) : CST.parameter_w
   let v3 =
     (match v3 with
     | Some (v1, v2) ->
-        let v1 = token env v1 (* ":" *) in
+        let v1 = (* ":" *) token env v1 in
         let v2 = map_type_ env v2 in
         todo env (v1, v2)
     | None -> todo env ())
@@ -1293,15 +1296,15 @@ and map_parameter_with_optional_type (env : env) ((v1, v2, v3) : CST.parameter_w
   todo env (v1, v2, v3)
 
 and map_parenthesized_expression (env : env) ((v1, v2, v3) : CST.parenthesized_expression) =
-  let v1 = token env v1 (* "(" *) in
+  let v1 = (* "(" *) token env v1 in
   let v2 = map_expression env v2 in
-  let v3 = token env v3 (* ")" *) in
+  let v3 = (* ")" *) token env v3 in
   todo env (v1, v2, v3)
 
 and map_parenthesized_type (env : env) ((v1, v2, v3) : CST.parenthesized_type) =
-  let v1 = token env v1 (* "(" *) in
+  let v1 = (* "(" *) token env v1 in
   let v2 = map_type_ env v2 in
-  let v3 = token env v3 (* ")" *) in
+  let v3 = (* ")" *) token env v3 in
   todo env (v1, v2, v3)
 
 and map_primary_constructor (env : env) ((v1, v2) : CST.primary_constructor) =
@@ -1313,7 +1316,7 @@ and map_primary_constructor (env : env) ((v1, v2) : CST.primary_constructor) =
           | Some x -> map_modifiers env x
           | None -> todo env ())
         in
-        let v2 = token env v2 (* "constructor" *) in
+        let v2 = (* "constructor" *) token env v2 in
         todo env (v1, v2)
     | None -> todo env ())
   in
@@ -1332,21 +1335,21 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
         | Some x -> map_simple_identifier env x
         | None -> todo env ())
       in
-      let v2 = token env v2 (* "::" *) in
+      let v2 = (* "::" *) token env v2 in
       let v3 =
         (match v3 with
         | `Simple_id x -> map_simple_identifier env x
-        | `Class tok -> token env tok (* "class" *)
+        | `Class tok -> (* "class" *) token env tok
         )
       in
       todo env (v1, v2, v3)
   | `Func_lit x -> map_function_literal env x
   | `Obj_lit (v1, v2, v3) ->
-      let v1 = token env v1 (* "object" *) in
+      let v1 = (* "object" *) token env v1 in
       let v2 =
         (match v2 with
         | Some (v1, v2) ->
-            let v1 = token env v1 (* ":" *) in
+            let v1 = (* ":" *) token env v1 in
             let v2 = map_delegation_specifiers env v2 in
             todo env (v1, v2)
         | None -> todo env ())
@@ -1354,28 +1357,28 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
       let v3 = map_class_body env v3 in
       todo env (v1, v2, v3)
   | `Coll_lit (v1, v2, v3, v4) ->
-      let v1 = token env v1 (* "[" *) in
+      let v1 = (* "[" *) token env v1 in
       let v2 = map_expression env v2 in
       let v3 =
         List.map (fun (v1, v2) ->
-          let v1 = token env v1 (* "," *) in
+          let v1 = (* "," *) token env v1 in
           let v2 = map_expression env v2 in
           todo env (v1, v2)
         ) v3
       in
-      let v4 = token env v4 (* "]" *) in
+      let v4 = (* "]" *) token env v4 in
       todo env (v1, v2, v3, v4)
-  | `This_exp tok -> token env tok (* "this" *)
-  | `Super_exp v1 -> token env v1 (* "super" *)
+  | `This_exp tok -> (* "this" *) token env tok
+  | `Super_exp v1 -> (* "super" *) token env v1
   | `If_exp (v1, v2, v3, v4, v5) ->
-      let v1 = token env v1 (* "if" *) in
-      let v2 = token env v2 (* "(" *) in
+      let v1 = (* "if" *) token env v1 in
+      let v2 = (* "(" *) token env v2 in
       let v3 = map_expression env v3 in
-      let v4 = token env v4 (* ")" *) in
+      let v4 = (* ")" *) token env v4 in
       let v5 =
         (match v5 with
         | `Cont_stru_body x -> map_control_structure_body env x
-        | `SEMI tok -> token env tok (* ";" *)
+        | `SEMI tok -> (* ";" *) token env tok
         | `Opt_cont_stru_body_opt_SEMI_else_choice_cont_stru_body (v1, v2, v3, v4) ->
             let v1 =
               (match v1 with
@@ -1384,14 +1387,14 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
             in
             let v2 =
               (match v2 with
-              | Some tok -> token env tok (* ";" *)
+              | Some tok -> (* ";" *) token env tok
               | None -> todo env ())
             in
-            let v3 = token env v3 (* "else" *) in
+            let v3 = (* "else" *) token env v3 in
             let v4 =
               (match v4 with
               | `Cont_stru_body x -> map_control_structure_body env x
-              | `SEMI tok -> token env tok (* ";" *)
+              | `SEMI tok -> (* ";" *) token env tok
               )
             in
             todo env (v1, v2, v3, v4)
@@ -1399,18 +1402,18 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
       in
       todo env (v1, v2, v3, v4, v5)
   | `When_exp (v1, v2, v3, v4, v5) ->
-      let v1 = token env v1 (* "when" *) in
+      let v1 = (* "when" *) token env v1 in
       let v2 =
         (match v2 with
         | Some x -> map_when_subject env x
         | None -> todo env ())
       in
-      let v3 = token env v3 (* "{" *) in
+      let v3 = (* "{" *) token env v3 in
       let v4 = List.map (map_when_entry env) v4 in
-      let v5 = token env v5 (* "}" *) in
+      let v5 = (* "}" *) token env v5 in
       todo env (v1, v2, v3, v4, v5)
   | `Try_exp (v1, v2, v3) ->
-      let v1 = token env v1 (* "try" *) in
+      let v1 = (* "try" *) token env v1 in
       let v2 = map_block env v2 in
       let v3 =
         (match v3 with
@@ -1430,7 +1433,7 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
   )
 
 and map_property_delegate (env : env) ((v1, v2) : CST.property_delegate) =
-  let v1 = token env v1 (* "by" *) in
+  let v1 = (* "by" *) token env v1 in
   let v2 = map_expression env v2 in
   todo env (v1, v2)
 
@@ -1440,17 +1443,17 @@ and map_range_test (env : env) ((v1, v2) : CST.range_test) =
   todo env (v1, v2)
 
 and map_setter (env : env) ((v1, v2) : CST.setter) =
-  let v1 = token env v1 (* "set" *) in
+  let v1 = (* "set" *) token env v1 in
   let v2 =
     (match v2 with
     | Some (v1, v2, v3, v4, v5) ->
-        let v1 = token env v1 (* "(" *) in
+        let v1 = (* "(" *) token env v1 in
         let v2 = map_parameter_with_optional_type env v2 in
-        let v3 = token env v3 (* ")" *) in
+        let v3 = (* ")" *) token env v3 in
         let v4 =
           (match v4 with
           | Some (v1, v2) ->
-              let v1 = token env v1 (* ":" *) in
+              let v1 = (* ":" *) token env v1 in
               let v2 = map_type_ env v2 in
               todo env (v1, v2)
           | None -> todo env ())
@@ -1477,7 +1480,7 @@ and map_statement (env : env) (x : CST.statement) =
       let v1 =
         List.map (fun x ->
           (match x with
-          | `Label tok -> token env tok (* label *)
+          | `Label tok -> (* label *) token env tok
           | `Anno x -> map_annotation env x
           )
         ) v1
@@ -1496,14 +1499,14 @@ and map_statements (env : env) ((v1, v2, v3) : CST.statements) =
   let v1 = map_statement env v1 in
   let v2 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* pattern [\r\n]+ *) in
+      let v1 = (* pattern [\r\n]+ *) token env v1 in
       let v2 = map_statement env v2 in
       todo env (v1, v2)
     ) v2
   in
   let v3 =
     (match v3 with
-    | Some tok -> token env tok (* pattern [\r\n]+ *)
+    | Some tok -> (* pattern [\r\n]+ *) token env tok
     | None -> todo env ())
   in
   todo env (v1, v2, v3)
@@ -1511,7 +1514,7 @@ and map_statements (env : env) ((v1, v2, v3) : CST.statements) =
 and map_string_literal (env : env) (x : CST.string_literal) =
   (match x with
   | `Line_str_lit (v1, v2, v3) ->
-      let v1 = token env v1 (* "\"" *) in
+      let v1 = (* "\"" *) token env v1 in
       let v2 =
         List.map (fun x ->
           (match x with
@@ -1520,10 +1523,10 @@ and map_string_literal (env : env) (x : CST.string_literal) =
           )
         ) v2
       in
-      let v3 = token env v3 (* "\"" *) in
+      let v3 = (* "\"" *) token env v3 in
       todo env (v1, v2, v3)
   | `Multi_line_str_lit (v1, v2, v3) ->
-      let v1 = token env v1 (* "\"\"\"" *) in
+      let v1 = (* "\"\"\"" *) token env v1 in
       let v2 =
         List.map (fun x ->
           (match x with
@@ -1533,7 +1536,7 @@ and map_string_literal (env : env) (x : CST.string_literal) =
           )
         ) v2
       in
-      let v3 = token env v3 (* "\"\"\"" *) in
+      let v3 = (* "\"\"\"" *) token env v3 in
       todo env (v1, v2, v3)
   )
 
@@ -1554,31 +1557,31 @@ and map_type_ (env : env) ((v1, v2) : CST.type_) =
   todo env (v1, v2)
 
 and map_type_arguments (env : env) ((v1, v2, v3, v4) : CST.type_arguments) =
-  let v1 = token env v1 (* "<" *) in
+  let v1 = (* "<" *) token env v1 in
   let v2 = map_type_projection env v2 in
   let v3 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "," *) in
+      let v1 = (* "," *) token env v1 in
       let v2 = map_type_projection env v2 in
       todo env (v1, v2)
     ) v3
   in
-  let v4 = token env v4 (* ">" *) in
+  let v4 = (* ">" *) token env v4 in
   todo env (v1, v2, v3, v4)
 
 and map_type_constraint (env : env) ((v1, v2, v3, v4) : CST.type_constraint) =
   let v1 = List.map (map_annotation env) v1 in
   let v2 = map_simple_identifier env v2 in
-  let v3 = token env v3 (* ":" *) in
+  let v3 = (* ":" *) token env v3 in
   let v4 = map_type_ env v4 in
   todo env (v1, v2, v3, v4)
 
 and map_type_constraints (env : env) ((v1, v2, v3) : CST.type_constraints) =
-  let v1 = token env v1 (* "where" *) in
+  let v1 = (* "where" *) token env v1 in
   let v2 = map_type_constraint env v2 in
   let v3 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "," *) in
+      let v1 = (* "," *) token env v1 in
       let v2 = map_type_constraint env v2 in
       todo env (v1, v2)
     ) v3
@@ -1588,7 +1591,7 @@ and map_type_constraints (env : env) ((v1, v2, v3) : CST.type_constraints) =
 and map_type_modifier (env : env) (x : CST.type_modifier) =
   (match x with
   | `Anno x -> map_annotation env x
-  | `Susp tok -> token env tok (* "suspend" *)
+  | `Susp tok -> (* "suspend" *) token env tok
   )
 
 and map_type_modifiers (env : env) (xs : CST.type_modifiers) =
@@ -1604,7 +1607,7 @@ and map_type_parameter (env : env) ((v1, v2, v3) : CST.type_parameter) =
   let v3 =
     (match v3 with
     | Some (v1, v2) ->
-        let v1 = token env v1 (* ":" *) in
+        let v1 = (* ":" *) token env v1 in
         let v2 = map_type_ env v2 in
         todo env (v1, v2)
     | None -> todo env ())
@@ -1613,7 +1616,7 @@ and map_type_parameter (env : env) ((v1, v2, v3) : CST.type_parameter) =
 
 and map_type_parameter_modifier (env : env) (x : CST.type_parameter_modifier) =
   (match x with
-  | `Reif_modi tok -> token env tok (* "reified" *)
+  | `Reif_modi tok -> (* "reified" *) token env tok
   | `Vari_modi x -> map_type_projection_modifier env x
   | `Anno x -> map_annotation env x
   )
@@ -1622,16 +1625,16 @@ and map_type_parameter_modifiers (env : env) (xs : CST.type_parameter_modifiers)
   List.map (map_type_parameter_modifier env) xs
 
 and map_type_parameters (env : env) ((v1, v2, v3, v4) : CST.type_parameters) =
-  let v1 = token env v1 (* "<" *) in
+  let v1 = (* "<" *) token env v1 in
   let v2 = map_type_parameter env v2 in
   let v3 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "," *) in
+      let v1 = (* "," *) token env v1 in
       let v2 = map_type_parameter env v2 in
       todo env (v1, v2)
     ) v3
   in
-  let v4 = token env v4 (* ">" *) in
+  let v4 = (* ">" *) token env v4 in
   todo env (v1, v2, v3, v4)
 
 and map_type_projection (env : env) (x : CST.type_projection) =
@@ -1644,13 +1647,13 @@ and map_type_projection (env : env) (x : CST.type_projection) =
       in
       let v2 = map_type_ env v2 in
       todo env (v1, v2)
-  | `STAR tok -> token env tok (* "*" *)
+  | `STAR tok -> (* "*" *) token env tok
   )
 
 and map_type_reference (env : env) (x : CST.type_reference) =
   (match x with
   | `User_type x -> map_user_type env x
-  | `Dyna tok -> token env tok (* "dynamic" *)
+  | `Dyna tok -> (* "dynamic" *) token env tok
   )
 
 and map_type_test (env : env) ((v1, v2) : CST.type_test) =
@@ -1680,7 +1683,7 @@ and map_unary_expression (env : env) (x : CST.unary_expression) =
       let v1 =
         (match v1 with
         | `Anno x -> map_annotation env x
-        | `Label tok -> token env tok (* label *)
+        | `Label tok -> (* label *) token env tok
         | `Prefix_un_op x -> map_prefix_unary_operator env x
         )
       in
@@ -1692,7 +1695,7 @@ and map_unary_expression (env : env) (x : CST.unary_expression) =
       let v3 = map_type_ env v3 in
       todo env (v1, v2, v3)
   | `Spread_exp (v1, v2) ->
-      let v1 = token env v1 (* "*" *) in
+      let v1 = (* "*" *) token env v1 in
       let v2 = map_expression env v2 in
       todo env (v1, v2)
   )
@@ -1707,7 +1710,7 @@ and map_user_type (env : env) ((v1, v2) : CST.user_type) =
   let v1 = map_simple_user_type env v1 in
   let v2 =
     List.map (fun (v1, v2) ->
-      let v1 = token env v1 (* "." *) in
+      let v1 = (* "." *) token env v1 in
       let v2 = map_simple_user_type env v2 in
       todo env (v1, v2)
     ) v2
@@ -1724,27 +1727,27 @@ and map_value_argument (env : env) ((v1, v2, v3, v4) : CST.value_argument) =
     (match v2 with
     | Some (v1, v2) ->
         let v1 = map_simple_identifier env v1 in
-        let v2 = token env v2 (* "=" *) in
+        let v2 = (* "=" *) token env v2 in
         todo env (v1, v2)
     | None -> todo env ())
   in
   let v3 =
     (match v3 with
-    | Some tok -> token env tok (* "*" *)
+    | Some tok -> (* "*" *) token env tok
     | None -> todo env ())
   in
   let v4 = map_expression env v4 in
   todo env (v1, v2, v3, v4)
 
 and map_value_arguments (env : env) ((v1, v2, v3) : CST.value_arguments) =
-  let v1 = token env v1 (* "(" *) in
+  let v1 = (* "(" *) token env v1 in
   let v2 =
     (match v2 with
     | Some (v1, v2) ->
         let v1 = map_value_argument env v1 in
         let v2 =
           List.map (fun (v1, v2) ->
-            let v1 = token env v1 (* "," *) in
+            let v1 = (* "," *) token env v1 in
             let v2 = map_value_argument env v2 in
             todo env (v1, v2)
           ) v2
@@ -1752,7 +1755,7 @@ and map_value_arguments (env : env) ((v1, v2, v3) : CST.value_arguments) =
         todo env (v1, v2)
     | None -> todo env ())
   in
-  let v3 = token env v3 (* ")" *) in
+  let v3 = (* ")" *) token env v3 in
   todo env (v1, v2, v3)
 
 and map_variable_declaration (env : env) ((v1, v2) : CST.variable_declaration) =
@@ -1760,7 +1763,7 @@ and map_variable_declaration (env : env) ((v1, v2) : CST.variable_declaration) =
   let v2 =
     (match v2 with
     | Some (v1, v2) ->
-        let v1 = token env v1 (* ":" *) in
+        let v1 = (* ":" *) token env v1 in
         let v2 = map_type_ env v2 in
         todo env (v1, v2)
     | None -> todo env ())
@@ -1780,61 +1783,61 @@ and map_when_entry (env : env) ((v1, v2, v3, v4) : CST.when_entry) =
         let v1 = map_when_condition env v1 in
         let v2 =
           List.map (fun (v1, v2) ->
-            let v1 = token env v1 (* "," *) in
+            let v1 = (* "," *) token env v1 in
             let v2 = map_when_condition env v2 in
             todo env (v1, v2)
           ) v2
         in
         todo env (v1, v2)
-    | `Else tok -> token env tok (* "else" *)
+    | `Else tok -> (* "else" *) token env tok
     )
   in
-  let v2 = token env v2 (* "->" *) in
+  let v2 = (* "->" *) token env v2 in
   let v3 = map_control_structure_body env v3 in
   let v4 =
     (match v4 with
-    | Some tok -> token env tok (* pattern [\r\n]+ *)
+    | Some tok -> (* pattern [\r\n]+ *) token env tok
     | None -> todo env ())
   in
   todo env (v1, v2, v3, v4)
 
 and map_when_subject (env : env) ((v1, v2, v3, v4) : CST.when_subject) =
-  let v1 = token env v1 (* "(" *) in
+  let v1 = (* "(" *) token env v1 in
   let v2 =
     (match v2 with
     | Some (v1, v2, v3, v4) ->
         let v1 = List.map (map_annotation env) v1 in
-        let v2 = token env v2 (* "val" *) in
+        let v2 = (* "val" *) token env v2 in
         let v3 = map_variable_declaration env v3 in
-        let v4 = token env v4 (* "=" *) in
+        let v4 = (* "=" *) token env v4 in
         todo env (v1, v2, v3, v4)
     | None -> todo env ())
   in
   let v3 = map_expression env v3 in
-  let v4 = token env v4 (* ")" *) in
+  let v4 = (* ")" *) token env v4 in
   todo env (v1, v2, v3, v4)
 
 let rec map_parenthesized_user_type (env : env) ((v1, v2, v3) : CST.parenthesized_user_type) =
-  let v1 = token env v1 (* "(" *) in
+  let v1 = (* "(" *) token env v1 in
   let v2 =
     (match v2 with
     | `User_type x -> map_user_type env x
     | `Paren_user_type x -> map_parenthesized_user_type env x
     )
   in
-  let v3 = token env v3 (* ")" *) in
+  let v3 = (* ")" *) token env v3 in
   todo env (v1, v2, v3)
 
 let map_file_annotation (env : env) ((v1, v2, v3, v4) : CST.file_annotation) =
-  let v1 = token env v1 (* "@" *) in
-  let v2 = token env v2 (* "file" *) in
-  let v3 = token env v3 (* ":" *) in
+  let v1 = (* "@" *) token env v1 in
+  let v2 = (* "file" *) token env v2 in
+  let v3 = (* ":" *) token env v3 in
   let v4 =
     (match v4 with
     | `LBRACK_rep1_unes_anno_RBRACK (v1, v2, v3) ->
-        let v1 = token env v1 (* "[" *) in
+        let v1 = (* "[" *) token env v1 in
         let v2 = List.map (map_unescaped_annotation env) v2 in
-        let v3 = token env v3 (* "]" *) in
+        let v3 = (* "]" *) token env v3 in
         todo env (v1, v2, v3)
     | `Unes_anno x -> map_unescaped_annotation env x
     )
@@ -1853,7 +1856,7 @@ let map_source_file (env : env) (x : CST.source_file) =
         (match v2 with
         | Some (v1, v2) ->
             let v1 = List.map (map_file_annotation env) v1 in
-            let v2 = token env v2 (* pattern [\r\n]+ *) in
+            let v2 = (* pattern [\r\n]+ *) token env v2 in
             todo env (v1, v2)
         | None -> todo env ())
       in
@@ -1866,13 +1869,13 @@ let map_source_file (env : env) (x : CST.source_file) =
       let v5 =
         List.map (fun (v1, v2) ->
           let v1 = map_statement env v1 in
-          let v2 = token env v2 (* pattern [\r\n]+ *) in
+          let v2 = (* pattern [\r\n]+ *) token env v2 in
           todo env (v1, v2)
         ) v5
       in
       todo env (v1, v2, v3, v4, v5)
   | `Semg_exp (v1, v2) ->
-      let v1 = token env v1 (* "__SEMGREP_EXPRESSION" *) in
+      let v1 = (* "__SEMGREP_EXPRESSION" *) token env v1 in
       let v2 = map_expression env v2 in
       todo env (v1, v2)
   )

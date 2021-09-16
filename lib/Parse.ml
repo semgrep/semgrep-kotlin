@@ -1256,12 +1256,12 @@ let children_regexps : (string * Run.exp option) list = [
   );
   "modifiers",
   Some (
-    Alt [|
-      Token (Name "annotation");
-      Repeat1 (
+    Repeat1 (
+      Alt [|
+        Token (Name "annotation");
         Token (Name "modifier");
-      );
-    |];
+      |];
+    );
   );
   "multi_annotation",
   Some (
@@ -1370,12 +1370,12 @@ let children_regexps : (string * Run.exp option) list = [
   );
   "parameter_modifiers",
   Some (
-    Alt [|
-      Token (Name "annotation");
-      Repeat1 (
+    Repeat1 (
+      Alt [|
+        Token (Name "annotation");
         Token (Name "parameter_modifier");
-      );
-    |];
+      |];
+    );
   );
   "parameter_with_optional_type",
   Some (
@@ -4676,19 +4676,21 @@ and trans_loop_statement ((kind, body) : mt) : CST.loop_statement =
 and trans_modifiers ((kind, body) : mt) : CST.modifiers =
   match body with
   | Children v ->
-      (match v with
-      | Alt (0, v) ->
-          `Anno (
-            trans_annotation (Run.matcher_token v)
+      Run.repeat1
+        (fun v ->
+          (match v with
+          | Alt (0, v) ->
+              `Anno (
+                trans_annotation (Run.matcher_token v)
+              )
+          | Alt (1, v) ->
+              `Modi (
+                trans_modifier (Run.matcher_token v)
+              )
+          | _ -> assert false
           )
-      | Alt (1, v) ->
-          `Rep1_modi (
-            Run.repeat1
-              (fun v -> trans_modifier (Run.matcher_token v))
-              v
-          )
-      | _ -> assert false
-      )
+        )
+        v
   | Leaf _ -> assert false
 
 and trans_multi_annotation ((kind, body) : mt) : CST.multi_annotation =
@@ -4898,19 +4900,21 @@ and trans_parameter ((kind, body) : mt) : CST.parameter =
 and trans_parameter_modifiers ((kind, body) : mt) : CST.parameter_modifiers =
   match body with
   | Children v ->
-      (match v with
-      | Alt (0, v) ->
-          `Anno (
-            trans_annotation (Run.matcher_token v)
+      Run.repeat1
+        (fun v ->
+          (match v with
+          | Alt (0, v) ->
+              `Anno (
+                trans_annotation (Run.matcher_token v)
+              )
+          | Alt (1, v) ->
+              `Param_modi (
+                trans_parameter_modifier (Run.matcher_token v)
+              )
+          | _ -> assert false
           )
-      | Alt (1, v) ->
-          `Rep1_param_modi (
-            Run.repeat1
-              (fun v -> trans_parameter_modifier (Run.matcher_token v))
-              v
-          )
-      | _ -> assert false
-      )
+        )
+        v
   | Leaf _ -> assert false
 
 and trans_parameter_with_optional_type ((kind, body) : mt) : CST.parameter_with_optional_type =

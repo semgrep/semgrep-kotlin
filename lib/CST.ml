@@ -713,10 +713,8 @@ and loop_statement = [
     )
 ]
 
-and modifiers = [
-    `Anno of annotation
-  | `Rep1_modi of modifier list (* one or more *)
-]
+and modifiers =
+  [ `Anno of annotation | `Modi of modifier ] list (* one or more *)
 
 and navigation_suffix = (
     member_access_operator
@@ -734,10 +732,9 @@ and nullable_type = (
 
 and parameter = (simple_identifier * Token.t (* ":" *) * type_)
 
-and parameter_modifiers = [
-    `Anno of annotation
-  | `Rep1_param_modi of parameter_modifier list (* one or more *)
-]
+and parameter_modifiers =
+  [ `Anno of annotation | `Param_modi of parameter_modifier ]
+    list (* one or more *)
 
 and parameter_with_optional_type = (
     parameter_modifiers option
