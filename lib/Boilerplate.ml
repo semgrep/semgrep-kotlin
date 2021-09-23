@@ -1437,11 +1437,6 @@ and map_property_delegate (env : env) ((v1, v2) : CST.property_delegate) =
   let v2 = map_expression env v2 in
   todo env (v1, v2)
 
-and map_range_test (env : env) ((v1, v2) : CST.range_test) =
-  let v1 = map_in_operator env v1 in
-  let v2 = map_expression env v2 in
-  todo env (v1, v2)
-
 and map_setter (env : env) ((v1, v2) : CST.setter) =
   let v1 = (* "set" *) token env v1 in
   let v2 =
@@ -1656,11 +1651,6 @@ and map_type_reference (env : env) (x : CST.type_reference) =
   | `Dyna tok -> (* "dynamic" *) token env tok
   )
 
-and map_type_test (env : env) ((v1, v2) : CST.type_test) =
-  let v1 = map_is_operator env v1 in
-  let v2 = map_expression env v2 in
-  todo env (v1, v2)
-
 and map_unary_expression (env : env) (x : CST.unary_expression) =
   (match x with
   | `Post_exp (v1, v2) ->
@@ -1770,11 +1760,18 @@ and map_variable_declaration (env : env) ((v1, v2) : CST.variable_declaration) =
   in
   todo env (v1, v2)
 
-and map_when_condition (env : env) ((v1, v2, v3) : CST.when_condition) =
-  let v1 = map_expression env v1 in
-  let v2 = map_range_test env v2 in
-  let v3 = map_type_test env v3 in
-  todo env (v1, v2, v3)
+and map_when_condition (env : env) (x : CST.when_condition) =
+  (match x with
+  | `Exp x -> map_expression env x
+  | `Range_test (v1, v2) ->
+      let v1 = map_in_operator env v1 in
+      let v2 = map_expression env v2 in
+      todo env (v1, v2)
+  | `Type_test (v1, v2) ->
+      let v1 = map_is_operator env v1 in
+      let v2 = map_expression env v2 in
+      todo env (v1, v2)
+  )
 
 and map_when_entry (env : env) ((v1, v2, v3, v4) : CST.when_entry) =
   let v1 =

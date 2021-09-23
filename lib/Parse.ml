@@ -1865,11 +1865,11 @@ let children_regexps : (string * Run.exp option) list = [
   );
   "when_condition",
   Some (
-    Seq [
+    Alt [|
       Token (Name "expression");
       Token (Name "range_test");
       Token (Name "type_test");
-    ];
+    |];
   );
   "when_entry",
   Some (
@@ -5930,11 +5930,17 @@ and trans_when_condition ((kind, body) : mt) : CST.when_condition =
   match body with
   | Children v ->
       (match v with
-      | Seq [v0; v1; v2] ->
-          (
-            trans_expression (Run.matcher_token v0),
-            trans_range_test (Run.matcher_token v1),
-            trans_type_test (Run.matcher_token v2)
+      | Alt (0, v) ->
+          `Exp (
+            trans_expression (Run.matcher_token v)
+          )
+      | Alt (1, v) ->
+          `Range_test (
+            trans_range_test (Run.matcher_token v)
+          )
+      | Alt (2, v) ->
+          `Type_test (
+            trans_type_test (Run.matcher_token v)
           )
       | _ -> assert false
       )

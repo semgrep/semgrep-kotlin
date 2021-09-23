@@ -819,8 +819,6 @@ and primary_expression = [
 
 and property_delegate = (Token.t (* "by" *) * expression)
 
-and range_test = (in_operator * expression)
-
 and setter = (
     Token.t (* "set" *)
   * (
@@ -943,8 +941,6 @@ and type_reference = [
   | `Dyna of Token.t (* "dynamic" *)
 ]
 
-and type_test = (is_operator * expression)
-
 and unary_expression = [
     `Post_exp of (expression * postfix_unary_operator)
   | `Call_exp of (expression * call_suffix)
@@ -994,7 +990,11 @@ and variable_declaration = (
   * (Token.t (* ":" *) * type_) option
 )
 
-and when_condition = (expression * range_test * type_test)
+and when_condition = [
+    `Exp of expression
+  | `Range_test of (in_operator * expression)
+  | `Type_test of (is_operator * expression)
+]
 
 and when_entry = (
     [
@@ -1370,6 +1370,9 @@ type range_expression (* inlined *) = (
 )
 [@@deriving sexp_of]
 
+type range_test (* inlined *) = (in_operator * expression)
+[@@deriving sexp_of]
+
 type secondary_constructor (* inlined *) = (
     modifiers option
   * Token.t (* "constructor" *)
@@ -1405,6 +1408,9 @@ type try_expression (* inlined *) = (
 type type_alias (* inlined *) = (
     Token.t (* "typealias" *) * simple_identifier * Token.t (* "=" *) * type_
 )
+[@@deriving sexp_of]
+
+type type_test (* inlined *) = (is_operator * expression)
 [@@deriving sexp_of]
 
 type when_expression (* inlined *) = (
