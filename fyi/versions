@@ -1,6 +1,6 @@
 File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 0b0c93f76433c1d6895c293d3bec7b51abcb3eb3
+Latest commit in repo: 99f0830f2b0d92110747e63914ef4227b0f3fb09
 Last change in file:
   commit d98e20079a59d8f112c8b4d161b6cc84b4b4f59b
   Author: FW <30873659+fwcd@users.noreply.github.com>
@@ -12,17 +12,23 @@ Last change in file:
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 0b0c93f76433c1d6895c293d3bec7b51abcb3eb3
+Latest commit in repo: 99f0830f2b0d92110747e63914ef4227b0f3fb09
 Last change in file:
-  commit 8fbdc0fa9ef679973ada8f16c9061dbc2c81042e
-  Author: fwcd <fwcdmail@gmail.com>
-  Date:   Mon Sep 20 14:29:23 2021 +0200
+  commit 183aceedbf4f89221018b6c9b9e8c36958b5dafd
+  Author: pad <yoann.padioleau@gmail.com>
+  Date:   Mon Oct 4 16:45:43 2021 +0200
   
-      Use 2-space-indent everywhere
+      Support generic calls, e.g., foo<int>(1.2)
+      
+      This improves our parsing statistics from 86% to 90.3%
+      on our 500K Kotlin corpus
+      
+      test plan:
+      test file included
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: eea8da9ed0c614158a87c4aeef2d6cc2dde93908
+Latest commit in repo: 7b6b4b606b49a1cc1929a2e37bbf76dc2ac35b68
 Last change in file:
   commit 0baa926c7aa8ae92e522814fe08a24907984a511
   Author: Colleen Dai <colleen@returntocorp.com>

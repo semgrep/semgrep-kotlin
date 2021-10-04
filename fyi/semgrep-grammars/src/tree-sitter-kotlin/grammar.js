@@ -25,7 +25,6 @@
 // Using an adapted version of https://kotlinlang.org/docs/reference/grammar.html
 
 const PREC = {
-  TYPE_ARGS: 17,
   POSTFIX: 16,
   PREFIX: 15,
   TYPE_RHS: 14,
@@ -72,7 +71,23 @@ module.exports = grammar({
     [$._primary_expression, $.callable_reference],
 
     // @Type(... could either be an annotation constructor invocation or an annotated expression
-    [$.constructor_invocation, $._unescaped_annotation]
+    [$.constructor_invocation, $._unescaped_annotation],
+
+    // "expect" as a plaform modifier conflicts with expect as an identifier
+    [$.platform_modifier, $.simple_identifier],
+
+    // "<x>.<y> = z assignment conflicts with <x>.<y>() function call"
+    [$._postfix_unary_expression, $._expression],
+
+    // ambiguity between generics and comparison operations (foo < b > c)
+    [$.call_expression, $.prefix_expression, $.comparison_expression],
+    [$.call_expression, $.range_expression, $.comparison_expression],
+    [$.call_expression, $.elvis_expression, $.comparison_expression],
+    [$.call_expression, $.check_expression, $.comparison_expression],
+    [$.call_expression, $.additive_expression, $.comparison_expression],
+    [$.call_expression, $.infix_expression, $.comparison_expression],
+    [$.call_expression, $.multiplicative_expression, $.comparison_expression],
+    [$.type_arguments, $._comparison_operator],
   ],
 
   extras: $ => [
@@ -506,6 +521,7 @@ module.exports = grammar({
 
     assignment: $ => choice(
       prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
+      prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, "=", $._expression)),
       // TODO
     ),
 
@@ -538,11 +554,6 @@ module.exports = grammar({
     indexing_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.indexing_suffix)),
 
     navigation_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.navigation_suffix)),
-
-    // TODO: Postfix type arguments conflict naturally with 'less than'.
-    //       Possible solutions include listing this conflict
-    //       between 'unary_expression' and 'binary_expression'
-    //       in the array of LR(1) conflicts at the top.
 
     prefix_expression: $ => prec.right(PREC.PREFIX, seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
 
@@ -601,7 +612,8 @@ module.exports = grammar({
     ),
 
     call_suffix: $ => prec.left(seq(
-      // optional($.type_arguments), // TODO: Type args conflict with 'less than', see above
+      // this introduces ambiguities with 'less than' for comparisons
+      optional($.type_arguments),
       choice(
         seq(optional($.value_arguments), $.annotated_lambda),
         $.value_arguments
@@ -614,7 +626,7 @@ module.exports = grammar({
       $.lambda_literal
     ),
 
-    type_arguments: $ => prec.left(PREC.TYPE_ARGS, seq("<", sep1($.type_projection, ","), ">")),
+    type_arguments: $ => seq("<", sep1($.type_projection, ","), ">"),
 
     value_arguments: $ => seq("(", optional(sep1($.value_argument, ",")), ")"),
 
@@ -847,16 +859,27 @@ module.exports = grammar({
                                //       does it seem to be very uncommon to write the safe
                                //       navigation operator 'split up' in Kotlin.
 
-    directly_assignable_expression: $ => choice(
-      $.simple_identifier
-      // TODO
+    _postfix_unary_suffix: $ => choice(
+      $._postfix_unary_operator,
+      $.navigation_suffix
+    ),
+
+    _postfix_unary_expression: $ => seq($._primary_expression, repeat($._postfix_unary_suffix)),
+
+    directly_assignable_expression: $ => prec(
+      PREC.ASSIGNMENT,
+      choice(
+        $._postfix_unary_expression,
+        $.simple_identifier
+        // TODO
+      )
     ),
 
     // ==========
     // Modifiers
     // ==========
 
-    modifiers: $ => repeat1(choice($.annotation, $._modifier)),
+    modifiers: $ => prec.left(repeat1(choice($.annotation, $._modifier))),
 
     parameter_modifiers: $ => repeat1(choice($.annotation, $.parameter_modifier)),
 
@@ -974,7 +997,11 @@ module.exports = grammar({
     // Identifiers
     // ==========
 
-    simple_identifier: $ => $._lexical_identifier, // TODO
+    simple_identifier: $ => choice(
+      $._lexical_identifier,
+      "expect",
+      // TODO: far more identifierOrSoftKeyword
+    ),
 
     identifier: $ => sep1($.simple_identifier, "."),
 
