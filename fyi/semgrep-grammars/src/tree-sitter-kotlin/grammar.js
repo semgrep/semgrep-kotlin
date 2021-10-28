@@ -40,6 +40,8 @@ const PREC = {
   CONJUNCTION: 4,
   DISJUNCTION: 3,
   SPREAD: 2,
+  SIMPLE_USER_TYPE: 2,
+  VAR_DECL: 1,
   ASSIGNMENT: 1,
   BLOCK: 1,
   LAMBDA_LITERAL: 0,
@@ -88,12 +90,25 @@ module.exports = grammar({
     [$.call_expression, $.infix_expression, $.comparison_expression],
     [$.call_expression, $.multiplicative_expression, $.comparison_expression],
     [$.type_arguments, $._comparison_operator],
+
+    // ambiguity between prefix expressions and annotations before functions
+    [$._statement, $.prefix_expression],
+    [$._statement, $.prefix_expression, $.modifiers],
+    [$.prefix_expression, $.when_subject],
+    [$.prefix_expression, $.value_argument],
+
+    // ambiguity between multiple user types and class property/function declarations
+    [$.user_type],
+    [$.user_type, $.anonymous_function],
+    [$.user_type, $.function_type]
   ],
 
   extras: $ => [
     $.comment,
     /\s+/ // Whitespace
   ],
+
+  word: $ => $._alpha_identifier,
 
   rules: {
     // ====================
@@ -271,10 +286,20 @@ module.exports = grammar({
       optional(seq("=", $._expression))
     ),
 
+    _receiver_type: $ => seq(
+      optional($.type_modifiers),
+      choice (
+        $._type_reference,
+        $.parenthesized_type,
+        $.nullable_type
+      )
+    ),
+
     function_declaration: $ => prec.right(seq( // TODO
       optional($.modifiers),
-      optional($.type_parameters),
       "fun",
+      optional($.type_parameters),
+      optional(seq($._receiver_type, optional('.'))),
       $.simple_identifier,
       $._function_value_parameters,
       optional(seq(":", $._type)),
@@ -284,23 +309,24 @@ module.exports = grammar({
 
     function_body: $ => choice($._block, seq("=", $._expression)),
 
-    variable_declaration: $ => seq(
+    variable_declaration: $ => prec.left(PREC.VAR_DECL, seq(
       // repeat($.annotation), TODO
       $.simple_identifier,
       optional(seq(":", $._type))
-    ),
+    )),
 
     property_declaration: $ => prec.right(seq(
       optional($.modifiers),
       choice("val", "var"),
       optional($.type_parameters),
-      // TODO: Receiver type
-      $.variable_declaration, // TODO: Multi-variable-declaration
+      optional(seq($._receiver_type, optional('.'))),
+      choice($.variable_declaration, $.multi_variable_declaration),
       optional($.type_constraints),
       optional(choice(
         seq("=", $._expression),
         $.property_delegate
       )),
+      optional(';'),
       choice(
         // TODO: Getter-setter combinations
         optional($.getter),
@@ -410,9 +436,9 @@ module.exports = grammar({
     //       to prevent nested types from being recognized as
     //       unary expresions with navigation suffixes.
 
-    user_type: $ => prec.right(sep1($._simple_user_type, ".")),
+    user_type: $ => sep1($._simple_user_type, "."),
 
-    _simple_user_type: $ => prec.right(seq(
+    _simple_user_type: $ => prec.right(PREC.SIMPLE_USER_TYPE, seq(
       alias($.simple_identifier, $.type_identifier),
       optional($.type_arguments)
     )),
@@ -489,7 +515,7 @@ module.exports = grammar({
       "for",
       "(",
       repeat($.annotation),
-      choice($.variable_declaration), // TODO: Multi-variable declaration
+      choice($.variable_declaration, $.multi_variable_declaration),
       "in",
       $._expression,
       ")",
@@ -555,7 +581,7 @@ module.exports = grammar({
 
     navigation_expression: $ => prec.left(PREC.POSTFIX, seq($._expression, $.navigation_suffix)),
 
-    prefix_expression: $ => prec.right(PREC.PREFIX, seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
+    prefix_expression: $ => prec.right(seq(choice($.annotation, $.label, $._prefix_unary_operator), $._expression)),
 
     as_expression: $ => prec.left(PREC.AS, seq($._expression, $._as_operator, $._type)),
 
@@ -707,10 +733,17 @@ module.exports = grammar({
       "}"
     )),
 
+    multi_variable_declaration: $ => seq(
+      '(',
+      sep1($.variable_declaration, ','),
+      ')'
+    ),
+
     lambda_parameters: $ => sep1($._lambda_parameter, ","),
 
     _lambda_parameter: $ => choice(
-      $.variable_declaration, // TODO
+      $.variable_declaration, 
+      $.multi_variable_declaration
     ),
 
     anonymous_function: $ => seq(
@@ -817,8 +850,8 @@ module.exports = grammar({
     finally_block: $ => seq("finally", $._block),
 
     jump_expression: $ => choice(
-      prec.left(PREC.RETURN_OR_THROW, seq("throw", $._expression)),
-      prec.left(PREC.RETURN_OR_THROW, seq(choice("return", $._return_at), optional($._expression))),
+      prec.right(PREC.RETURN_OR_THROW, seq("throw", $._expression)),
+      prec.right(PREC.RETURN_OR_THROW, seq(choice("return", $._return_at), optional($._expression))),
       "continue",
       $._continue_at,
       "break",
@@ -859,9 +892,18 @@ module.exports = grammar({
                                //       does it seem to be very uncommon to write the safe
                                //       navigation operator 'split up' in Kotlin.
 
+    _indexing_suffix: $ => seq(
+      '[',
+      $._expression,
+      repeat(seq(',', $._expression)),
+      optional(','),
+      ']'
+    ),
+
     _postfix_unary_suffix: $ => choice(
       $._postfix_unary_operator,
-      $.navigation_suffix
+      $.navigation_suffix,
+      $.indexing_suffix
     ),
 
     _postfix_unary_expression: $ => seq($._primary_expression, repeat($._postfix_unary_suffix)),
@@ -999,8 +1041,8 @@ module.exports = grammar({
 
     simple_identifier: $ => choice(
       $._lexical_identifier,
-      "expect",
-      // TODO: far more identifierOrSoftKeyword
+      "expect"
+      // TODO: More soft keywords
     ),
 
     identifier: $ => sep1($.simple_identifier, "."),
@@ -1089,9 +1131,13 @@ module.exports = grammar({
     // ==========
 
     _lexical_identifier: $ => choice(
-      /[a-zA-Z_][a-zA-Z_0-9]*/,
-      /`[^\r\n`]+`/
+      $._alpha_identifier,
+      $._backtick_identifier,
     ),
+
+    _alpha_identifier: $ => /[a-zA-Z_][a-zA-Z_0-9]*/,
+
+    _backtick_identifier: $ => /`[^\r\n`]+`/,
 
     _uni_character_literal: $ => seq(
       "\\",
