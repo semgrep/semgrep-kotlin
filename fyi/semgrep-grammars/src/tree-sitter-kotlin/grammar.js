@@ -100,7 +100,11 @@ module.exports = grammar({
     // ambiguity between multiple user types and class property/function declarations
     [$.user_type],
     [$.user_type, $.anonymous_function],
-    [$.user_type, $.function_type]
+    [$.user_type, $.function_type],
+  ],
+
+  externals: $ => [
+    $._automatic_semicolon,
   ],
 
   extras: $ => [
@@ -122,7 +126,7 @@ module.exports = grammar({
     // start
     source_file: $ => seq(
       optional($.shebang_line),
-      optional(seq(repeat1($.file_annotation), $._semi)),
+      repeat($.file_annotation),
       optional($.package_header),
       repeat($.import_header),
       repeat(seq($._statement, $._semi))
@@ -135,7 +139,8 @@ module.exports = grammar({
       choice(
         seq("[", repeat1($._unescaped_annotation), "]"),
         $._unescaped_annotation
-      )
+      ),
+      $._semi
     ),
 
     package_header: $ => seq("package", $.identifier, $._semi),
@@ -152,6 +157,7 @@ module.exports = grammar({
     top_level_object: $ => seq($._declaration, optional($._semis)),
 
     type_alias: $ => seq(
+      optional($.modifiers),
       "typealias",
       alias($.simple_identifier, $.type_identifier),
       "=",
@@ -541,9 +547,9 @@ module.exports = grammar({
 
     // See also https://github.com/tree-sitter/tree-sitter/issues/160
     // generic EOF/newline token
-    _semi: $ => /[\r\n]+/,
+    _semi: $ => choice($._automatic_semicolon, ';'),
 
-    _semis: $ => /[\r\n]+/,
+    _semis: $ => choice($._automatic_semicolon, ';'),
 
     assignment: $ => choice(
       prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
@@ -614,7 +620,9 @@ module.exports = grammar({
 
     elvis_expression: $ => prec.left(PREC.ELVIS, seq($._expression, "?:", $._expression)),
 
-    check_expression: $ => prec.left(PREC.CHECK, seq($._expression, choice($._in_operator, $._is_operator), $._expression)),
+    check_expression: $ => prec.left(PREC.CHECK, seq($._expression, choice(
+      seq($._in_operator, $._expression), 
+      seq($._is_operator, $._type)))),
 
     comparison_expression: $ => prec.left(PREC.COMPARISON, seq($._expression, $._comparison_operator, $._expression)),
 
@@ -825,7 +833,7 @@ module.exports = grammar({
 
     range_test: $ => seq($._in_operator, $._expression),
 
-    type_test: $ => seq($._is_operator, $._expression),
+    type_test: $ => seq($._is_operator, $._type),
 
     try_expression: $ => seq(
       "try",
@@ -1140,8 +1148,7 @@ module.exports = grammar({
     _backtick_identifier: $ => /`[^\r\n`]+`/,
 
     _uni_character_literal: $ => seq(
-      "\\",
-      "u",
+      "\\u",
       /[0-9a-fA-F]{4}/
     ),
 

@@ -9,7 +9,7 @@
   ;
   (foreign_stubs
     (language c)
-    (names parser bindings)
+    (names scanner parser bindings)
     (flags -std=c99
            -fPIC
            -I .)
