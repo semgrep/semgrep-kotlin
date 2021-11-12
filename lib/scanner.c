@@ -1,3 +1,6 @@
+//INVARIANT: THIS SHOULD BE ALMOST EXACTLY THE SAME FILE THAN
+//../../tree-sitter-kotlin/src/scanner.c EXCEPT FOR A FEW SEMGREP-SPECIFIC
+//EXTENSIONS
 #include <tree_sitter/parser.h>
 #include <wctype.h>
 
@@ -74,7 +77,6 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
     case '{': // ex: function body defined on next line after decl
 
     // cases also in tree-sitter-javascript/src/scanner.c
-    case '.': // ex: method-chain calls on next line
     case ':': // ex: inheritance clause defined on next line
     case '=': // ex: fun/val definition on next line (or == binop)
     case '?': // ex: elvis operator ?: on next line
@@ -83,6 +85,12 @@ bool tree_sitter_kotlin_external_scanner_scan(void *payload, TSLexer *lexer,
     case '&': // ex: binary operator between 2 exprs
 
       return false;
+
+    //semgrep-ext: could be start of method chain, or start of ...
+    case '.':  {
+      advance(lexer);
+      return lexer->lookahead == '.';
+    }
   }
 
   return true;
