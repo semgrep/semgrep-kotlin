@@ -77,6 +77,8 @@ module.exports = grammar({
 
     // "expect" as a plaform modifier conflicts with expect as an identifier
     [$.platform_modifier, $.simple_identifier],
+    // "data", "inner" as class modifier or id
+    [$.class_modifier, $.simple_identifier],
 
     // "<x>.<y> = z assignment conflicts with <x>.<y>() function call"
     [$._postfix_unary_expression, $._expression],
@@ -101,6 +103,9 @@ module.exports = grammar({
     [$.user_type],
     [$.user_type, $.anonymous_function],
     [$.user_type, $.function_type],
+
+    // ambiguity between annotated_lambda with modifiers and modifiers from var declarations
+    [$.annotated_lambda, $.modifiers]
   ],
 
   externals: $ => [
@@ -169,6 +174,15 @@ module.exports = grammar({
       $.object_declaration,
       $.function_declaration,
       $.property_declaration,
+      // TODO: it would be better to have getter/setter only in
+      // property_declaration but it's difficult to get ASI
+      // (Automatic Semicolon Insertion) working in the lexer for
+      // getter/setter. Indeed, they can also have modifiers in
+      // front, which means it's not enough to lookahead for 'get' or 'set' in
+      // the lexer, you also need to handle modifier keywords. It is thus
+      // simpler to accept them here.
+      $.getter,
+      $.setter,
       $.type_alias
     ),
 
@@ -343,7 +357,7 @@ module.exports = grammar({
     property_delegate: $ => seq("by", $._expression),
 
     getter: $ => prec.right(seq(
-      // optional(seq($._semi, $.modifiers)), // TODO
+      optional($.modifiers),
       "get",
       optional(seq(
         "(", ")",
@@ -353,7 +367,7 @@ module.exports = grammar({
     )),
 
     setter: $ => prec.right(seq(
-      // optional(seq($._semi, $.modifiers)), // TODO
+      optional($.modifiers),
       "set",
       optional(seq(
         "(",
@@ -655,8 +669,8 @@ module.exports = grammar({
     )),
 
     annotated_lambda: $ => seq(
-      // repeat($.annotation),
-      // optional($.label),
+      repeat($.annotation),
+      optional($.label),
       $.lambda_literal
     ),
 
@@ -1049,7 +1063,10 @@ module.exports = grammar({
 
     simple_identifier: $ => choice(
       $._lexical_identifier,
-      "expect"
+      "expect",
+      "data",
+      "inner",
+      "actual",
       // TODO: More soft keywords
     ),
 

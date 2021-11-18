@@ -292,6 +292,9 @@ type simple_identifier = [
     `Choice_lexi_id of [
         `Lexi_id of lexical_identifier
       | `Expect of Token.t (* "expect" *)
+      | `Data of Token.t (* "data" *)
+      | `Inner of Token.t (* "inner" *)
+      | `Actual of Token.t (* "actual" *)
     ]
   | `Pat_831065d of pat_831065d (*tok*)
 ]
@@ -347,7 +350,11 @@ type import_header = (
 )
 [@@deriving sexp_of]
 
-type annotated_lambda = lambda_literal
+type annotated_lambda = (
+    annotation list (* zero or more *)
+  * label (*tok*) option
+  * lambda_literal
+)
 
 and annotation = [
     `Single_anno of (
@@ -538,6 +545,8 @@ and declaration = [
       * Token.t (* ";" *) option
       * [ `Opt_getter of getter option | `Opt_setter of setter option ]
     )
+  | `Getter of getter
+  | `Setter of setter
   | `Type_alias of (
         modifiers option
       * Token.t (* "typealias" *)
@@ -665,7 +674,8 @@ and function_value_parameters = (
 )
 
 and getter = (
-    Token.t (* "get" *)
+    modifiers option
+  * Token.t (* "get" *)
   * (
         Token.t (* "(" *)
       * Token.t (* ")" *)
@@ -886,7 +896,8 @@ and secondary_constructor = (
 )
 
 and setter = (
-    Token.t (* "set" *)
+    modifiers option
+  * Token.t (* "set" *)
   * (
         Token.t (* "(" *)
       * parameter_with_optional_type

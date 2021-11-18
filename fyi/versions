@@ -1,6 +1,6 @@
 File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 5d21b858e6643b5db65886b04efcc5e293be45fa
+Latest commit in repo: 833768f50547f124b1dc1e4ecc06568d483f6c81
 Last change in file:
   commit d98e20079a59d8f112c8b4d161b6cc84b4b4f59b
   Author: FW <30873659+fwcd@users.noreply.github.com>
@@ -12,26 +12,17 @@ Last change in file:
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 5d21b858e6643b5db65886b04efcc5e293be45fa
+Latest commit in repo: 833768f50547f124b1dc1e4ecc06568d483f6c81
 Last change in file:
-  commit c380b6143b998265ddb9b750b49a35992aaf8fab
-  Author: pad <yoann.padioleau@gmail.com>
-  Date:   Tue Nov 9 15:49:57 2021 +0100
+  commit 3a3be08134c583c0af97ea26984c4c9db578e5fa
+  Author: Colleen Dai <colleen@returntocorp.com>
+  Date:   Tue Nov 16 11:46:36 2021 -0800
   
-      New scanner.c to better handle newlines
-      
-      This imitates the Automatic Semicolon Insertions (ASI) done in
-      Javascript for Kotlin, to better deal with newlines that can cut
-      certain definitions and expressions in two.
-      
-      This closes https://github.com/fwcd/tree-sitter-kotlin/issues/32
-      
-      test plan:
-      see new newlines.txt corpus test
+      fix conflict
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 3ffce630cac7783c538f307fe4d79b906b5d4325
+Latest commit in repo: a975498daebcefa426bfcf990f4d2b51a61eaa5b
 Last change in file:
   commit 5b13e89e72ed7d5ce13e798598e2dcf9b36ecb13
   Author: pad <yoann.padioleau@gmail.com>
