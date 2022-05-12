@@ -478,6 +478,12 @@ let children_regexps : (string * Run.exp option) list = [
   "annotated_lambda",
   Some (
     Seq [
+      Repeat (
+        Token (Name "annotation");
+      );
+      Opt (
+        Token (Name "label");
+      );
       Token (Name "lambda_literal");
     ];
   );
@@ -3230,8 +3236,18 @@ and trans_annotated_lambda ((kind, body) : mt) : CST.annotated_lambda =
   match body with
   | Children v ->
       (match v with
-      | Seq [v0] ->
-          (trans_lambda_literal (Run.matcher_token v0))
+      | Seq [v0; v1; v2] ->
+          (
+            Run.repeat
+              (fun v -> trans_annotation (Run.matcher_token v))
+              v0
+            ,
+            Run.opt
+              (fun v -> trans_label (Run.matcher_token v))
+              v1
+            ,
+            trans_lambda_literal (Run.matcher_token v2)
+          )
       | _ -> assert false
       )
   | Leaf _ -> assert false

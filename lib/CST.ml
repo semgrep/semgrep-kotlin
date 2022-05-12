@@ -350,7 +350,11 @@ type import_header = (
 )
 [@@deriving sexp_of]
 
-type annotated_lambda = lambda_literal
+type annotated_lambda = (
+    annotation list (* zero or more *)
+  * label (*tok*) option
+  * lambda_literal
+)
 
 and annotation = [
     `Single_anno of (

@@ -405,8 +405,15 @@ let map_import_header (env : env) ((v1, v2, v3, v4) : CST.import_header) =
   let v4 = map_semi env v4 in
   todo env (v1, v2, v3, v4)
 
-let rec map_annotated_lambda (env : env) (v1 : CST.annotated_lambda) =
-  map_lambda_literal env v1
+let rec map_annotated_lambda (env : env) ((v1, v2, v3) : CST.annotated_lambda) =
+  let v1 = List.map (map_annotation env) v1 in
+  let v2 =
+    (match v2 with
+    | Some tok -> (* label *) token env tok
+    | None -> todo env ())
+  in
+  let v3 = map_lambda_literal env v3 in
+  todo env (v1, v2, v3)
 
 and map_annotation (env : env) (x : CST.annotation) =
   (match x with
