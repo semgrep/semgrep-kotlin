@@ -1,6 +1,6 @@
 File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 5d21b858e6643b5db65886b04efcc5e293be45fa
+Latest commit in repo: 5317d4933c0bbf857586e6831d882314196de5e4
 Last change in file:
   commit d98e20079a59d8f112c8b4d161b6cc84b4b4f59b
   Author: FW <30873659+fwcd@users.noreply.github.com>
@@ -12,26 +12,23 @@ Last change in file:
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 5d21b858e6643b5db65886b04efcc5e293be45fa
+Latest commit in repo: 5317d4933c0bbf857586e6831d882314196de5e4
 Last change in file:
-  commit c380b6143b998265ddb9b750b49a35992aaf8fab
-  Author: pad <yoann.padioleau@gmail.com>
-  Date:   Tue Nov 9 15:49:57 2021 +0100
+  commit 5317d4933c0bbf857586e6831d882314196de5e4
+  Author: pad <pad@r2c.dev>
+  Date:   Fri Nov 12 15:39:31 2021 +0100
   
-      New scanner.c to better handle newlines
+      Parse getter/setter even when after a newline
       
-      This imitates the Automatic Semicolon Insertions (ASI) done in
-      Javascript for Kotlin, to better deal with newlines that can cut
-      certain definitions and expressions in two.
-      
-      This closes https://github.com/fwcd/tree-sitter-kotlin/issues/32
+      This improves our parsing stats to 98.6% on our Kotlin corpus
       
       test plan:
-      see new newlines.txt corpus test
+      test file included
+      $ tree-sitter test
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: be8b55a30fcbf44b4b17b1463dc57b8b54187528
+Latest commit in repo: d8c4705d9f8919d7979a9f143b3325aa984b7304
 Last change in file:
   commit be8b55a30fcbf44b4b17b1463dc57b8b54187528
   Author: pad <pad@r2c.dev>
