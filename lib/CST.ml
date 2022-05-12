@@ -292,9 +292,6 @@ type simple_identifier = [
     `Choice_lexi_id of [
         `Lexi_id of lexical_identifier
       | `Expect of Token.t (* "expect" *)
-      | `Data of Token.t (* "data" *)
-      | `Inner of Token.t (* "inner" *)
-      | `Actual of Token.t (* "actual" *)
     ]
   | `Pat_831065d of pat_831065d (*tok*)
 ]
@@ -350,11 +347,7 @@ type import_header = (
 )
 [@@deriving sexp_of]
 
-type annotated_lambda = (
-    annotation list (* zero or more *)
-  * label (*tok*) option
-  * lambda_literal
-)
+type annotated_lambda = lambda_literal
 
 and annotation = [
     `Single_anno of (
@@ -473,14 +466,17 @@ and class_member_declaration = [
 and class_member_declarations =
   (class_member_declaration * semis) list (* one or more *)
 
-and class_parameter = (
-    modifiers option
-  * anon_choice_val_2833752 option
-  * simple_identifier
-  * Token.t (* ":" *)
-  * type_
-  * (Token.t (* "=" *) * expression) option
-)
+and class_parameter = [
+    `Opt_modifs_opt_choice_val_simple_id_COLON_type_opt_EQ_exp of (
+        modifiers option
+      * anon_choice_val_2833752 option
+      * simple_identifier
+      * Token.t (* ":" *)
+      * type_
+      * (Token.t (* "=" *) * expression) option
+    )
+  | `Ellips of Token.t (* "..." *)
+]
 
 and class_parameters = (
     Token.t (* "(" *)
@@ -545,8 +541,6 @@ and declaration = [
       * Token.t (* ";" *) option
       * [ `Opt_getter of getter option | `Opt_setter of setter option ]
     )
-  | `Getter of getter
-  | `Setter of setter
   | `Type_alias of (
         modifiers option
       * Token.t (* "typealias" *)
@@ -674,8 +668,7 @@ and function_value_parameters = (
 )
 
 and getter = (
-    modifiers option
-  * Token.t (* "get" *)
+    Token.t (* "get" *)
   * (
         Token.t (* "(" *)
       * Token.t (* ")" *)
@@ -896,8 +889,7 @@ and secondary_constructor = (
 )
 
 and setter = (
-    modifiers option
-  * Token.t (* "set" *)
+    Token.t (* "set" *)
   * (
         Token.t (* "(" *)
       * parameter_with_optional_type

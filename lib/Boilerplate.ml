@@ -314,9 +314,6 @@ let map_simple_identifier (env : env) (x : CST.simple_identifier) =
       (match x with
       | `Lexi_id x -> map_lexical_identifier env x
       | `Expect tok -> (* "expect" *) token env tok
-      | `Data tok -> (* "data" *) token env tok
-      | `Inner tok -> (* "inner" *) token env tok
-      | `Actual tok -> (* "actual" *) token env tok
       )
   | `Pat_831065d tok ->
       (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *) token env tok
@@ -405,15 +402,8 @@ let map_import_header (env : env) ((v1, v2, v3, v4) : CST.import_header) =
   let v4 = map_semi env v4 in
   todo env (v1, v2, v3, v4)
 
-let rec map_annotated_lambda (env : env) ((v1, v2, v3) : CST.annotated_lambda) =
-  let v1 = List.map (map_annotation env) v1 in
-  let v2 =
-    (match v2 with
-    | Some tok -> (* label *) token env tok
-    | None -> todo env ())
-  in
-  let v3 = map_lambda_literal env v3 in
-  todo env (v1, v2, v3)
+let rec map_annotated_lambda (env : env) (v1 : CST.annotated_lambda) =
+  map_lambda_literal env v1
 
 and map_annotation (env : env) (x : CST.annotation) =
   (match x with
@@ -689,29 +679,33 @@ and map_class_member_declarations (env : env) (xs : CST.class_member_declaration
     todo env (v1, v2)
   ) xs
 
-and map_class_parameter (env : env) ((v1, v2, v3, v4, v5, v6) : CST.class_parameter) =
-  let v1 =
-    (match v1 with
-    | Some x -> map_modifiers env x
-    | None -> todo env ())
-  in
-  let v2 =
-    (match v2 with
-    | Some x -> map_anon_choice_val_2833752 env x
-    | None -> todo env ())
-  in
-  let v3 = map_simple_identifier env v3 in
-  let v4 = (* ":" *) token env v4 in
-  let v5 = map_type_ env v5 in
-  let v6 =
-    (match v6 with
-    | Some (v1, v2) ->
-        let v1 = (* "=" *) token env v1 in
-        let v2 = map_expression env v2 in
-        todo env (v1, v2)
-    | None -> todo env ())
-  in
-  todo env (v1, v2, v3, v4, v5, v6)
+and map_class_parameter (env : env) (x : CST.class_parameter) =
+  (match x with
+  | `Opt_modifs_opt_choice_val_simple_id_COLON_type_opt_EQ_exp (v1, v2, v3, v4, v5, v6) ->
+      let v1 =
+        (match v1 with
+        | Some x -> map_modifiers env x
+        | None -> todo env ())
+      in
+      let v2 =
+        (match v2 with
+        | Some x -> map_anon_choice_val_2833752 env x
+        | None -> todo env ())
+      in
+      let v3 = map_simple_identifier env v3 in
+      let v4 = (* ":" *) token env v4 in
+      let v5 = map_type_ env v5 in
+      let v6 =
+        (match v6 with
+        | Some (v1, v2) ->
+            let v1 = (* "=" *) token env v1 in
+            let v2 = map_expression env v2 in
+            todo env (v1, v2)
+        | None -> todo env ())
+      in
+      todo env (v1, v2, v3, v4, v5, v6)
+  | `Ellips tok -> (* "..." *) token env tok
+  )
 
 and map_class_parameters (env : env) ((v1, v2, v3) : CST.class_parameters) =
   let v1 = (* "(" *) token env v1 in
@@ -889,8 +883,6 @@ and map_declaration (env : env) (x : CST.declaration) =
         )
       in
       todo env (v1, v2, v3, v4, v5, v6, v7, v8, v9)
-  | `Getter x -> map_getter env x
-  | `Setter x -> map_setter env x
   | `Type_alias (v1, v2, v3, v4, v5) ->
       let v1 =
         (match v1 with
@@ -1131,15 +1123,10 @@ and map_function_value_parameters (env : env) ((v1, v2, v3) : CST.function_value
   let v3 = (* ")" *) token env v3 in
   todo env (v1, v2, v3)
 
-and map_getter (env : env) ((v1, v2, v3) : CST.getter) =
-  let v1 =
-    (match v1 with
-    | Some x -> map_modifiers env x
-    | None -> todo env ())
-  in
-  let v2 = (* "get" *) token env v2 in
-  let v3 =
-    (match v3 with
+and map_getter (env : env) ((v1, v2) : CST.getter) =
+  let v1 = (* "get" *) token env v1 in
+  let v2 =
+    (match v2 with
     | Some (v1, v2, v3, v4) ->
         let v1 = (* "(" *) token env v1 in
         let v2 = (* ")" *) token env v2 in
@@ -1155,7 +1142,7 @@ and map_getter (env : env) ((v1, v2, v3) : CST.getter) =
         todo env (v1, v2, v3, v4)
     | None -> todo env ())
   in
-  todo env (v1, v2, v3)
+  todo env (v1, v2)
 
 and map_indexing_suffix (env : env) ((v1, v2, v3, v4) : CST.indexing_suffix) =
   let v1 = (* "[" *) token env v1 in
@@ -1558,15 +1545,10 @@ and map_secondary_constructor (env : env) ((v1, v2, v3, v4, v5) : CST.secondary_
   in
   todo env (v1, v2, v3, v4, v5)
 
-and map_setter (env : env) ((v1, v2, v3) : CST.setter) =
-  let v1 =
-    (match v1 with
-    | Some x -> map_modifiers env x
-    | None -> todo env ())
-  in
-  let v2 = (* "set" *) token env v2 in
-  let v3 =
-    (match v3 with
+and map_setter (env : env) ((v1, v2) : CST.setter) =
+  let v1 = (* "set" *) token env v1 in
+  let v2 =
+    (match v2 with
     | Some (v1, v2, v3, v4, v5) ->
         let v1 = (* "(" *) token env v1 in
         let v2 = map_parameter_with_optional_type env v2 in
@@ -1583,7 +1565,7 @@ and map_setter (env : env) ((v1, v2, v3) : CST.setter) =
         todo env (v1, v2, v3, v4, v5)
     | None -> todo env ())
   in
-  todo env (v1, v2, v3)
+  todo env (v1, v2)
 
 and map_simple_user_type (env : env) ((v1, v2) : CST.simple_user_type) =
   let v1 = map_simple_identifier env v1 in
