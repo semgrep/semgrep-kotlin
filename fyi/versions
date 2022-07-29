@@ -22,15 +22,15 @@ Last change in file:
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 5f82202dfd945f00703f1fa9ef4362555bb746aa
+Latest commit in repo: 592fb9199a5cb3f29af7207f10f3956bc0392ef0
 Last change in file:
-  commit be8b55a30fcbf44b4b17b1463dc57b8b54187528
+  commit 592fb9199a5cb3f29af7207f10f3956bc0392ef0
   Author: pad <pad@r2c.dev>
-  Date:   Thu May 12 11:24:58 2022 +0200
+  Date:   Fri Jul 29 13:29:34 2022 +0200
   
-      [Kotlin] support class Foo(...) {}
+      Kotlin: support ellipsis for method chaining for semgrep
       
-      This will help https://github.com/returntocorp/semgrep/issues/5180
+      This will help https://github.com/returntocorp/semgrep/issues/5819
       
       test plan:
       test file included
