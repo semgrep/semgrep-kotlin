@@ -8,21 +8,11 @@
 open! Sexplib.Conv
 open Tree_sitter_run
 
-type parameter_modifier = [
-    `Vararg of Token.t (* "vararg" *)
-  | `Noin of Token.t (* "noinline" *)
-  | `Cros of Token.t (* "crossinline" *)
-]
-[@@deriving sexp_of]
-
-type hex_literal = Token.t
-[@@deriving sexp_of]
-
-type class_modifier = [
-    `Sealed of Token.t (* "sealed" *)
-  | `Anno of Token.t (* "annotation" *)
-  | `Data of Token.t (* "data" *)
-  | `Inner of Token.t (* "inner" *)
+type comparison_operator = [
+    `LT of Token.t (* "<" *)
+  | `GT of Token.t (* ">" *)
+  | `LTEQ of Token.t (* "<=" *)
+  | `GTEQ of Token.t (* ">=" *)
 ]
 [@@deriving sexp_of]
 
@@ -41,25 +31,68 @@ type use_site_target = (
 )
 [@@deriving sexp_of]
 
-type pat_c793459 = Token.t (* pattern [uU] *)
+type hex_literal = Token.t
 [@@deriving sexp_of]
 
-type inheritance_modifier = [
-    `Abst of Token.t (* "abstract" *)
-  | `Final of Token.t (* "final" *)
-  | `Open of Token.t (* "open" *)
+type parameter_modifier = [
+    `Vararg of Token.t (* "vararg" *)
+  | `Noin of Token.t (* "noinline" *)
+  | `Cros of Token.t (* "crossinline" *)
+]
+[@@deriving sexp_of]
+
+type pat_831065d = Token.t (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *)
+[@@deriving sexp_of]
+
+type import_list_delimiter = Token.t
+[@@deriving sexp_of]
+
+type real_literal = Token.t
+[@@deriving sexp_of]
+
+type visibility_modifier = [
+    `Public of Token.t (* "public" *)
+  | `Priv of Token.t (* "private" *)
+  | `Inte of Token.t (* "internal" *)
+  | `Prot of Token.t (* "protected" *)
+]
+[@@deriving sexp_of]
+
+type pat_f630af3 = Token.t (* pattern [^\r\n]* *)
+[@@deriving sexp_of]
+
+type in_operator = [
+    `In of Token.t (* "in" *)
+  | `BANGin of Token.t (* "!in" *)
 ]
 [@@deriving sexp_of]
 
 type automatic_semicolon = Token.t
 [@@deriving sexp_of]
 
-type pat_a2e2132 = Token.t (* pattern [0-9a-fA-F]{4} *)
+type multi_line_str_text = Token.t (* pattern "[^\"$]+" *)
+[@@deriving sexp_of]
+
+type pat_b294348 = Token.t (* pattern "[^\\n\\r'\\\\]" *)
 [@@deriving sexp_of]
 
 type additive_operator = [
     `PLUS of Token.t (* "+" *)
   | `DASH of Token.t (* "-" *)
+]
+[@@deriving sexp_of]
+
+type variance_modifier = [
+    `In of Token.t (* "in" *)
+  | `Out of Token.t (* "out" *)
+]
+[@@deriving sexp_of]
+
+type class_modifier = [
+    `Sealed of Token.t (* "sealed" *)
+  | `Anno of Token.t (* "annotation" *)
+  | `Data of Token.t (* "data" *)
+  | `Inner of Token.t (* "inner" *)
 ]
 [@@deriving sexp_of]
 
@@ -73,7 +106,21 @@ type function_modifier = [
 ]
 [@@deriving sexp_of]
 
-type pat_f630af3 = Token.t (* pattern [^\r\n]* *)
+type equality_operator = [
+    `BANGEQ of Token.t (* "!=" *)
+  | `BANGEQEQ of Token.t (* "!==" *)
+  | `EQEQ of Token.t (* "==" *)
+  | `EQEQEQ of Token.t (* "===" *)
+]
+[@@deriving sexp_of]
+
+type label = Token.t
+[@@deriving sexp_of]
+
+type platform_modifier = [
+    `Expect of Token.t (* "expect" *)
+  | `Actual of Token.t (* "actual" *)
+]
 [@@deriving sexp_of]
 
 type boolean_literal = [
@@ -85,21 +132,7 @@ type boolean_literal = [
 type backtick_identifier = Token.t (* pattern `[^\r\n`]+` *)
 [@@deriving sexp_of]
 
-type real_literal = Token.t
-[@@deriving sexp_of]
-
-type integer_literal = Token.t
-[@@deriving sexp_of]
-
-type comparison_operator = [
-    `LT of Token.t (* "<" *)
-  | `GT of Token.t (* ">" *)
-  | `LTEQ of Token.t (* "<=" *)
-  | `GTEQ of Token.t (* ">=" *)
-]
-[@@deriving sexp_of]
-
-type pat_b294348 = Token.t (* pattern "[^\\n\\r'\\\\]" *)
+type pat_c793459 = Token.t (* pattern [uU] *)
 [@@deriving sexp_of]
 
 type prefix_unary_operator = [
@@ -111,6 +144,15 @@ type prefix_unary_operator = [
 ]
 [@@deriving sexp_of]
 
+type as_operator = [
+    `As of Token.t (* "as" *)
+  | `AsQM of Token.t (* "as?" *)
+]
+[@@deriving sexp_of]
+
+type line_str_text = Token.t (* pattern "[^\\\\\"$]+" *)
+[@@deriving sexp_of]
+
 type postfix_unary_operator = [
     `PLUSPLUS of Token.t (* "++" *)
   | `DASHDASH of Token.t (* "--" *)
@@ -118,54 +160,16 @@ type postfix_unary_operator = [
 ]
 [@@deriving sexp_of]
 
-type as_operator = [
-    `As of Token.t (* "as" *)
-  | `AsQM of Token.t (* "as?" *)
-]
-[@@deriving sexp_of]
-
-type platform_modifier = [
-    `Expect of Token.t (* "expect" *)
-  | `Actual of Token.t (* "actual" *)
-]
-[@@deriving sexp_of]
-
-type visibility_modifier = [
-    `Public of Token.t (* "public" *)
-  | `Priv of Token.t (* "private" *)
-  | `Inte of Token.t (* "internal" *)
-  | `Prot of Token.t (* "protected" *)
-]
-[@@deriving sexp_of]
-
-type label = Token.t
+type integer_literal = Token.t
 [@@deriving sexp_of]
 
 type escaped_identifier = Token.t (* pattern "\\\\[tbrn'\"\\\\$]" *)
 [@@deriving sexp_of]
 
-type pat_831065d = Token.t (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *)
+type pat_a2e2132 = Token.t (* pattern [0-9a-fA-F]{4} *)
 [@@deriving sexp_of]
 
-type multi_line_str_text = Token.t (* pattern "[^\"$]+" *)
-[@@deriving sexp_of]
-
-type anon_choice_val_2833752 = [
-    `Val of Token.t (* "val" *)
-  | `Var of Token.t (* "var" *)
-]
-[@@deriving sexp_of]
-
-type line_str_text = Token.t (* pattern "[^\\\\\"$]+" *)
-[@@deriving sexp_of]
-
-type bin_literal = Token.t
-[@@deriving sexp_of]
-
-type member_modifier = [
-    `Over of Token.t (* "override" *)
-  | `Late of Token.t (* "lateinit" *)
-]
+type safe_nav = Token.t
 [@@deriving sexp_of]
 
 type multiplicative_operator = [
@@ -175,10 +179,20 @@ type multiplicative_operator = [
 ]
 [@@deriving sexp_of]
 
-type variance_modifier = [
-    `In of Token.t (* "in" *)
-  | `Out of Token.t (* "out" *)
+type anon_choice_val_2833752 = [
+    `Val of Token.t (* "val" *)
+  | `Var of Token.t (* "var" *)
 ]
+[@@deriving sexp_of]
+
+type inheritance_modifier = [
+    `Abst of Token.t (* "abstract" *)
+  | `Final of Token.t (* "final" *)
+  | `Open of Token.t (* "open" *)
+]
+[@@deriving sexp_of]
+
+type bin_literal = Token.t
 [@@deriving sexp_of]
 
 type assignment_and_operator = [
@@ -190,50 +204,37 @@ type assignment_and_operator = [
 ]
 [@@deriving sexp_of]
 
-type in_operator = [
-    `In of Token.t (* "in" *)
-  | `BANGin of Token.t (* "!in" *)
+type is_operator = [
+    `Is of Token.t (* "is" *)
+  | `BANGis of Token.t (* "!is" *)
+]
+[@@deriving sexp_of]
+
+type member_modifier = [
+    `Over of Token.t (* "override" *)
+  | `Late of Token.t (* "lateinit" *)
 ]
 [@@deriving sexp_of]
 
 type alpha_identifier = Token.t (* pattern [a-zA-Z_][a-zA-Z_0-9]* *)
 [@@deriving sexp_of]
 
-type equality_operator = [
-    `BANGEQ of Token.t (* "!=" *)
-  | `BANGEQEQ of Token.t (* "!==" *)
-  | `EQEQ of Token.t (* "==" *)
-  | `EQEQEQ of Token.t (* "===" *)
-]
-[@@deriving sexp_of]
-
-type semis = [
-    `Auto_semi of automatic_semicolon (*tok*)
-  | `SEMI of Token.t (* ";" *)
-]
-[@@deriving sexp_of]
-
-type semi = [
-    `Auto_semi of automatic_semicolon (*tok*)
-  | `SEMI of Token.t (* ";" *)
-]
-[@@deriving sexp_of]
-
-type uni_character_literal = (Token.t (* "\\u" *) * pat_a2e2132)
-[@@deriving sexp_of]
-
 type shebang_line = (Token.t (* "#!" *) * pat_f630af3)
-[@@deriving sexp_of]
-
-type is_operator = [
-    `Is of Token.t (* "is" *)
-  | `Not_is of Token.t (* "!is" *)
-]
 [@@deriving sexp_of]
 
 type multi_line_string_content = [
     `Multi_line_str_text of multi_line_str_text (*tok*)
   | `DQUOT of Token.t (* "\"" *)
+]
+[@@deriving sexp_of]
+
+type type_projection_modifier = variance_modifier
+[@@deriving sexp_of]
+
+type member_access_operator = [
+    `DOT of Token.t (* "." *)
+  | `COLONCOLON of Token.t (* "::" *)
+  | `Safe_nav of safe_nav (*tok*)
 ]
 [@@deriving sexp_of]
 
@@ -256,36 +257,20 @@ type modifier = [
 ]
 [@@deriving sexp_of]
 
-type member_access_operator = [
-    `DOT of Token.t (* "." *)
-  | `Safe_nav of Token.t (* "?." *)
-  | `COLONCOLON of Token.t (* "::" *)
-]
-[@@deriving sexp_of]
-
-type type_projection_modifier = variance_modifier
-[@@deriving sexp_of]
-
 type lexical_identifier = [
     `Alpha_id of alpha_identifier (*tok*)
   | `Back_id of backtick_identifier (*tok*)
 ]
 [@@deriving sexp_of]
 
-type escape_seq = [
-    `Uni_char_lit of uni_character_literal
-  | `Esca_id of escaped_identifier (*tok*)
-]
-[@@deriving sexp_of]
-
-type line_str_escaped_char = [
-    `Esca_id of escaped_identifier (*tok*)
-  | `Uni_char_lit of uni_character_literal
-]
-[@@deriving sexp_of]
-
 type type_projection_modifiers =
   type_projection_modifier list (* one or more *)
+[@@deriving sexp_of]
+
+type character_escape_seq = [
+    `Uni_char_lit of (Token.t (* "\\u" *) * pat_a2e2132)
+  | `Esca_id of escaped_identifier (*tok*)
+]
 [@@deriving sexp_of]
 
 type simple_identifier = [
@@ -295,6 +280,8 @@ type simple_identifier = [
       | `Data of Token.t (* "data" *)
       | `Inner of Token.t (* "inner" *)
       | `Actual of Token.t (* "actual" *)
+      | `Set of Token.t (* "set" *)
+      | `Get of Token.t (* "get" *)
     ]
   | `Pat_831065d of pat_831065d
 ]
@@ -305,7 +292,7 @@ type return_at = (Token.t (* "return@" *) * lexical_identifier)
 
 type line_string_content = [
     `Line_str_text of line_str_text (*tok*)
-  | `Line_str_esca_char of line_str_escaped_char
+  | `Char_esc_seq of character_escape_seq
 ]
 [@@deriving sexp_of]
 
@@ -325,7 +312,10 @@ type literal_constant = [
   | `Bin_lit of bin_literal (*tok*)
   | `Char_lit of (
         Token.t (* "'" *)
-      * [ `Esc_seq of escape_seq | `Pat_b294348 of pat_b294348 ]
+      * [
+            `Char_esc_seq of character_escape_seq
+          | `Pat_b294348 of pat_b294348
+        ]
       * Token.t (* "'" *)
     )
   | `Real_lit of real_literal (*tok*)
@@ -339,14 +329,16 @@ type literal_constant = [
 ]
 [@@deriving sexp_of]
 
-type package_header = (Token.t (* "package" *) * identifier * semi)
+type package_header = (
+    Token.t (* "package" *) * identifier * automatic_semicolon (*tok*)
+)
 [@@deriving sexp_of]
 
 type import_header = (
     Token.t (* "import" *)
   * identifier
   * [ `DOTSTAR of Token.t (* ".*" *) | `Import_alias of import_alias ] option
-  * semi
+  * automatic_semicolon (*tok*)
 )
 [@@deriving sexp_of]
 
@@ -471,7 +463,8 @@ and class_member_declaration = [
 ]
 
 and class_member_declarations =
-  (class_member_declaration * semis) list (* one or more *)
+  (class_member_declaration * automatic_semicolon (*tok*))
+    list (* one or more *)
 
 and class_parameter = [
     `Opt_modifs_opt_choice_val_simple_id_COLON_type_opt_EQ_exp of (
@@ -492,6 +485,7 @@ and class_parameters = (
       * (Token.t (* "," *) * class_parameter) list (* zero or more *)
     )
       option
+  * Token.t (* "," *) option
   * Token.t (* ")" *)
 )
 
@@ -632,8 +626,8 @@ and function_literal = [
           * Token.t (* "." *)
         )
           option
-      * Token.t (* "(" *)
-      * Token.t (* ")" *)
+      * function_value_parameters
+      * (Token.t (* ":" *) * type_) option
       * function_body option
     )
 ]
@@ -673,6 +667,7 @@ and function_value_parameters = (
           list (* zero or more *)
     )
       option
+  * Token.t (* "," *) option
   * Token.t (* ")" *)
 )
 
@@ -933,8 +928,8 @@ and statement = [
 
 and statements = (
     statement
-  * (semis * statement) list (* zero or more *)
-  * semis option
+  * (automatic_semicolon (*tok*) * statement) list (* zero or more *)
+  * automatic_semicolon (*tok*) option
 )
 
 and string_literal = [
@@ -1093,7 +1088,7 @@ and when_entry = (
     ]
   * Token.t (* "->" *)
   * control_structure_body
-  * semi option
+  * automatic_semicolon (*tok*) option
 )
 
 and when_subject = (
@@ -1110,10 +1105,9 @@ and when_subject = (
 )
 [@@deriving sexp_of]
 
-type parenthesized_user_type = (
-    Token.t (* "(" *)
-  * [ `User_type of user_type | `Paren_user_type of parenthesized_user_type ]
-  * Token.t (* ")" *)
+type import_list = (
+    import_header list (* one or more *)
+  * import_list_delimiter (*tok*)
 )
 [@@deriving sexp_of]
 
@@ -1129,50 +1123,56 @@ type file_annotation = (
         )
       | `Unes_anno of unescaped_annotation
     ]
-  * semi
+  * automatic_semicolon (*tok*)
+)
+[@@deriving sexp_of]
+
+type parenthesized_user_type = (
+    Token.t (* "(" *)
+  * [ `User_type of user_type | `Paren_user_type of parenthesized_user_type ]
+  * Token.t (* ")" *)
 )
 [@@deriving sexp_of]
 
 type source_file = [
-    `Opt_sheb_line_rep_file_anno_opt_pack_header_rep_import_header_rep_stmt_semi of (
+    `Opt_sheb_line_rep_file_anno_opt_pack_header_rep_import_list_rep_stmt_semi of (
         shebang_line option
       * file_annotation list (* zero or more *)
       * package_header option
-      * import_header list (* zero or more *)
-      * (statement * semi) list (* zero or more *)
+      * import_list list (* zero or more *)
+      * (statement * automatic_semicolon (*tok*)) list (* zero or more *)
     )
   | `Semg_exp of (Token.t (* "__SEMGREP_EXPRESSION" *) * expression)
 ]
 [@@deriving sexp_of]
 
-type quest (* inlined *) = Token.t (* "?" *)
+type reification_modifier (* inlined *) = Token.t (* "reified" *)
 [@@deriving sexp_of]
 
 type comment (* inlined *) = Token.t
 [@@deriving sexp_of]
 
-type this_expression (* inlined *) = Token.t (* "this" *)
-[@@deriving sexp_of]
-
-type ellipsis (* inlined *) = Token.t (* "..." *)
-[@@deriving sexp_of]
-
 type property_modifier (* inlined *) = Token.t (* "const" *)
+[@@deriving sexp_of]
+
+type quest (* inlined *) = Token.t (* "?" *)
+[@@deriving sexp_of]
+
+type this_expression (* inlined *) = Token.t (* "this" *)
 [@@deriving sexp_of]
 
 type super_expression (* inlined *) = Token.t (* "super" *)
 [@@deriving sexp_of]
 
-type not_is (* inlined *) = Token.t (* "!is" *)
+type ellipsis (* inlined *) = Token.t (* "..." *)
 [@@deriving sexp_of]
 
-type not_in (* inlined *) = Token.t (* "!in" *)
+type semi (* inlined *) = automatic_semicolon (*tok*)
 [@@deriving sexp_of]
 
-type reification_modifier (* inlined *) = Token.t (* "reified" *)
-[@@deriving sexp_of]
-
-type safe_nav (* inlined *) = Token.t (* "?." *)
+type uni_character_literal (* inlined *) = (
+    Token.t (* "\\u" *) * pat_a2e2132
+)
 [@@deriving sexp_of]
 
 type unsigned_literal (* inlined *) = (
@@ -1187,23 +1187,23 @@ type long_literal (* inlined *) = (
 )
 [@@deriving sexp_of]
 
+type break_at (* inlined *) = (Token.t (* "break@" *) * lexical_identifier)
+[@@deriving sexp_of]
+
 type continue_at (* inlined *) = (
     Token.t (* "continue@" *) * lexical_identifier
 )
 [@@deriving sexp_of]
 
-type break_at (* inlined *) = (Token.t (* "break@" *) * lexical_identifier)
+type super_at (* inlined *) = (Token.t (* "super@" *) * lexical_identifier)
 [@@deriving sexp_of]
 
 type this_at (* inlined *) = (Token.t (* "this@" *) * lexical_identifier)
 [@@deriving sexp_of]
 
-type super_at (* inlined *) = (Token.t (* "super@" *) * lexical_identifier)
-[@@deriving sexp_of]
-
 type character_literal (* inlined *) = (
     Token.t (* "'" *)
-  * [ `Esc_seq of escape_seq | `Pat_b294348 of pat_b294348 ]
+  * [ `Char_esc_seq of character_escape_seq | `Pat_b294348 of pat_b294348 ]
   * Token.t (* "'" *)
 )
 [@@deriving sexp_of]
@@ -1228,8 +1228,8 @@ type anonymous_function (* inlined *) = (
       * Token.t (* "." *)
     )
       option
-  * Token.t (* "(" *)
-  * Token.t (* ")" *)
+  * function_value_parameters
+  * (Token.t (* ":" *) * type_) option
   * function_body option
 )
 [@@deriving sexp_of]
@@ -1514,6 +1514,21 @@ type while_statement (* inlined *) = (
 )
 [@@deriving sexp_of]
 
+type parameters_with_optional_type (* inlined *) = (
+    Token.t (* "(" *)
+  * parameter_with_optional_type
+  * (Token.t (* "," *) * parameter_with_optional_type)
+      list (* zero or more *)
+  * Token.t (* ")" *)
+)
+[@@deriving sexp_of]
+
+type annotated_delegation_specifier (* inlined *) = (
+    annotation list (* zero or more *)
+  * delegation_specifier
+)
+[@@deriving sexp_of]
+
 type indexing_suffix_ (* inlined *) = (
     Token.t (* "[" *)
   * expression
@@ -1523,21 +1538,9 @@ type indexing_suffix_ (* inlined *) = (
 )
 [@@deriving sexp_of]
 
-type top_level_object (* inlined *) = (declaration * semis option)
-[@@deriving sexp_of]
-
-type annotated_delegation_specifier (* inlined *) = (
-    annotation list (* zero or more *)
-  * delegation_specifier
-)
-[@@deriving sexp_of]
-
-type parameters_with_optional_type (* inlined *) = (
-    Token.t (* "(" *)
-  * parameter_with_optional_type
-  * (Token.t (* "," *) * parameter_with_optional_type)
-      list (* zero or more *)
-  * Token.t (* ")" *)
+type top_level_object (* inlined *) = (
+    declaration
+  * automatic_semicolon (*tok*) option
 )
 [@@deriving sexp_of]
 
