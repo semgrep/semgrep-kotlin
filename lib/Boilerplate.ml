@@ -915,7 +915,7 @@ and map_delegation_specifier (env : env) (x : CST.delegation_specifier) =
   | `Func_type x -> map_function_type env x
   )
 
-and map_delegation_specifiers (env : env) ((v1, v2) : CST.delegation_specifiers) =
+and map_delegation_specifiers (env : env) ((v1, v2, v3) : CST.delegation_specifiers) =
   let v1 = map_delegation_specifier env v1 in
   let v2 =
     List.map (fun (v1, v2) ->
@@ -924,7 +924,12 @@ and map_delegation_specifiers (env : env) ((v1, v2) : CST.delegation_specifiers)
       todo env (v1, v2)
     ) v2
   in
-  todo env (v1, v2)
+  let v3 =
+    (match v3 with
+    | Some tok -> (* "," *) token env tok
+    | None -> todo env ())
+  in
+  todo env (v1, v2, v3)
 
 and map_directly_assignable_expression (env : env) (x : CST.directly_assignable_expression) =
   (match x with

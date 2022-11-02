@@ -567,6 +567,7 @@ and delegation_specifier = [
 and delegation_specifiers = (
     delegation_specifier
   * (Token.t (* "," *) * delegation_specifier) list (* zero or more *)
+  * Token.t (* "," *) option
 )
 
 and directly_assignable_expression = [
