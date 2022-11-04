@@ -866,9 +866,6 @@ let children_regexps : (string * Run.exp option) list = [
           Token (Name "delegation_specifier");
         ];
       );
-      Opt (
-        Token (Literal ",");
-      );
     ];
   );
   "directly_assignable_expression",
@@ -1973,6 +1970,9 @@ let children_regexps : (string * Run.exp option) list = [
               Token (Literal ",");
               Token (Name "value_argument");
             ];
+          );
+          Opt (
+            Token (Literal ",");
           );
         ];
       );
@@ -4027,7 +4027,7 @@ and trans_delegation_specifiers ((kind, body) : mt) : CST.delegation_specifiers 
   match body with
   | Children v ->
       (match v with
-      | Seq [v0; v1; v2] ->
+      | Seq [v0; v1] ->
           (
             trans_delegation_specifier (Run.matcher_token v0),
             Run.repeat
@@ -4042,10 +4042,6 @@ and trans_delegation_specifiers ((kind, body) : mt) : CST.delegation_specifiers 
                 )
               )
               v1
-            ,
-            Run.opt
-              (fun v -> Run.trans_token (Run.matcher_token v))
-              v2
           )
       | _ -> assert false
       )
@@ -6299,7 +6295,7 @@ and trans_value_arguments ((kind, body) : mt) : CST.value_arguments =
             Run.opt
               (fun v ->
                 (match v with
-                | Seq [v0; v1] ->
+                | Seq [v0; v1; v2] ->
                     (
                       trans_value_argument (Run.matcher_token v0),
                       Run.repeat
@@ -6314,6 +6310,10 @@ and trans_value_arguments ((kind, body) : mt) : CST.value_arguments =
                           )
                         )
                         v1
+                      ,
+                      Run.opt
+                        (fun v -> Run.trans_token (Run.matcher_token v))
+                        v2
                     )
                 | _ -> assert false
                 )
