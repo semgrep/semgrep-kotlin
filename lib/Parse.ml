@@ -91,7 +91,7 @@ let children_regexps : (string * Run.exp option) list = [
     |];
   );
   "bin_literal", None;
-  "pat_c793459", None;
+  "pat_f630af3", None;
   "additive_operator",
   Some (
     Alt [|
@@ -145,7 +145,7 @@ let children_regexps : (string * Run.exp option) list = [
     |];
   );
   "integer_literal", None;
-  "pat_f630af3", None;
+  "pat_u", None;
   "quest", None;
   "property_modifier", None;
   "automatic_semicolon", None;
@@ -244,18 +244,11 @@ let children_regexps : (string * Run.exp option) list = [
       Token (Name "pat_a2e2132");
     ];
   );
-  "unsigned_literal",
+  "shebang_line",
   Some (
     Seq [
-      Alt [|
-        Token (Name "integer_literal");
-        Token (Name "hex_literal");
-        Token (Name "bin_literal");
-      |];
-      Token (Name "pat_c793459");
-      Opt (
-        Token (Literal "L");
-      );
+      Token (Literal "#!");
+      Token (Name "pat_f630af3");
     ];
   );
   "long_literal",
@@ -269,11 +262,18 @@ let children_regexps : (string * Run.exp option) list = [
       Token (Literal "L");
     ];
   );
-  "shebang_line",
+  "unsigned_literal",
   Some (
     Seq [
-      Token (Literal "#!");
-      Token (Name "pat_f630af3");
+      Alt [|
+        Token (Name "integer_literal");
+        Token (Name "hex_literal");
+        Token (Name "bin_literal");
+      |];
+      Token (Name "pat_u");
+      Opt (
+        Token (Literal "L");
+      );
     ];
   );
   "semi", Some (Token (Name "automatic_semicolon"););
@@ -981,6 +981,7 @@ let children_regexps : (string * Run.exp option) list = [
       |];
       Token (Name "ellipsis");
       Token (Name "deep_ellipsis");
+      Token (Name "typed_metavar");
     |];
   );
   "finally_block",
@@ -1909,6 +1910,16 @@ let children_regexps : (string * Run.exp option) list = [
       Token (Name "type");
     ];
   );
+  "typed_metavar",
+  Some (
+    Seq [
+      Token (Literal "(");
+      Token (Name "simple_identifier");
+      Token (Literal ":");
+      Token (Name "type");
+      Token (Literal ")");
+    ];
+  );
   "unary_expression",
   Some (
     Alt [|
@@ -2290,7 +2301,7 @@ let trans_bin_literal ((kind, body) : mt) : CST.bin_literal =
   | Leaf v -> v
   | Children _ -> assert false
 
-let trans_pat_c793459 ((kind, body) : mt) : CST.pat_c793459 =
+let trans_pat_f630af3 ((kind, body) : mt) : CST.pat_f630af3 =
   match body with
   | Leaf v -> v
   | Children _ -> assert false
@@ -2439,7 +2450,7 @@ let trans_integer_literal ((kind, body) : mt) : CST.integer_literal =
   | Leaf v -> v
   | Children _ -> assert false
 
-let trans_pat_f630af3 ((kind, body) : mt) : CST.pat_f630af3 =
+let trans_pat_u ((kind, body) : mt) : CST.pat_u =
   match body with
   | Leaf v -> v
   | Children _ -> assert false
@@ -2714,32 +2725,14 @@ let trans_uni_character_literal ((kind, body) : mt) : CST.uni_character_literal 
       )
   | Leaf _ -> assert false
 
-let trans_unsigned_literal ((kind, body) : mt) : CST.unsigned_literal =
+let trans_shebang_line ((kind, body) : mt) : CST.shebang_line =
   match body with
   | Children v ->
       (match v with
-      | Seq [v0; v1; v2] ->
+      | Seq [v0; v1] ->
           (
-            (match v0 with
-            | Alt (0, v) ->
-                `Int_lit (
-                  trans_integer_literal (Run.matcher_token v)
-                )
-            | Alt (1, v) ->
-                `Hex_lit (
-                  trans_hex_literal (Run.matcher_token v)
-                )
-            | Alt (2, v) ->
-                `Bin_lit (
-                  trans_bin_literal (Run.matcher_token v)
-                )
-            | _ -> assert false
-            )
-            ,
-            trans_pat_c793459 (Run.matcher_token v1),
-            Run.opt
-              (fun v -> Run.trans_token (Run.matcher_token v))
-              v2
+            Run.trans_token (Run.matcher_token v0),
+            trans_pat_f630af3 (Run.matcher_token v1)
           )
       | _ -> assert false
       )
@@ -2773,14 +2766,32 @@ let trans_long_literal ((kind, body) : mt) : CST.long_literal =
       )
   | Leaf _ -> assert false
 
-let trans_shebang_line ((kind, body) : mt) : CST.shebang_line =
+let trans_unsigned_literal ((kind, body) : mt) : CST.unsigned_literal =
   match body with
   | Children v ->
       (match v with
-      | Seq [v0; v1] ->
+      | Seq [v0; v1; v2] ->
           (
-            Run.trans_token (Run.matcher_token v0),
-            trans_pat_f630af3 (Run.matcher_token v1)
+            (match v0 with
+            | Alt (0, v) ->
+                `Int_lit (
+                  trans_integer_literal (Run.matcher_token v)
+                )
+            | Alt (1, v) ->
+                `Hex_lit (
+                  trans_hex_literal (Run.matcher_token v)
+                )
+            | Alt (2, v) ->
+                `Bin_lit (
+                  trans_bin_literal (Run.matcher_token v)
+                )
+            | _ -> assert false
+            )
+            ,
+            trans_pat_u (Run.matcher_token v1),
+            Run.opt
+              (fun v -> Run.trans_token (Run.matcher_token v))
+              v2
           )
       | _ -> assert false
       )
@@ -4266,6 +4277,10 @@ and trans_expression ((kind, body) : mt) : CST.expression =
       | Alt (2, v) ->
           `Deep_ellips (
             trans_deep_ellipsis (Run.matcher_token v)
+          )
+      | Alt (3, v) ->
+          `Typed_meta (
+            trans_typed_metavar (Run.matcher_token v)
           )
       | _ -> assert false
       )
@@ -6171,6 +6186,22 @@ and trans_type_test ((kind, body) : mt) : CST.type_test =
           (
             trans_is_operator (Run.matcher_token v0),
             trans_type_ (Run.matcher_token v1)
+          )
+      | _ -> assert false
+      )
+  | Leaf _ -> assert false
+
+and trans_typed_metavar ((kind, body) : mt) : CST.typed_metavar =
+  match body with
+  | Children v ->
+      (match v with
+      | Seq [v0; v1; v2; v3; v4] ->
+          (
+            Run.trans_token (Run.matcher_token v0),
+            trans_simple_identifier (Run.matcher_token v1),
+            Run.trans_token (Run.matcher_token v2),
+            trans_type_ (Run.matcher_token v3),
+            Run.trans_token (Run.matcher_token v4)
           )
       | _ -> assert false
       )
