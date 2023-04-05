@@ -1,6 +1,6 @@
 File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: b953dbdd05257fcb2b64bc4d9c1578fac12e3c28
+Latest commit in repo: 826ef28d605d0925a86a99022cd222c96f2d0952
 Last change in file:
   commit 677f3ae356d7a31fabbd860fcb30bfefeadaaeec
   Author: fwcd <fwcdmail@gmail.com>
@@ -10,17 +10,17 @@ Last change in file:
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: b953dbdd05257fcb2b64bc4d9c1578fac12e3c28
+Latest commit in repo: 826ef28d605d0925a86a99022cd222c96f2d0952
 Last change in file:
-  commit c35eb3c8a35d920eee1be9e4c37d76c794e46ba7
+  commit 6de6d14434be57058a9076acfdcad8d6034806b1
   Author: brandonspark <wu.brandonj@gmail.com>
-  Date:   Wed Nov 2 16:37:12 2022 -0700
+  Date:   Tue Mar 21 23:15:08 2023 -0700
   
-      revert erroneous commit and add trailign comma for constructors
+      fix: precedence of variable decl vs type ident
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 4977c7ec89616d7ad97341eb0602fbc8670d1d59
+Latest commit in repo: 69101e1d2f011aed1bdb1e320f8196e54cabbd2e
 Last change in file:
   commit 67ebbcf07edcf765177f8b458cb212c0920aaa41
   Author: brandonspark <wu.brandonj@gmail.com>
