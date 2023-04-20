@@ -22,6 +22,80 @@ let blank (env : env) () =
 let map_pat_a2e2132 (env : env) (tok : CST.pat_a2e2132) =
   (* pattern [0-9a-fA-F]{4} *) token env tok
 
+let map_pat_831065d (env : env) (tok : CST.pat_831065d) =
+  (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *) token env tok
+
+let map_pat_f630af3 (env : env) (tok : CST.pat_f630af3) =
+  (* pattern [^\r\n]* *) token env tok
+
+let map_in_operator (env : env) (x : CST.in_operator) =
+  (match x with
+  | `In tok -> R.Case ("In",
+      (* "in" *) token env tok
+    )
+  | `BANGin tok -> R.Case ("BANGin",
+      (* "!in" *) token env tok
+    )
+  )
+
+let map_safe_nav (env : env) (tok : CST.safe_nav) =
+  (* safe_nav *) token env tok
+
+let map_variance_modifier (env : env) (x : CST.variance_modifier) =
+  (match x with
+  | `In tok -> R.Case ("In",
+      (* "in" *) token env tok
+    )
+  | `Out tok -> R.Case ("Out",
+      (* "out" *) token env tok
+    )
+  )
+
+let map_prefix_unary_operator (env : env) (x : CST.prefix_unary_operator) =
+  (match x with
+  | `PLUSPLUS tok -> R.Case ("PLUSPLUS",
+      (* "++" *) token env tok
+    )
+  | `DASHDASH tok -> R.Case ("DASHDASH",
+      (* "--" *) token env tok
+    )
+  | `DASH tok -> R.Case ("DASH",
+      (* "-" *) token env tok
+    )
+  | `PLUS tok -> R.Case ("PLUS",
+      (* "+" *) token env tok
+    )
+  | `BANG tok -> R.Case ("BANG",
+      (* "!" *) token env tok
+    )
+  )
+
+let map_string_content (env : env) (tok : CST.string_content) =
+  (* string_content *) token env tok
+
+let map_automatic_semicolon (env : env) (tok : CST.automatic_semicolon) =
+  (* automatic_semicolon *) token env tok
+
+let map_platform_modifier (env : env) (x : CST.platform_modifier) =
+  (match x with
+  | `Expect tok -> R.Case ("Expect",
+      (* "expect" *) token env tok
+    )
+  | `Actual tok -> R.Case ("Actual",
+      (* "actual" *) token env tok
+    )
+  )
+
+let map_additive_operator (env : env) (x : CST.additive_operator) =
+  (match x with
+  | `PLUS tok -> R.Case ("PLUS",
+      (* "+" *) token env tok
+    )
+  | `DASH tok -> R.Case ("DASH",
+      (* "-" *) token env tok
+    )
+  )
+
 let map_use_site_target (env : env) ((v1, v2) : CST.use_site_target) =
   let v1 =
     (match v1 with
@@ -54,96 +128,6 @@ let map_use_site_target (env : env) ((v1, v2) : CST.use_site_target) =
   let v2 = (* ":" *) token env v2 in
   R.Tuple [v1; v2]
 
-let map_pat_831065d (env : env) (tok : CST.pat_831065d) =
-  (* pattern \$[a-zA-Z_][a-zA-Z_0-9]* *) token env tok
-
-let map_pat_f630af3 (env : env) (tok : CST.pat_f630af3) =
-  (* pattern [^\r\n]* *) token env tok
-
-let map_in_operator (env : env) (x : CST.in_operator) =
-  (match x with
-  | `In tok -> R.Case ("In",
-      (* "in" *) token env tok
-    )
-  | `BANGin tok -> R.Case ("BANGin",
-      (* "!in" *) token env tok
-    )
-  )
-
-let map_safe_nav (env : env) (tok : CST.safe_nav) =
-  (* safe_nav *) token env tok
-
-let map_visibility_modifier (env : env) (x : CST.visibility_modifier) =
-  (match x with
-  | `Public tok -> R.Case ("Public",
-      (* "public" *) token env tok
-    )
-  | `Priv tok -> R.Case ("Priv",
-      (* "private" *) token env tok
-    )
-  | `Inte tok -> R.Case ("Inte",
-      (* "internal" *) token env tok
-    )
-  | `Prot tok -> R.Case ("Prot",
-      (* "protected" *) token env tok
-    )
-  )
-
-let map_prefix_unary_operator (env : env) (x : CST.prefix_unary_operator) =
-  (match x with
-  | `PLUSPLUS tok -> R.Case ("PLUSPLUS",
-      (* "++" *) token env tok
-    )
-  | `DASHDASH tok -> R.Case ("DASHDASH",
-      (* "--" *) token env tok
-    )
-  | `DASH tok -> R.Case ("DASH",
-      (* "-" *) token env tok
-    )
-  | `PLUS tok -> R.Case ("PLUS",
-      (* "+" *) token env tok
-    )
-  | `BANG tok -> R.Case ("BANG",
-      (* "!" *) token env tok
-    )
-  )
-
-let map_string_end (env : env) (tok : CST.string_end) =
-  (* string_end *) token env tok
-
-let map_automatic_semicolon (env : env) (tok : CST.automatic_semicolon) =
-  (* automatic_semicolon *) token env tok
-
-let map_platform_modifier (env : env) (x : CST.platform_modifier) =
-  (match x with
-  | `Expect tok -> R.Case ("Expect",
-      (* "expect" *) token env tok
-    )
-  | `Actual tok -> R.Case ("Actual",
-      (* "actual" *) token env tok
-    )
-  )
-
-let map_additive_operator (env : env) (x : CST.additive_operator) =
-  (match x with
-  | `PLUS tok -> R.Case ("PLUS",
-      (* "+" *) token env tok
-    )
-  | `DASH tok -> R.Case ("DASH",
-      (* "-" *) token env tok
-    )
-  )
-
-let map_variance_modifier (env : env) (x : CST.variance_modifier) =
-  (match x with
-  | `In tok -> R.Case ("In",
-      (* "in" *) token env tok
-    )
-  | `Out tok -> R.Case ("Out",
-      (* "out" *) token env tok
-    )
-  )
-
 let map_function_modifier (env : env) (x : CST.function_modifier) =
   (match x with
   | `Tail tok -> R.Case ("Tail",
@@ -166,8 +150,8 @@ let map_function_modifier (env : env) (x : CST.function_modifier) =
     )
   )
 
-let map_string_start (env : env) (tok : CST.string_start) =
-  (* string_start *) token env tok
+let map_string_end (env : env) (tok : CST.string_end) =
+  (* string_end *) token env tok
 
 let map_class_modifier (env : env) (x : CST.class_modifier) =
   (match x with
@@ -190,9 +174,6 @@ let map_hex_literal (env : env) (tok : CST.hex_literal) =
 
 let map_escaped_identifier (env : env) (tok : CST.escaped_identifier) =
   (* pattern "\\\\[tbrn'\"\\\\$]" *) token env tok
-
-let map_string_content (env : env) (tok : CST.string_content) =
-  (* string_content *) token env tok
 
 let map_boolean_literal (env : env) (x : CST.boolean_literal) =
   (match x with
@@ -275,6 +256,9 @@ let map_is_operator (env : env) (x : CST.is_operator) =
     )
   )
 
+let map_string_start (env : env) (tok : CST.string_start) =
+  (* string_start *) token env tok
+
 let map_pat_u (env : env) (tok : CST.pat_u) =
   (* pattern [uU] *) token env tok
 
@@ -304,6 +288,9 @@ let map_anon_choice_val_2833752 (env : env) (x : CST.anon_choice_val_2833752) =
 let map_integer_literal (env : env) (tok : CST.integer_literal) =
   (* integer_literal *) token env tok
 
+let map_semgrep_named_ellipsis (env : env) (tok : CST.semgrep_named_ellipsis) =
+  (* pattern \$\.\.\.[a-zA-Z_][a-zA-Z_0-9]* *) token env tok
+
 let map_member_modifier (env : env) (x : CST.member_modifier) =
   (match x with
   | `Over tok -> R.Case ("Over",
@@ -327,6 +314,22 @@ let map_parameter_modifier (env : env) (x : CST.parameter_modifier) =
     )
   | `Cros tok -> R.Case ("Cros",
       (* "crossinline" *) token env tok
+    )
+  )
+
+let map_visibility_modifier (env : env) (x : CST.visibility_modifier) =
+  (match x with
+  | `Public tok -> R.Case ("Public",
+      (* "public" *) token env tok
+    )
+  | `Priv tok -> R.Case ("Priv",
+      (* "private" *) token env tok
+    )
+  | `Inte tok -> R.Case ("Inte",
+      (* "internal" *) token env tok
+    )
+  | `Prot tok -> R.Case ("Prot",
+      (* "protected" *) token env tok
     )
   )
 
@@ -461,11 +464,6 @@ let map_character_escape_seq (env : env) (x : CST.character_escape_seq) =
 let map_type_projection_modifiers (env : env) (xs : CST.type_projection_modifiers) =
   R.List (List.map (map_type_projection_modifier env) xs)
 
-let map_return_at (env : env) ((v1, v2) : CST.return_at) =
-  let v1 = (* "return@" *) token env v1 in
-  let v2 = map_lexical_identifier env v2 in
-  R.Tuple [v1; v2]
-
 let map_simple_identifier (env : env) (x : CST.simple_identifier) =
   (match x with
   | `Choice_lexi_id x -> R.Case ("Choice_lexi_id",
@@ -497,6 +495,11 @@ let map_simple_identifier (env : env) (x : CST.simple_identifier) =
       map_pat_831065d env x
     )
   )
+
+let map_return_at (env : env) ((v1, v2) : CST.return_at) =
+  let v1 = (* "return@" *) token env v1 in
+  let v2 = map_lexical_identifier env v2 in
+  R.Tuple [v1; v2]
 
 let map_identifier (env : env) ((v1, v2) : CST.identifier) =
   let v1 = map_simple_identifier env v1 in
@@ -1416,6 +1419,9 @@ and map_expression (env : env) (x : CST.expression) =
       let v4 = map_type_ env v4 in
       let v5 = (* ")" *) token env v5 in
       R.Tuple [v1; v2; v3; v4; v5]
+    )
+  | `Semg_named_ellips tok -> R.Case ("Semg_named_ellips",
+      (* pattern \$\.\.\.[a-zA-Z_][a-zA-Z_0-9]* *) token env tok
     )
   )
 

@@ -20,11 +20,11 @@ Last change in file:
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 69101e1d2f011aed1bdb1e320f8196e54cabbd2e
+Latest commit in repo: 497fa0027d5dae6acdf3fb7afa21170aa684463d
 Last change in file:
-  commit 67ebbcf07edcf765177f8b458cb212c0920aaa41
+  commit 497fa0027d5dae6acdf3fb7afa21170aa684463d
   Author: brandonspark <wu.brandonj@gmail.com>
-  Date:   Tue Mar 21 08:51:18 2023 -0700
+  Date:   Thu Apr 20 08:52:46 2023 -0700
   
-      fix tabs
+      feat: add named ellipses for kotlin
 ---
