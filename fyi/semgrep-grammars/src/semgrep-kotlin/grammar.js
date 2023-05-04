@@ -23,8 +23,6 @@ module.exports = grammar(standard_grammar, {
         // Alternate "entry point". Allows parsing a standalone expression.
         semgrep_expression: $ => seq('__SEMGREP_EXPRESSION', $._expression),
 
-        semgrep_named_ellipsis : $ => /\$\.\.\.[a-zA-Z_][a-zA-Z_0-9]*/,
-
         // Metavariables
         simple_identifier: ($, previous) => {
             return choice(
@@ -43,8 +41,7 @@ module.exports = grammar(standard_grammar, {
                 previous,
                 $.ellipsis,  // statement ellipsis
                 $.deep_ellipsis,
-							  $.typed_metavar,
-                $.semgrep_named_ellipsis
+							  $.typed_metavar
             );
         },
 
