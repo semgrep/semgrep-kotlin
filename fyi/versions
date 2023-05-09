@@ -1,6 +1,6 @@
 File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 100d79fd96b56a1b99099a8d2f3c114b8687acfb
+Latest commit in repo: 20a289c46b9f05fb2ab0c288cf6dae989c2af0e4
 Last change in file:
   commit 677f3ae356d7a31fabbd860fcb30bfefeadaaeec
   Author: fwcd <fwcdmail@gmail.com>
@@ -10,7 +10,7 @@ Last change in file:
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 100d79fd96b56a1b99099a8d2f3c114b8687acfb
+Latest commit in repo: 20a289c46b9f05fb2ab0c288cf6dae989c2af0e4
 Last change in file:
   commit f4eb099b34d1bf13b0e1dbc3e250199f605cdeb1
   Author: Ameya Ketkar <94497232+ketkarameya@users.noreply.github.com>
@@ -20,7 +20,7 @@ Last change in file:
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 43bf68fc0b29e6e41f80ec6bf464484262439937
+Latest commit in repo: b953cef96c71331fde8587a21cf2f3819a77e166
 Last change in file:
   commit 67ebbcf07edcf765177f8b458cb212c0920aaa41
   Author: brandonspark <wu.brandonj@gmail.com>
