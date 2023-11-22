@@ -1975,6 +1975,11 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
   | `Func_lit x -> R.Case ("Func_lit",
       map_function_literal env x
     )
+  | `Call_exp (v1, v2) -> R.Case ("Call_exp",
+      let v1 = map_expression env v1 in
+      let v2 = map_call_suffix env v2 in
+      R.Tuple [v1; v2]
+    )
   | `Obj_lit (v1, v2, v3) -> R.Case ("Obj_lit",
       let v1 = (* "object" *) token env v1 in
       let v2 =
@@ -2409,11 +2414,6 @@ and map_unary_expression (env : env) (x : CST.unary_expression) =
   | `Post_exp (v1, v2) -> R.Case ("Post_exp",
       let v1 = map_expression env v1 in
       let v2 = map_postfix_unary_operator env v2 in
-      R.Tuple [v1; v2]
-    )
-  | `Call_exp (v1, v2) -> R.Case ("Call_exp",
-      let v1 = map_expression env v1 in
-      let v2 = map_call_suffix env v2 in
       R.Tuple [v1; v2]
     )
   | `Inde_exp (v1, v2) -> R.Case ("Inde_exp",

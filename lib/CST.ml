@@ -774,6 +774,7 @@ and primary_expression = [
       * [ `Simple_id of simple_identifier | `Class of Token.t (* "class" *) ]
     )
   | `Func_lit of function_literal
+  | `Call_exp of (expression * call_suffix)
   | `Obj_lit of (
         Token.t (* "object" *)
       * (Token.t (* ":" *) * delegation_specifiers) option
@@ -954,7 +955,6 @@ and type_test = (is_operator * type_)
 
 and unary_expression = [
     `Post_exp of (expression * postfix_unary_operator)
-  | `Call_exp of (expression * call_suffix)
   | `Inde_exp of (expression * indexing_suffix)
   | `Navi_exp of (expression * navigation_suffix)
   | `Prefix_exp of (

@@ -1506,6 +1506,7 @@ let children_regexps : (string * Run.exp option) list = [
       Token (Name "string_literal");
       Token (Name "callable_reference");
       Token (Name "function_literal");
+      Token (Name "call_expression");
       Token (Name "object_literal");
       Token (Name "collection_literal");
       Token (Name "this_expression");
@@ -1897,7 +1898,6 @@ let children_regexps : (string * Run.exp option) list = [
   Some (
     Alt [|
       Token (Name "postfix_expression");
-      Token (Name "call_expression");
       Token (Name "indexing_expression");
       Token (Name "navigation_expression");
       Token (Name "prefix_expression");
@@ -5336,34 +5336,38 @@ and trans_primary_expression ((kind, body) : mt) : CST.primary_expression =
             trans_function_literal (Run.matcher_token v)
           )
       | Alt (6, v) ->
+          `Call_exp (
+            trans_call_expression (Run.matcher_token v)
+          )
+      | Alt (7, v) ->
           `Obj_lit (
             trans_object_literal (Run.matcher_token v)
           )
-      | Alt (7, v) ->
+      | Alt (8, v) ->
           `Coll_lit (
             trans_collection_literal (Run.matcher_token v)
           )
-      | Alt (8, v) ->
+      | Alt (9, v) ->
           `This_exp (
             trans_this_expression (Run.matcher_token v)
           )
-      | Alt (9, v) ->
+      | Alt (10, v) ->
           `Super_exp (
             trans_super_expression (Run.matcher_token v)
           )
-      | Alt (10, v) ->
+      | Alt (11, v) ->
           `If_exp (
             trans_if_expression (Run.matcher_token v)
           )
-      | Alt (11, v) ->
+      | Alt (12, v) ->
           `When_exp (
             trans_when_expression (Run.matcher_token v)
           )
-      | Alt (12, v) ->
+      | Alt (13, v) ->
           `Try_exp (
             trans_try_expression (Run.matcher_token v)
           )
-      | Alt (13, v) ->
+      | Alt (14, v) ->
           `Jump_exp (
             trans_jump_expression (Run.matcher_token v)
           )
@@ -6131,26 +6135,22 @@ and trans_unary_expression ((kind, body) : mt) : CST.unary_expression =
             trans_postfix_expression (Run.matcher_token v)
           )
       | Alt (1, v) ->
-          `Call_exp (
-            trans_call_expression (Run.matcher_token v)
-          )
-      | Alt (2, v) ->
           `Inde_exp (
             trans_indexing_expression (Run.matcher_token v)
           )
-      | Alt (3, v) ->
+      | Alt (2, v) ->
           `Navi_exp (
             trans_navigation_expression (Run.matcher_token v)
           )
-      | Alt (4, v) ->
+      | Alt (3, v) ->
           `Prefix_exp (
             trans_prefix_expression (Run.matcher_token v)
           )
-      | Alt (5, v) ->
+      | Alt (4, v) ->
           `As_exp (
             trans_as_expression (Run.matcher_token v)
           )
-      | Alt (6, v) ->
+      | Alt (5, v) ->
           `Spread_exp (
             trans_spread_expression (Run.matcher_token v)
           )
