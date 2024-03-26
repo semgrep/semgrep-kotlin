@@ -865,15 +865,26 @@ and setter = (
 and simple_user_type = (simple_identifier * type_arguments option)
 
 and statement = [
-    `Decl of declaration
-  | `Rep_choice_label_choice_assign of (
-        [ `Label of label (*tok*) | `Anno of annotation ]
-          list (* zero or more *)
-      * [
-            `Assign of assignment
-          | `Loop_stmt of loop_statement
-          | `Exp of expression
-        ]
+    `Choice_decl of [
+        `Decl of declaration
+      | `Rep_choice_label_choice_assign of (
+            [ `Label of label (*tok*) | `Anno of annotation ]
+              list (* zero or more *)
+          * [
+                `Assign of assignment
+              | `Loop_stmt of loop_statement
+              | `Exp of expression
+            ]
+        )
+    ]
+  | `Part_class_decl of (
+        type_parameters option
+      * modifiers option
+      * Token.t (* "constructor" *)
+      * class_parameters
+      * (Token.t (* ":" *) * delegation_specifiers) option
+      * type_constraints option
+      * class_body option
     )
 ]
 
@@ -1283,6 +1294,16 @@ type object_literal (* inlined *) = (
     Token.t (* "object" *)
   * (Token.t (* ":" *) * delegation_specifiers) option
   * class_body
+)
+
+type partial_class_declaration (* inlined *) = (
+    type_parameters option
+  * modifiers option
+  * Token.t (* "constructor" *)
+  * class_parameters
+  * (Token.t (* ":" *) * delegation_specifiers) option
+  * type_constraints option
+  * class_body option
 )
 
 type postfix_expression (* inlined *) = (expression * postfix_unary_operator)

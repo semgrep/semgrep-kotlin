@@ -1448,6 +1448,31 @@ let children_regexps : (string * Run.exp option) list = [
       Token (Literal ")");
     ];
   );
+  "partial_class_declaration",
+  Some (
+    Seq [
+      Opt (
+        Token (Name "type_parameters");
+      );
+      Opt (
+        Token (Name "modifiers");
+      );
+      Token (Literal "constructor");
+      Token (Name "class_parameters");
+      Opt (
+        Seq [
+          Token (Literal ":");
+          Token (Name "delegation_specifiers");
+        ];
+      );
+      Opt (
+        Token (Name "type_constraints");
+      );
+      Opt (
+        Token (Name "class_body");
+      );
+    ];
+  );
   "postfix_expression",
   Some (
     Seq [
@@ -1673,20 +1698,23 @@ let children_regexps : (string * Run.exp option) list = [
   "statement",
   Some (
     Alt [|
-      Token (Name "declaration");
-      Seq [
-        Repeat (
+      Alt [|
+        Token (Name "declaration");
+        Seq [
+          Repeat (
+            Alt [|
+              Token (Name "label");
+              Token (Name "annotation");
+            |];
+          );
           Alt [|
-            Token (Name "label");
-            Token (Name "annotation");
+            Token (Name "assignment");
+            Token (Name "loop_statement");
+            Token (Name "expression");
           |];
-        );
-        Alt [|
-          Token (Name "assignment");
-          Token (Name "loop_statement");
-          Token (Name "expression");
-        |];
-      ];
+        ];
+      |];
+      Token (Name "partial_class_declaration");
     |];
   );
   "statements",
@@ -5203,6 +5231,47 @@ and trans_parenthesized_type ((kind, body) : mt) : CST.parenthesized_type =
       )
   | Leaf _ -> assert false
 
+and trans_partial_class_declaration ((kind, body) : mt) : CST.partial_class_declaration =
+  match body with
+  | Children v ->
+      (match v with
+      | Seq [v0; v1; v2; v3; v4; v5; v6] ->
+          (
+            Run.opt
+              (fun v -> trans_type_parameters (Run.matcher_token v))
+              v0
+            ,
+            Run.opt
+              (fun v -> trans_modifiers (Run.matcher_token v))
+              v1
+            ,
+            Run.trans_token (Run.matcher_token v2),
+            trans_class_parameters (Run.matcher_token v3),
+            Run.opt
+              (fun v ->
+                (match v with
+                | Seq [v0; v1] ->
+                    (
+                      Run.trans_token (Run.matcher_token v0),
+                      trans_delegation_specifiers (Run.matcher_token v1)
+                    )
+                | _ -> assert false
+                )
+              )
+              v4
+            ,
+            Run.opt
+              (fun v -> trans_type_constraints (Run.matcher_token v))
+              v5
+            ,
+            Run.opt
+              (fun v -> trans_class_body (Run.matcher_token v))
+              v6
+          )
+      | _ -> assert false
+      )
+  | Leaf _ -> assert false
+
 and trans_postfix_expression ((kind, body) : mt) : CST.postfix_expression =
   match body with
   | Children v ->
@@ -5675,48 +5744,58 @@ and trans_statement ((kind, body) : mt) : CST.statement =
   | Children v ->
       (match v with
       | Alt (0, v) ->
-          `Decl (
-            trans_declaration (Run.matcher_token v)
-          )
-      | Alt (1, v) ->
-          `Rep_choice_label_choice_assign (
+          `Choice_decl (
             (match v with
-            | Seq [v0; v1] ->
-                (
-                  Run.repeat
-                    (fun v ->
-                      (match v with
-                      | Alt (0, v) ->
-                          `Label (
-                            trans_label (Run.matcher_token v)
+            | Alt (0, v) ->
+                `Decl (
+                  trans_declaration (Run.matcher_token v)
+                )
+            | Alt (1, v) ->
+                `Rep_choice_label_choice_assign (
+                  (match v with
+                  | Seq [v0; v1] ->
+                      (
+                        Run.repeat
+                          (fun v ->
+                            (match v with
+                            | Alt (0, v) ->
+                                `Label (
+                                  trans_label (Run.matcher_token v)
+                                )
+                            | Alt (1, v) ->
+                                `Anno (
+                                  trans_annotation (Run.matcher_token v)
+                                )
+                            | _ -> assert false
+                            )
                           )
-                      | Alt (1, v) ->
-                          `Anno (
-                            trans_annotation (Run.matcher_token v)
-                          )
-                      | _ -> assert false
-                      )
-                    )
-                    v0
-                  ,
-                  (match v1 with
-                  | Alt (0, v) ->
-                      `Assign (
-                        trans_assignment (Run.matcher_token v)
-                      )
-                  | Alt (1, v) ->
-                      `Loop_stmt (
-                        trans_loop_statement (Run.matcher_token v)
-                      )
-                  | Alt (2, v) ->
-                      `Exp (
-                        trans_expression (Run.matcher_token v)
+                          v0
+                        ,
+                        (match v1 with
+                        | Alt (0, v) ->
+                            `Assign (
+                              trans_assignment (Run.matcher_token v)
+                            )
+                        | Alt (1, v) ->
+                            `Loop_stmt (
+                              trans_loop_statement (Run.matcher_token v)
+                            )
+                        | Alt (2, v) ->
+                            `Exp (
+                              trans_expression (Run.matcher_token v)
+                            )
+                        | _ -> assert false
+                        )
                       )
                   | _ -> assert false
                   )
                 )
             | _ -> assert false
             )
+          )
+      | Alt (1, v) ->
+          `Part_class_decl (
+            trans_partial_class_declaration (Run.matcher_token v)
           )
       | _ -> assert false
       )

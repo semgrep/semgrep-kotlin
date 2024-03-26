@@ -2205,36 +2205,82 @@ and map_simple_user_type (env : env) ((v1, v2) : CST.simple_user_type) =
 
 and map_statement (env : env) (x : CST.statement) =
   (match x with
-  | `Decl x -> R.Case ("Decl",
-      map_declaration env x
+  | `Choice_decl x -> R.Case ("Choice_decl",
+      (match x with
+      | `Decl x -> R.Case ("Decl",
+          map_declaration env x
+        )
+      | `Rep_choice_label_choice_assign (v1, v2) -> R.Case ("Rep_choice_label_choice_assign",
+          let v1 =
+            R.List (List.map (fun x ->
+              (match x with
+              | `Label tok -> R.Case ("Label",
+                  (* label *) token env tok
+                )
+              | `Anno x -> R.Case ("Anno",
+                  map_annotation env x
+                )
+              )
+            ) v1)
+          in
+          let v2 =
+            (match v2 with
+            | `Assign x -> R.Case ("Assign",
+                map_assignment env x
+              )
+            | `Loop_stmt x -> R.Case ("Loop_stmt",
+                map_loop_statement env x
+              )
+            | `Exp x -> R.Case ("Exp",
+                map_expression env x
+              )
+            )
+          in
+          R.Tuple [v1; v2]
+        )
+      )
     )
-  | `Rep_choice_label_choice_assign (v1, v2) -> R.Case ("Rep_choice_label_choice_assign",
+  | `Part_class_decl (v1, v2, v3, v4, v5, v6, v7) -> R.Case ("Part_class_decl",
       let v1 =
-        R.List (List.map (fun x ->
-          (match x with
-          | `Label tok -> R.Case ("Label",
-              (* label *) token env tok
-            )
-          | `Anno x -> R.Case ("Anno",
-              map_annotation env x
-            )
-          )
-        ) v1)
+        (match v1 with
+        | Some x -> R.Option (Some (
+            map_type_parameters env x
+          ))
+        | None -> R.Option None)
       in
       let v2 =
         (match v2 with
-        | `Assign x -> R.Case ("Assign",
-            map_assignment env x
-          )
-        | `Loop_stmt x -> R.Case ("Loop_stmt",
-            map_loop_statement env x
-          )
-        | `Exp x -> R.Case ("Exp",
-            map_expression env x
-          )
-        )
+        | Some x -> R.Option (Some (
+            map_modifiers env x
+          ))
+        | None -> R.Option None)
       in
-      R.Tuple [v1; v2]
+      let v3 = (* "constructor" *) token env v3 in
+      let v4 = map_class_parameters env v4 in
+      let v5 =
+        (match v5 with
+        | Some (v1, v2) -> R.Option (Some (
+            let v1 = (* ":" *) token env v1 in
+            let v2 = map_delegation_specifiers env v2 in
+            R.Tuple [v1; v2]
+          ))
+        | None -> R.Option None)
+      in
+      let v6 =
+        (match v6 with
+        | Some x -> R.Option (Some (
+            map_type_constraints env x
+          ))
+        | None -> R.Option None)
+      in
+      let v7 =
+        (match v7 with
+        | Some x -> R.Option (Some (
+            map_class_body env x
+          ))
+        | None -> R.Option None)
+      in
+      R.Tuple [v1; v2; v3; v4; v5; v6; v7]
     )
   )
 

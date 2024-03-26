@@ -2,51 +2,17 @@ File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
 Git repo name: tree-sitter-kotlin
 Latest commit in repo: beafd098d7e0f57f0541a52d6050a7638aee91ab
 Last change in file:
-  commit 677f3ae356d7a31fabbd860fcb30bfefeadaaeec
-  Author: fwcd <fwcdmail@gmail.com>
-  Date:   Mon Jul 29 19:00:48 2019 +0300
-  
-      Update repository to focus solely on the Tree-Sitter grammar
+  677f3ae356d7a31fabbd860fcb30bfefeadaaeec Update repository to focus solely on the Tree-Sitter grammar
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
 Git repo name: tree-sitter-kotlin
 Latest commit in repo: beafd098d7e0f57f0541a52d6050a7638aee91ab
 Last change in file:
-  commit 1e57b1b2a02a8495f74283cecbbdb79fd872cc90
-  Author: Emma Jin <emma@semgrep.com>
-  Date:   Tue Nov 21 16:24:07 2023 -0800
-  
-      fix: support calls in assignments
-      
-      In Kotlin, we can write code like:
-      
-      ```
-      package annotation.test
-      
-      public object Test {
-          fun f1(context : Context) {
-              Foo(context).elem = var1
-          }
-      }
-      ```
-      
-      where `Foo(context).elem = var1` assigns `var1` to an object constructed
-      in that line.
-      
-      More generally, the result of calls can be shared objects that we wish
-      to assign to. Therefore, expressions that can be on the left hand of
-      assignments (primary expressions) need to include calls.
-      
-      Test plan: parse the example given
+  1e57b1b2a02a8495f74283cecbbdb79fd872cc90 fix: support calls in assignments
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: c9a8bca714137c43f8aede5ed2215193d53defc9
+Latest commit in repo: ea10bc49066ec6daf070dab7bb49efaa7ed669f5
 Last change in file:
-  commit ff093a62ee60b735f7985d0b7b749711942cf72e
-  Merge: 8d1dc21 a705e4f
-  Author: brandonspark <wu.brandonj@gmail.com>
-  Date:   Tue May 9 13:31:18 2023 -0700
-  
-      Merge branch 'main' into brandon/kotlin-named-ellipsis
+  ea10bc49066ec6daf070dab7bb49efaa7ed669f5 group params
 ---
