@@ -1698,22 +1698,20 @@ let children_regexps : (string * Run.exp option) list = [
   "statement",
   Some (
     Alt [|
-      Alt [|
-        Token (Name "declaration");
-        Seq [
-          Repeat (
-            Alt [|
-              Token (Name "label");
-              Token (Name "annotation");
-            |];
-          );
+      Token (Name "declaration");
+      Seq [
+        Repeat (
           Alt [|
-            Token (Name "assignment");
-            Token (Name "loop_statement");
-            Token (Name "expression");
+            Token (Name "label");
+            Token (Name "annotation");
           |];
-        ];
-      |];
+        );
+        Alt [|
+          Token (Name "assignment");
+          Token (Name "loop_statement");
+          Token (Name "expression");
+        |];
+      ];
       Token (Name "partial_class_declaration");
     |];
   );
@@ -5744,48 +5742,42 @@ and trans_statement ((kind, body) : mt) : CST.statement =
   | Children v ->
       (match v with
       | Alt (0, v) ->
-          `Choice_decl (
+          `Decl (
+            trans_declaration (Run.matcher_token v)
+          )
+      | Alt (1, v) ->
+          `Rep_choice_label_choice_assign (
             (match v with
-            | Alt (0, v) ->
-                `Decl (
-                  trans_declaration (Run.matcher_token v)
-                )
-            | Alt (1, v) ->
-                `Rep_choice_label_choice_assign (
-                  (match v with
-                  | Seq [v0; v1] ->
-                      (
-                        Run.repeat
-                          (fun v ->
-                            (match v with
-                            | Alt (0, v) ->
-                                `Label (
-                                  trans_label (Run.matcher_token v)
-                                )
-                            | Alt (1, v) ->
-                                `Anno (
-                                  trans_annotation (Run.matcher_token v)
-                                )
-                            | _ -> assert false
-                            )
+            | Seq [v0; v1] ->
+                (
+                  Run.repeat
+                    (fun v ->
+                      (match v with
+                      | Alt (0, v) ->
+                          `Label (
+                            trans_label (Run.matcher_token v)
                           )
-                          v0
-                        ,
-                        (match v1 with
-                        | Alt (0, v) ->
-                            `Assign (
-                              trans_assignment (Run.matcher_token v)
-                            )
-                        | Alt (1, v) ->
-                            `Loop_stmt (
-                              trans_loop_statement (Run.matcher_token v)
-                            )
-                        | Alt (2, v) ->
-                            `Exp (
-                              trans_expression (Run.matcher_token v)
-                            )
-                        | _ -> assert false
-                        )
+                      | Alt (1, v) ->
+                          `Anno (
+                            trans_annotation (Run.matcher_token v)
+                          )
+                      | _ -> assert false
+                      )
+                    )
+                    v0
+                  ,
+                  (match v1 with
+                  | Alt (0, v) ->
+                      `Assign (
+                        trans_assignment (Run.matcher_token v)
+                      )
+                  | Alt (1, v) ->
+                      `Loop_stmt (
+                        trans_loop_statement (Run.matcher_token v)
+                      )
+                  | Alt (2, v) ->
+                      `Exp (
+                        trans_expression (Run.matcher_token v)
                       )
                   | _ -> assert false
                   )
@@ -5793,7 +5785,7 @@ and trans_statement ((kind, body) : mt) : CST.statement =
             | _ -> assert false
             )
           )
-      | Alt (1, v) ->
+      | Alt (2, v) ->
           `Part_class_decl (
             trans_partial_class_declaration (Run.matcher_token v)
           )

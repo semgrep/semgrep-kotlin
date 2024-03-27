@@ -2205,40 +2205,36 @@ and map_simple_user_type (env : env) ((v1, v2) : CST.simple_user_type) =
 
 and map_statement (env : env) (x : CST.statement) =
   (match x with
-  | `Choice_decl x -> R.Case ("Choice_decl",
-      (match x with
-      | `Decl x -> R.Case ("Decl",
-          map_declaration env x
-        )
-      | `Rep_choice_label_choice_assign (v1, v2) -> R.Case ("Rep_choice_label_choice_assign",
-          let v1 =
-            R.List (List.map (fun x ->
-              (match x with
-              | `Label tok -> R.Case ("Label",
-                  (* label *) token env tok
-                )
-              | `Anno x -> R.Case ("Anno",
-                  map_annotation env x
-                )
-              )
-            ) v1)
-          in
-          let v2 =
-            (match v2 with
-            | `Assign x -> R.Case ("Assign",
-                map_assignment env x
-              )
-            | `Loop_stmt x -> R.Case ("Loop_stmt",
-                map_loop_statement env x
-              )
-            | `Exp x -> R.Case ("Exp",
-                map_expression env x
-              )
+  | `Decl x -> R.Case ("Decl",
+      map_declaration env x
+    )
+  | `Rep_choice_label_choice_assign (v1, v2) -> R.Case ("Rep_choice_label_choice_assign",
+      let v1 =
+        R.List (List.map (fun x ->
+          (match x with
+          | `Label tok -> R.Case ("Label",
+              (* label *) token env tok
             )
-          in
-          R.Tuple [v1; v2]
+          | `Anno x -> R.Case ("Anno",
+              map_annotation env x
+            )
+          )
+        ) v1)
+      in
+      let v2 =
+        (match v2 with
+        | `Assign x -> R.Case ("Assign",
+            map_assignment env x
+          )
+        | `Loop_stmt x -> R.Case ("Loop_stmt",
+            map_loop_statement env x
+          )
+        | `Exp x -> R.Case ("Exp",
+            map_expression env x
+          )
         )
-      )
+      in
+      R.Tuple [v1; v2]
     )
   | `Part_class_decl (v1, v2, v3, v4, v5, v6, v7) -> R.Case ("Part_class_decl",
       let v1 =

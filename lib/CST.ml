@@ -865,18 +865,16 @@ and setter = (
 and simple_user_type = (simple_identifier * type_arguments option)
 
 and statement = [
-    `Choice_decl of [
-        `Decl of declaration
-      | `Rep_choice_label_choice_assign of (
-            [ `Label of label (*tok*) | `Anno of annotation ]
-              list (* zero or more *)
-          * [
-                `Assign of assignment
-              | `Loop_stmt of loop_statement
-              | `Exp of expression
-            ]
-        )
-    ]
+    `Decl of declaration
+  | `Rep_choice_label_choice_assign of (
+        [ `Label of label (*tok*) | `Anno of annotation ]
+          list (* zero or more *)
+      * [
+            `Assign of assignment
+          | `Loop_stmt of loop_statement
+          | `Exp of expression
+        ]
+    )
   | `Part_class_decl of (
         type_parameters option
       * modifiers option
