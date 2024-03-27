@@ -12,7 +12,7 @@ Last change in file:
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 2f77e1b933fd416f429481ceabaf8b999d7b2005
+Latest commit in repo: 878e710fb690a2f53376df387f05bb644b3c823f
 Last change in file:
-  2f77e1b933fd416f429481ceabaf8b999d7b2005 refactor grammar a bit more
+  878e710fb690a2f53376df387f05bb644b3c823f fix(kotlin): classes with newlines (#476)
 ---
