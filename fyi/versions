@@ -2,17 +2,79 @@ File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
 Git repo name: tree-sitter-kotlin
 Latest commit in repo: beafd098d7e0f57f0541a52d6050a7638aee91ab
 Last change in file:
-  677f3ae356d7a31fabbd860fcb30bfefeadaaeec Update repository to focus solely on the Tree-Sitter grammar
+  commit 677f3ae356d7a31fabbd860fcb30bfefeadaaeec
+  Author: fwcd <fwcdmail@gmail.com>
+  Date:   Mon Jul 29 19:00:48 2019 +0300
+  
+      Update repository to focus solely on the Tree-Sitter grammar
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
 Git repo name: tree-sitter-kotlin
 Latest commit in repo: beafd098d7e0f57f0541a52d6050a7638aee91ab
 Last change in file:
-  1e57b1b2a02a8495f74283cecbbdb79fd872cc90 fix: support calls in assignments
+  commit 1e57b1b2a02a8495f74283cecbbdb79fd872cc90
+  Author: Emma Jin <emma@semgrep.com>
+  Date:   Tue Nov 21 16:24:07 2023 -0800
+  
+      fix: support calls in assignments
+      
+      In Kotlin, we can write code like:
+      
+      ```
+      package annotation.test
+      
+      public object Test {
+          fun f1(context : Context) {
+              Foo(context).elem = var1
+          }
+      }
+      ```
+      
+      where `Foo(context).elem = var1` assigns `var1` to an object constructed
+      in that line.
+      
+      More generally, the result of calls can be shared objects that we wish
+      to assign to. Therefore, expressions that can be on the left hand of
+      assignments (primary expressions) need to include calls.
+      
+      Test plan: parse the example given
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 878e710fb690a2f53376df387f05bb644b3c823f
+Latest commit in repo: 1a167cfef687a3745d513a3b00a85f16d047c2a0
 Last change in file:
-  878e710fb690a2f53376df387f05bb644b3c823f fix(kotlin): classes with newlines (#476)
+  commit 878e710fb690a2f53376df387f05bb644b3c823f
+  Author: Brandon Wu <49291449+brandonspark@users.noreply.github.com>
+  Date:   Wed Mar 27 11:56:22 2024 -0700
+  
+      fix(kotlin): classes with newlines (#476)
+      
+      ## What:
+      This PR makes it so we can parse Kotlin classes that have a newline between the class identifier and constructor.
+      
+      ## Why:
+      Parse rate.
+      
+      ## How:
+      The problem is in cases like:
+      ```
+      class Foo
+      constructor Bar() { ... }
+      ```
+      
+      Here, we insert an automatic semicolon between `Foo` and `constructor`. This leaves us able to parse `class Foo` as a `class_declaration`, but `constructor Bar ...` is not allowed on its own.
+      
+      We simply allow `constructor Bar ...` to be a standalone statement, and resolve to stitch them together at parsing time.
+      
+      ### Testing
+      
+      Tested with `make test` and `test-lang kotlin`
+      
+      ### Security
+      
+      - [ ] Change has no security implications (otherwise, ping the security team)
+      
+      ---------
+      
+      Co-authored-by: Amarin Phaosawasdi <amchiclet@users.noreply.github.com>
 ---
