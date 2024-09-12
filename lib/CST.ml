@@ -1429,3 +1429,10 @@ type parameters_with_optional_type (* inlined *) = (
       list (* zero or more *)
   * Token.t (* ")" *)
 )
+
+type extra = 
+    Line_comment of Loc.t * line_comment
+  | Multiline_comment of Loc.t * multiline_comment
+
+
+type extras = extra list
