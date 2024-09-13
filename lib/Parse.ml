@@ -6670,11 +6670,11 @@ let translate_extra src (node : Tree_sitter_output_t.node) : CST.extra option =
   | "line_comment" ->
       (match translate_tree src node trans_line_comment with
       | None -> None
-      | Some x -> Some (Line_comment (Run.get_loc node, x)))
+      | Some x -> Some (`Line_comment (Run.get_loc node, x)))
   | "multiline_comment" ->
       (match translate_tree src node trans_multiline_comment with
       | None -> None
-      | Some x -> Some (Multiline_comment (Run.get_loc node, x)))
+      | Some x -> Some (`Multiline_comment (Run.get_loc node, x)))
   | _ -> None
 
 let translate_root src root_node =
