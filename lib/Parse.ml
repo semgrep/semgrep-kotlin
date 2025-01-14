@@ -778,6 +778,9 @@ let children_regexps : (string * Run.exp option) list = [
           Token (Name "expression");
         ];
       );
+      Opt (
+        Token (Literal ",");
+      );
       Token (Literal "]");
     ];
   );
@@ -1084,7 +1087,7 @@ let children_regexps : (string * Run.exp option) list = [
     Seq [
       Opt (
         Seq [
-          Token (Name "simple_user_type");
+          Token (Name "receiver_type");
           Token (Literal ".");
         ];
       );
@@ -1588,6 +1591,7 @@ let children_regexps : (string * Run.exp option) list = [
       Token (Name "literal_constant");
       Token (Name "string_literal");
       Token (Name "callable_reference");
+      Token (Name "call_expression");
       Token (Name "function_literal");
       Token (Name "object_literal");
       Token (Name "collection_literal");
@@ -1675,9 +1679,9 @@ let children_regexps : (string * Run.exp option) list = [
         Token (Name "type_modifiers");
       );
       Alt [|
-        Token (Name "type_reference");
         Token (Name "parenthesized_type");
         Token (Name "nullable_type");
+        Token (Name "type_reference");
       |];
     ];
   );
@@ -1852,10 +1856,10 @@ let children_regexps : (string * Run.exp option) list = [
         Token (Name "type_modifiers");
       );
       Alt [|
+        Token (Name "function_type");
         Token (Name "parenthesized_type");
         Token (Name "nullable_type");
         Token (Name "type_reference");
-        Token (Name "function_type");
         Token (Name "not_nullable_type");
       |];
     ];
@@ -2009,7 +2013,6 @@ let children_regexps : (string * Run.exp option) list = [
   Some (
     Alt [|
       Token (Name "postfix_expression");
-      Token (Name "call_expression");
       Token (Name "indexing_expression");
       Token (Name "navigation_expression");
       Token (Name "prefix_expression");
@@ -3954,7 +3957,7 @@ and trans_collection_literal ((kind, body) : mt) : CST.collection_literal =
   match body with
   | Children v ->
       (match v with
-      | Seq [v0; v1; v2; v3] ->
+      | Seq [v0; v1; v2; v3; v4] ->
           (
             Run.trans_token (Run.matcher_token v0),
             trans_expression (Run.matcher_token v1),
@@ -3971,7 +3974,11 @@ and trans_collection_literal ((kind, body) : mt) : CST.collection_literal =
               )
               v2
             ,
-            Run.trans_token (Run.matcher_token v3)
+            Run.opt
+              (fun v -> Run.trans_token (Run.matcher_token v))
+              v3
+            ,
+            Run.trans_token (Run.matcher_token v4)
           )
       | _ -> assert false
       )
@@ -4582,7 +4589,7 @@ and trans_function_type ((kind, body) : mt) : CST.function_type =
                 (match v with
                 | Seq [v0; v1] ->
                     (
-                      trans_simple_user_type (Run.matcher_token v0),
+                      trans_receiver_type (Run.matcher_token v0),
                       Run.trans_token (Run.matcher_token v1)
                     )
                 | _ -> assert false
@@ -5624,38 +5631,42 @@ and trans_primary_expression ((kind, body) : mt) : CST.primary_expression =
             trans_callable_reference (Run.matcher_token v)
           )
       | Alt (5, v) ->
+          `Call_exp (
+            trans_call_expression (Run.matcher_token v)
+          )
+      | Alt (6, v) ->
           `Func_lit (
             trans_function_literal (Run.matcher_token v)
           )
-      | Alt (6, v) ->
+      | Alt (7, v) ->
           `Obj_lit (
             trans_object_literal (Run.matcher_token v)
           )
-      | Alt (7, v) ->
+      | Alt (8, v) ->
           `Coll_lit (
             trans_collection_literal (Run.matcher_token v)
           )
-      | Alt (8, v) ->
+      | Alt (9, v) ->
           `This_exp (
             trans_this_expression (Run.matcher_token v)
           )
-      | Alt (9, v) ->
+      | Alt (10, v) ->
           `Super_exp (
             trans_super_expression (Run.matcher_token v)
           )
-      | Alt (10, v) ->
+      | Alt (11, v) ->
           `If_exp (
             trans_if_expression (Run.matcher_token v)
           )
-      | Alt (11, v) ->
+      | Alt (12, v) ->
           `When_exp (
             trans_when_expression (Run.matcher_token v)
           )
-      | Alt (12, v) ->
+      | Alt (13, v) ->
           `Try_exp (
             trans_try_expression (Run.matcher_token v)
           )
-      | Alt (13, v) ->
+      | Alt (14, v) ->
           `Jump_exp (
             trans_jump_expression (Run.matcher_token v)
           )
@@ -5808,16 +5819,16 @@ and trans_receiver_type ((kind, body) : mt) : CST.receiver_type =
             ,
             (match v1 with
             | Alt (0, v) ->
-                `Type_ref (
-                  trans_type_reference (Run.matcher_token v)
-                )
-            | Alt (1, v) ->
                 `Paren_type (
                   trans_parenthesized_type (Run.matcher_token v)
                 )
-            | Alt (2, v) ->
+            | Alt (1, v) ->
                 `Null_type (
                   trans_nullable_type (Run.matcher_token v)
+                )
+            | Alt (2, v) ->
+                `Type_ref (
+                  trans_type_reference (Run.matcher_token v)
                 )
             | _ -> assert false
             )
@@ -6171,20 +6182,20 @@ and trans_type_ ((kind, body) : mt) : CST.type_ =
             ,
             (match v1 with
             | Alt (0, v) ->
+                `Func_type (
+                  trans_function_type (Run.matcher_token v)
+                )
+            | Alt (1, v) ->
                 `Paren_type (
                   trans_parenthesized_type (Run.matcher_token v)
                 )
-            | Alt (1, v) ->
+            | Alt (2, v) ->
                 `Null_type (
                   trans_nullable_type (Run.matcher_token v)
                 )
-            | Alt (2, v) ->
+            | Alt (3, v) ->
                 `Type_ref (
                   trans_type_reference (Run.matcher_token v)
-                )
-            | Alt (3, v) ->
-                `Func_type (
-                  trans_function_type (Run.matcher_token v)
                 )
             | Alt (4, v) ->
                 `Not_null_type (
@@ -6483,26 +6494,22 @@ and trans_unary_expression ((kind, body) : mt) : CST.unary_expression =
             trans_postfix_expression (Run.matcher_token v)
           )
       | Alt (1, v) ->
-          `Call_exp (
-            trans_call_expression (Run.matcher_token v)
-          )
-      | Alt (2, v) ->
           `Inde_exp (
             trans_indexing_expression (Run.matcher_token v)
           )
-      | Alt (3, v) ->
+      | Alt (2, v) ->
           `Navi_exp (
             trans_navigation_expression (Run.matcher_token v)
           )
-      | Alt (4, v) ->
+      | Alt (3, v) ->
           `Prefix_exp (
             trans_prefix_expression (Run.matcher_token v)
           )
-      | Alt (5, v) ->
+      | Alt (4, v) ->
           `As_exp (
             trans_as_expression (Run.matcher_token v)
           )
-      | Alt (6, v) ->
+      | Alt (5, v) ->
           `Spread_exp (
             trans_spread_expression (Run.matcher_token v)
           )

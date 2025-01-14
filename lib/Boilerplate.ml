@@ -1532,7 +1532,7 @@ and map_function_type (env : env) ((v1, v2, v3, v4) : CST.function_type) =
   let v1 =
     (match v1 with
     | Some (v1, v2) -> R.Option (Some (
-        let v1 = map_simple_user_type env v1 in
+        let v1 = map_receiver_type env v1 in
         let v2 = (* "." *) token env v2 in
         R.Tuple [v1; v2]
       ))
@@ -2034,6 +2034,11 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
       in
       R.Tuple [v1; v2; v3]
     )
+  | `Call_exp (v1, v2) -> R.Case ("Call_exp",
+      let v1 = map_expression env v1 in
+      let v2 = map_call_suffix env v2 in
+      R.Tuple [v1; v2]
+    )
   | `Func_lit x -> R.Case ("Func_lit",
       map_function_literal env x
     )
@@ -2051,7 +2056,7 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
       let v3 = map_class_body env v3 in
       R.Tuple [v1; v2; v3]
     )
-  | `Coll_lit (v1, v2, v3, v4) -> R.Case ("Coll_lit",
+  | `Coll_lit (v1, v2, v3, v4, v5) -> R.Case ("Coll_lit",
       let v1 = (* "[" *) token env v1 in
       let v2 = map_expression env v2 in
       let v3 =
@@ -2061,8 +2066,15 @@ and map_primary_expression (env : env) (x : CST.primary_expression) =
           R.Tuple [v1; v2]
         ) v3)
       in
-      let v4 = (* "]" *) token env v4 in
-      R.Tuple [v1; v2; v3; v4]
+      let v4 =
+        (match v4 with
+        | Some tok -> R.Option (Some (
+            (* "," *) token env tok
+          ))
+        | None -> R.Option None)
+      in
+      let v5 = (* "]" *) token env v5 in
+      R.Tuple [v1; v2; v3; v4; v5]
     )
   | `This_exp x -> R.Case ("This_exp",
       map_this_expression env x
@@ -2177,14 +2189,14 @@ and map_receiver_type (env : env) ((v1, v2) : CST.receiver_type) =
   in
   let v2 =
     (match v2 with
-    | `Type_ref x -> R.Case ("Type_ref",
-        map_type_reference env x
-      )
     | `Paren_type x -> R.Case ("Paren_type",
         map_parenthesized_type env x
       )
     | `Null_type x -> R.Case ("Null_type",
         map_nullable_type env x
+      )
+    | `Type_ref x -> R.Case ("Type_ref",
+        map_type_reference env x
       )
     )
   in
@@ -2400,6 +2412,9 @@ and map_type_ (env : env) ((v1, v2) : CST.type_) =
   in
   let v2 =
     (match v2 with
+    | `Func_type x -> R.Case ("Func_type",
+        map_function_type env x
+      )
     | `Paren_type x -> R.Case ("Paren_type",
         map_parenthesized_type env x
       )
@@ -2408,9 +2423,6 @@ and map_type_ (env : env) ((v1, v2) : CST.type_) =
       )
     | `Type_ref x -> R.Case ("Type_ref",
         map_type_reference env x
-      )
-    | `Func_type x -> R.Case ("Func_type",
-        map_function_type env x
       )
     | `Not_null_type x -> R.Case ("Not_null_type",
         map_not_nullable_type env x
@@ -2551,11 +2563,6 @@ and map_unary_expression (env : env) (x : CST.unary_expression) =
   | `Post_exp (v1, v2) -> R.Case ("Post_exp",
       let v1 = map_expression env v1 in
       let v2 = map_postfix_unary_operator env v2 in
-      R.Tuple [v1; v2]
-    )
-  | `Call_exp (v1, v2) -> R.Case ("Call_exp",
-      let v1 = map_expression env v1 in
-      let v2 = map_call_suffix env v2 in
       R.Tuple [v1; v2]
     )
   | `Inde_exp (v1, v2) -> R.Case ("Inde_exp",

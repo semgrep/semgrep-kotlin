@@ -601,7 +601,7 @@ and function_literal = [
 ]
 
 and function_type = (
-    (simple_user_type * Token.t (* "." *)) option
+    (receiver_type * Token.t (* "." *)) option
   * function_type_parameters
   * Token.t (* "->" *)
   * type_
@@ -804,6 +804,7 @@ and primary_expression = [
       * Token.t (* "::" *)
       * [ `Simple_id of simple_identifier | `Class of Token.t (* "class" *) ]
     )
+  | `Call_exp of (expression * call_suffix)
   | `Func_lit of function_literal
   | `Obj_lit of (
         Token.t (* "object" *)
@@ -814,6 +815,7 @@ and primary_expression = [
         Token.t (* "[" *)
       * expression
       * (Token.t (* "," *) * expression) list (* zero or more *)
+      * Token.t (* "," *) option
       * Token.t (* "]" *)
     )
   | `This_exp of this_expression
@@ -865,9 +867,9 @@ and range_test = (in_operator * expression)
 and receiver_type = (
     type_modifiers option
   * [
-        `Type_ref of type_reference
-      | `Paren_type of parenthesized_type
+        `Paren_type of parenthesized_type
       | `Null_type of nullable_type
+      | `Type_ref of type_reference
     ]
 )
 
@@ -941,10 +943,10 @@ and super_expression = [
 and type_ = (
     type_modifiers option
   * [
-        `Paren_type of parenthesized_type
+        `Func_type of function_type
+      | `Paren_type of parenthesized_type
       | `Null_type of nullable_type
       | `Type_ref of type_reference
-      | `Func_type of function_type
       | `Not_null_type of not_nullable_type
     ]
 )
@@ -1011,7 +1013,6 @@ and type_test = (is_operator * type_)
 
 and unary_expression = [
     `Post_exp of (expression * postfix_unary_operator)
-  | `Call_exp of (expression * call_suffix)
   | `Inde_exp of (expression * indexing_suffix)
   | `Navi_exp of (expression * navigation_suffix)
   | `Prefix_exp of (
@@ -1202,6 +1203,7 @@ type collection_literal (* inlined *) = (
     Token.t (* "[" *)
   * expression
   * (Token.t (* "," *) * expression) list (* zero or more *)
+  * Token.t (* "," *) option
   * Token.t (* "]" *)
 )
 
