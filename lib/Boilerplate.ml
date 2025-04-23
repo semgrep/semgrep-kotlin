@@ -879,8 +879,16 @@ and map_class_declaration (env : env) (x : CST.class_declaration) =
         | `Class tok -> R.Case ("Class",
             (* "class" *) token env tok
           )
-        | `Inte tok -> R.Case ("Inte",
-            (* "interface" *) token env tok
+        | `Opt_fun_inte (v1, v2) -> R.Case ("Opt_fun_inte",
+            let v1 =
+              (match v1 with
+              | Some tok -> R.Option (Some (
+                  (* "fun" *) token env tok
+                ))
+              | None -> R.Option None)
+            in
+            let v2 = (* "interface" *) token env v2 in
+            R.Tuple [v1; v2]
           )
         )
       in

@@ -1,26 +1,26 @@
 File: semgrep-grammars/src/tree-sitter-kotlin/LICENSE
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 0662afbd2ce19b17c603acf67ae707b4d69ab8f4
+Latest commit in repo: 07113e5677c026e9adee34b43a50eb474f02955c
 Last change in file:
-  commit 0662afbd2ce19b17c603acf67ae707b4d69ab8f4
-  Author: fwcd <fwcd@fwcd.dev>
-  Date:   Wed Dec 18 23:27:09 2024 +0100
+  commit 677f3ae356d7a31fabbd860fcb30bfefeadaaeec
+  Author: fwcd <fwcdmail@gmail.com>
+  Date:   Mon Jul 29 19:00:48 2019 +0300
   
-      Merge pull request #157
+      Update repository to focus solely on the Tree-Sitter grammar
 ---
 File: semgrep-grammars/src/tree-sitter-kotlin/grammar.js
 Git repo name: tree-sitter-kotlin
-Latest commit in repo: 0662afbd2ce19b17c603acf67ae707b4d69ab8f4
+Latest commit in repo: 07113e5677c026e9adee34b43a50eb474f02955c
 Last change in file:
-  commit 0662afbd2ce19b17c603acf67ae707b4d69ab8f4
-  Author: fwcd <fwcd@fwcd.dev>
-  Date:   Wed Dec 18 23:27:09 2024 +0100
+  commit 07113e5677c026e9adee34b43a50eb474f02955c
+  Author: Heejong Lee <heejong@gmail.com>
+  Date:   Tue Apr 22 19:55:05 2025 -0700
   
-      Merge pull request #157
+      add `fun interface` support
 ---
 File: semgrep-grammars/src/semgrep-kotlin/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 091f5438fc0c15b80217f00e5b94ec0e55517383
+Latest commit in repo: fd51c67ef317c94cefba5a4b3c19a43cef8870ea
 Last change in file:
   commit 878e710fb690a2f53376df387f05bb644b3c823f
   Author: Brandon Wu <49291449+brandonspark@users.noreply.github.com>

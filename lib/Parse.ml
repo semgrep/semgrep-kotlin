@@ -650,7 +650,12 @@ let children_regexps : (string * Run.exp option) list = [
         );
         Alt [|
           Token (Literal "class");
-          Token (Literal "interface");
+          Seq [
+            Opt (
+              Token (Literal "fun");
+            );
+            Token (Literal "interface");
+          ];
         |];
         Token (Name "simple_identifier");
         Opt (
@@ -3728,8 +3733,18 @@ and trans_class_declaration ((kind, body) : mt) : CST.class_declaration =
                         Run.trans_token (Run.matcher_token v)
                       )
                   | Alt (1, v) ->
-                      `Inte (
-                        Run.trans_token (Run.matcher_token v)
+                      `Opt_fun_inte (
+                        (match v with
+                        | Seq [v0; v1] ->
+                            (
+                              Run.opt
+                                (fun v -> Run.trans_token (Run.matcher_token v))
+                                v0
+                              ,
+                              Run.trans_token (Run.matcher_token v1)
+                            )
+                        | _ -> assert false
+                        )
                       )
                   | _ -> assert false
                   )

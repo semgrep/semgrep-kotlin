@@ -392,7 +392,10 @@ and class_declaration = [
         modifiers option
       * [
             `Class of Token.t (* "class" *)
-          | `Inte of Token.t (* "interface" *)
+          | `Opt_fun_inte of (
+                Token.t (* "fun" *) option
+              * Token.t (* "interface" *)
+            )
         ]
       * simple_identifier
       * type_parameters option
