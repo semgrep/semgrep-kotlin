@@ -2439,7 +2439,7 @@ and map_type_ (env : env) ((v1, v2) : CST.type_) =
   in
   R.Tuple [v1; v2]
 
-and map_type_arguments (env : env) ((v1, v2, v3, v4) : CST.type_arguments) =
+and map_type_arguments (env : env) ((v1, v2, v3, v4, v5) : CST.type_arguments) =
   let v1 = (* "<" *) token env v1 in
   let v2 = map_type_projection env v2 in
   let v3 =
@@ -2449,8 +2449,15 @@ and map_type_arguments (env : env) ((v1, v2, v3, v4) : CST.type_arguments) =
       R.Tuple [v1; v2]
     ) v3)
   in
-  let v4 = (* ">" *) token env v4 in
-  R.Tuple [v1; v2; v3; v4]
+  let v4 =
+    (match v4 with
+    | Some tok -> R.Option (Some (
+        (* "," *) token env tok
+      ))
+    | None -> R.Option None)
+  in
+  let v5 = (* ">" *) token env v5 in
+  R.Tuple [v1; v2; v3; v4; v5]
 
 and map_type_constraint (env : env) ((v1, v2, v3, v4) : CST.type_constraint) =
   let v1 = R.List (List.map (map_annotation env) v1) in
@@ -2520,7 +2527,7 @@ and map_type_parameter_modifier (env : env) (x : CST.type_parameter_modifier) =
 and map_type_parameter_modifiers (env : env) (xs : CST.type_parameter_modifiers) =
   R.List (List.map (map_type_parameter_modifier env) xs)
 
-and map_type_parameters (env : env) ((v1, v2, v3, v4) : CST.type_parameters) =
+and map_type_parameters (env : env) ((v1, v2, v3, v4, v5) : CST.type_parameters) =
   let v1 = (* "<" *) token env v1 in
   let v2 = map_type_parameter env v2 in
   let v3 =
@@ -2530,8 +2537,15 @@ and map_type_parameters (env : env) ((v1, v2, v3, v4) : CST.type_parameters) =
       R.Tuple [v1; v2]
     ) v3)
   in
-  let v4 = (* ">" *) token env v4 in
-  R.Tuple [v1; v2; v3; v4]
+  let v4 =
+    (match v4 with
+    | Some tok -> R.Option (Some (
+        (* "," *) token env tok
+      ))
+    | None -> R.Option None)
+  in
+  let v5 = (* ">" *) token env v5 in
+  R.Tuple [v1; v2; v3; v4; v5]
 
 and map_type_projection (env : env) (x : CST.type_projection) =
   (match x with

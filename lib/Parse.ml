@@ -1893,6 +1893,9 @@ let children_regexps : (string * Run.exp option) list = [
           Token (Name "type_projection");
         ];
       );
+      Opt (
+        Token (Literal ",");
+      );
       Token (Literal ">");
     ];
   );
@@ -1972,6 +1975,9 @@ let children_regexps : (string * Run.exp option) list = [
           Token (Literal ",");
           Token (Name "type_parameter");
         ];
+      );
+      Opt (
+        Token (Literal ",");
       );
       Token (Literal ">");
     ];
@@ -6248,7 +6254,7 @@ and trans_type_arguments ((kind, body) : mt) : CST.type_arguments =
   match body with
   | Children v ->
       (match v with
-      | Seq [v0; v1; v2; v3] ->
+      | Seq [v0; v1; v2; v3; v4] ->
           (
             Run.trans_token (Run.matcher_token v0),
             trans_type_projection (Run.matcher_token v1),
@@ -6265,7 +6271,11 @@ and trans_type_arguments ((kind, body) : mt) : CST.type_arguments =
               )
               v2
             ,
-            Run.trans_token (Run.matcher_token v3)
+            Run.opt
+              (fun v -> Run.trans_token (Run.matcher_token v))
+              v3
+            ,
+            Run.trans_token (Run.matcher_token v4)
           )
       | _ -> assert false
       )
@@ -6402,7 +6412,7 @@ and trans_type_parameters ((kind, body) : mt) : CST.type_parameters =
   match body with
   | Children v ->
       (match v with
-      | Seq [v0; v1; v2; v3] ->
+      | Seq [v0; v1; v2; v3; v4] ->
           (
             Run.trans_token (Run.matcher_token v0),
             trans_type_parameter (Run.matcher_token v1),
@@ -6419,7 +6429,11 @@ and trans_type_parameters ((kind, body) : mt) : CST.type_parameters =
               )
               v2
             ,
-            Run.trans_token (Run.matcher_token v3)
+            Run.opt
+              (fun v -> Run.trans_token (Run.matcher_token v))
+              v3
+            ,
+            Run.trans_token (Run.matcher_token v4)
           )
       | _ -> assert false
       )

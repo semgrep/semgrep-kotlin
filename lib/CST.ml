@@ -958,6 +958,7 @@ and type_arguments = (
     Token.t (* "<" *)
   * type_projection
   * (Token.t (* "," *) * type_projection) list (* zero or more *)
+  * Token.t (* "," *) option
   * Token.t (* ">" *)
 )
 
@@ -999,6 +1000,7 @@ and type_parameters = (
     Token.t (* "<" *)
   * type_parameter
   * (Token.t (* "," *) * type_parameter) list (* zero or more *)
+  * Token.t (* "," *) option
   * Token.t (* ">" *)
 )
 
